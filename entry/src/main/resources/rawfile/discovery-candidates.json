@@ -18,8 +18,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 3,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.droi.tong",
@@ -39,8 +38,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 4,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.harmonyresearch.mockweibo",
@@ -54,8 +52,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.tencent.mqq",
@@ -90,8 +87,7 @@
         "storage"
       ],
       "entrypointCount": 18,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.tencent.hm.qqmusic",
@@ -117,8 +113,7 @@
       ],
       "pathHints": [],
       "entrypointCount": 9,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.uc.mobile",
@@ -143,8 +138,7 @@
         "knockShare"
       ],
       "entrypointCount": 8,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.usb.right",
@@ -158,8 +152,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:cn.wps.office.hap",
@@ -187,8 +180,7 @@
         "clearcache"
       ],
       "entrypointCount": 11,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.wifiservice.portallogin",
@@ -204,8 +196,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 1,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.bitmap.image",
@@ -219,8 +210,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:cn.gov.tax.its.hm",
@@ -240,8 +230,7 @@
         "home"
       ],
       "entrypointCount": 4,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.chinamobile.cmcc",
@@ -270,8 +259,7 @@
         "activity/transit/universalLink.html"
       ],
       "entrypointCount": 12,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.jd.hm.mall",
@@ -301,8 +289,7 @@
         "v/"
       ],
       "entrypointCount": 13,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.eternaljust.msea.huawei",
@@ -316,8 +303,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.atomicservice.6917568146765197900",
@@ -331,8 +317,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.atomicservice.6917576281833361266",
@@ -346,8 +331,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:yylx.danmaku.bili",
@@ -373,8 +357,7 @@
         "ohos"
       ],
       "entrypointCount": 8,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.vip.hosapp",
@@ -399,8 +382,7 @@
         "deeplink"
       ],
       "entrypointCount": 8,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.ximalaya.ting.xmharmony",
@@ -422,8 +404,7 @@
         "clearcache"
       ],
       "entrypointCount": 5,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.sankuai.dianping",
@@ -450,8 +431,7 @@
         "qrcode/rebate"
       ],
       "entrypointCount": 9,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.tmall.tmall4hmos",
@@ -470,8 +450,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 4,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.quark.ohosbrowser",
@@ -497,8 +476,7 @@
         "knockShare"
       ],
       "entrypointCount": 9,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.xingin.xhs_hos",
@@ -532,8 +510,7 @@
         "qq_conn/1005071"
       ],
       "entrypointCount": 17,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.dewu.hos",
@@ -560,8 +537,7 @@
         "t/E"
       ],
       "entrypointCount": 11,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:cn.icheny.wechat",
@@ -575,8 +551,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.tencent.wechat",
@@ -600,8 +575,7 @@
       ],
       "pathHints": [],
       "entrypointCount": 7,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.sina.weibo.stage",
@@ -624,8 +598,7 @@
         "auth"
       ],
       "entrypointCount": 6,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.kuaishou.hmapp",
@@ -650,8 +623,7 @@
         "storagePage"
       ],
       "entrypointCount": 7,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.dongqiudi.hmn.news",
@@ -668,8 +640,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 2,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.ss.hm.ugc.aweme",
@@ -706,8 +677,7 @@
         "ulink"
       ],
       "entrypointCount": 19,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.xunmeng.pinduoduo.hos",
@@ -730,8 +700,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 8,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.alipay.mobile.client",
@@ -780,8 +749,7 @@
         "share"
       ],
       "entrypointCount": 31,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.atomicservice.5765880207854893925",
@@ -797,8 +765,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 1,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.qiyi.video.hmy",
@@ -828,8 +795,7 @@
         "webview"
       ],
       "entrypointCount": 12,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.baidu.hmmap",
@@ -855,8 +821,7 @@
       ],
       "pathHints": [],
       "entrypointCount": 9,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.baidu.netdisk.hmos",
@@ -880,8 +845,7 @@
         "wap/snsdeeplink"
       ],
       "entrypointCount": 7,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.zhihu.hmos",
@@ -907,8 +871,7 @@
         "notification"
       ],
       "entrypointCount": 8,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.lfr.myapplication",
@@ -922,8 +885,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.samples.customdrawsample",
@@ -937,8 +899,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.sankuai.hmeituan",
@@ -962,8 +923,7 @@
         "download/app.html"
       ],
       "entrypointCount": 7,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.meituan.takeaway",
@@ -985,8 +945,7 @@
       ],
       "pathHints": [],
       "entrypointCount": 5,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.hupu.heroes",
@@ -1006,8 +965,7 @@
         "s"
       ],
       "entrypointCount": 4,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.larus.nova.hm",
@@ -1030,8 +988,7 @@
         "flow/chat"
       ],
       "entrypointCount": 6,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.ericple.ohbill",
@@ -1045,8 +1002,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.zhuanzhuan.hmoszz",
@@ -1074,8 +1030,7 @@
         "zz/"
       ],
       "entrypointCount": 11,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.chinarailway.ticketingHM",
@@ -1104,8 +1059,7 @@
         "longlink"
       ],
       "entrypointCount": 12,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.amap.hmapp",
@@ -1131,8 +1085,7 @@
         "applink/"
       ],
       "entrypointCount": 9,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     },
     {
       "id": "discovery:com.speaklab.jingmo",
@@ -1146,8 +1099,7 @@
       "shortcuts": [],
       "pathHints": [],
       "entrypointCount": 0,
-      "productionEligible": false,
-      "evidencePath": "probe/discovery-ledger.json"
+      "productionEligible": false
     }
   ]
 }

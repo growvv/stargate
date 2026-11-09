@@ -1,0 +1,327 @@
+[
+  {
+    "bundle": "cn.wps.office.hap",
+    "uri": "ksodoccenter://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.alipay.mobile.client",
+    "uri": "alipays://platformapi/startapp?saId=10000007",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.alipay.mobile.client",
+    "uri": "apmqpdispatch://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.alipay.mobile.client",
+    "uri": "alipayshare://open/share",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.alipay.mobile.client",
+    "uri": "https://ulink.alipay.com",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.amap.hmapp",
+    "uri": "https://m.amap.com/applink/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.amap.hmapp",
+    "uri": "systemnav://navigation",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.amap.hmapp",
+    "uri": "systemnav://poisearch",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.amap.hmapp",
+    "uri": "systemnav://routeplan",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.atomicservice.5765880207854893925",
+    "uri": "atomwbmain://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.baidu.hmmap",
+    "uri": "baidumap://map/navi",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.baidu.hmmap",
+    "uri": "baidumap://map",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.baidu.hmmap",
+    "uri": "baidumap://cuid",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.baidu.netdisk.hmos",
+    "uri": "https://pan.baidu.com/fcb/s",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.baidu.netdisk.hmos",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.chinamobile.cmcc",
+    "uri": "cn.10086.app://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.chinarailway.ticketingHM",
+    "uri": "https://www.12306.cn/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.dewu.hos",
+    "uri": "https://m.dewu.com/note",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.dewu.hos",
+    "uri": "dewulink://m.dewu.com/note",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.dongqiudi.hmn.news",
+    "uri": "dongqiudi://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.browser",
+    "uri": "hwbrowser://com.huawei.hmos.browser/parameter",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.calendar",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.dataclone",
+    "uri": "https://dataclone.huawei.com/storageManagement",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.email",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.email",
+    "uri": "mailto://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.health",
+    "uri": "huaweihealth://huaweihealth.app/openwith",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.maps.app",
+    "uri": "https://www.petalmaps.com/clear_cache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.maps.app",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.maps.app",
+    "uri": "maps://navigation",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.maps.app",
+    "uri": "petalmaps://textSearch",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.maps.app",
+    "uri": "maps://routes",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmos.vassistant",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmsapp.books",
+    "uri": "file://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmsapp.himovie",
+    "uri": "himovie://com.huawei.hmsapp.himovie/clearcache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.huawei.hmsapp.music",
+    "uri": "hwmusic://com.huawei.hmsapp.music/clearcache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.hupu.heroes",
+    "uri": "huputiyu://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.jd.hm.mall",
+    "uri": "storage://developer.huawei.com/clearcache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.jd.hm.mall",
+    "uri": "https://linkst.m.jd.com/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.kuaishou.hmapp",
+    "uri": "kwai://setting/storagePage",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.quark.ohosbrowser",
+    "uri": "https://www.quark.cn/knockShare",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.quark.ohosbrowser",
+    "uri": "https://m.sm.cn/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sankuai.dianping",
+    "uri": "https://qrcode.dianping.com/qr/explain",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sankuai.hmeituan",
+    "uri": "imeituan://www.meituan.com",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sina.weibo.stage",
+    "uri": "sinaweibo://settings/cache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sina.weibo.stage",
+    "uri": "sinaweibo://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sina.weibo.stage",
+    "uri": "qqopenapi://100736903/auth",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.sina.weibo.stage",
+    "uri": "sinaweibo://notice/settings",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.ss.hm.ugc.aweme",
+    "uri": "dypay1128://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tencent.hm.qqmusic",
+    "uri": "qqmusic://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tencent.hm.qqmusic",
+    "uri": "https://music.qq.com/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tencent.mqq",
+    "uri": "mqqapi://setting/storage",
+    "verdict": "KEEP_CHOOSER"
+  },
+  {
+    "bundle": "com.tencent.mqq",
+    "uri": "https://qqso.qianbao.qq.com/",
+    "verdict": "KEEP_CHOOSER"
+  },
+  {
+    "bundle": "com.tencent.mqq",
+    "uri": "qqopenapi://101855834/auth",
+    "verdict": "KEEP_CHOOSER"
+  },
+  {
+    "bundle": "com.tencent.mqq",
+    "uri": "https://qqso.qianbao.qq.com",
+    "verdict": "KEEP_CHOOSER"
+  },
+  {
+    "bundle": "com.tencent.wechat",
+    "uri": "weixin://betalogin",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tencent.wechat",
+    "uri": "wxopensdk://open_sdk_request_link",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tencent.wechat",
+    "uri": "weixin://scanqrcode",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.tmall.tmall4hmos",
+    "uri": "tmall://page.tm",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.vip.hosapp",
+    "uri": "https://u.vip.com/deeplink",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.ximalaya.ting.xmharmony",
+    "uri": "storage://com.ximalaya.ting.xmharmony/clearcache",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.xingin.xhs_hos",
+    "uri": "https://www.xiaohongshu.com/customer_service/store",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.xunmeng.pinduoduo.hos",
+    "uri": "https://app.yangkeduo.com/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.zhihu.hmos",
+    "uri": "https://zhuanlan.zhihu.com/",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.zhuanzhuan.hmoszz",
+    "uri": "jdpauthjdjr132536886004://",
+    "verdict": "KEEP_OPEN"
+  },
+  {
+    "bundle": "com.amap.hmapp",
+    "uri": "systemnav://routeplan",
+    "verdict": "KEEP_OPEN"
+  }
+]

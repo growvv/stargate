@@ -7,21 +7,18 @@ entry/build/
 build/
 local.properties
 *.log
-
-# generated competition previews and working media
-submission/render/
-submission/render_hd/
-submission/assets/template/
-submission/video/audio/
-submission/video/clips/
-submission/video/tts/
-submission/video/check/
-submission/video/_loudnorm*.txt
-
-# external reference deck and root debug artifacts
-submission/参考ppt.pptx
-_*.json
-0*-*.png
+__pycache__/
+*.pyc
 
 # local tooling session state
 .superpowers/
+
+# downloaded / generated working files (regenerable)
+tools/downloaded_logos/
+tools/submission/render/
+tools/submission/render_hd/
+tools/submission/video/audio/
+tools/submission/video/clips/
+tools/submission/video/tts/
+tools/submission/video/check/
+tools/submission/video/_loudnorm*.txt

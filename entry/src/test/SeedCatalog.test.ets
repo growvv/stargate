@@ -4,7 +4,8 @@ import { CapabilityRepository } from '../main/ets/data/CapabilityRepository';
 import { isL0, CATEGORIES } from '../main/ets/model/AtomicFunction';
 
 const PATH = 'entry/src/main/resources/rawfile/capabilities.json';
-const EVIDENCE = '.superpowers/sdd/2026-11-07-harmony-atomic-function-panel-product-plan/verify-signing/a3-probe/evidence/probe9-results.json';
+// 冻结的种子验收快照：原始探测证据清理后保留的回归基线。
+const EVIDENCE = 'test/fixtures/seed-evidence.json';
 
 interface EvidenceRow {
   bundle: string;

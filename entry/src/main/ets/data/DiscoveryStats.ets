@@ -13,7 +13,6 @@ export interface DiscoveryStatsValue {
   runtimeCases: number;
   runtimeCandidates: number;
   runtimeConfirmed: number;
-  evidencePath: string;
 }
 
 export class DiscoveryStats {
@@ -27,8 +26,7 @@ export class DiscoveryStats {
       verifiedCatalogItems: 4,
       runtimeCases: 87,
       runtimeCandidates: 67,
-      runtimeConfirmed: 4,
-      evidencePath: 'probe/discovery-ledger.json'
+      runtimeConfirmed: 4
     };
   }
 

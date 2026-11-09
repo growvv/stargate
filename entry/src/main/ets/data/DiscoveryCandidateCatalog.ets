@@ -19,7 +19,6 @@ export interface DiscoveryCandidate {
   pathHints: string[];
   entrypointCount: number;
   productionEligible: boolean;
-  evidencePath: string;
 }
 
 interface DiscoveryCandidateSeed {
@@ -51,8 +50,7 @@ export class DiscoveryCandidateCatalog {
             shortcuts: Array.isArray(r.shortcuts) ? r.shortcuts.slice() : [],
             pathHints: Array.isArray(r.pathHints) ? r.pathHints.slice() : [],
             entrypointCount: typeof r.entrypointCount === 'number' ? r.entrypointCount : 0,
-            productionEligible: r.productionEligible === true,
-            evidencePath: r.evidencePath || 'probe/discovery-ledger.json'
+            productionEligible: r.productionEligible === true
           };
           return record;
         });
