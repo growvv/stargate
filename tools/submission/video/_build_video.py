@@ -129,19 +129,19 @@ def main():
         step = 0.05 / max(1, frames)
         v = variants[idx % len(variants)]
         if v == 0:
-            z = "min(zoom+%.8f,1.05)" % step
+            z = "min(zoom+%.8f,1.02)" % step
             x = "iw/2-(iw/zoom/2)"
             y = "ih/2-(ih/zoom/2)"
         elif v == 2:
-            z = "if(eq(on,0),1.05,max(zoom-%.8f,1.0))" % step
+            z = "if(eq(on,0),1.02,max(zoom-%.8f,1.0))" % step
             x = "iw/2-(iw/zoom/2)"
             y = "ih/2-(ih/zoom/2)"
         elif v == 1:
-            z = "1.04"
+            z = "1.015"
             x = "(iw-iw/zoom)*on/%d" % max(1, frames - 1)
             y = "ih/2-(ih/zoom/2)"
         else:
-            z = "1.04"
+            z = "1.015"
             x = "(iw-iw/zoom)*(1-on/%d)" % max(1, frames - 1)
             y = "ih/2-(ih/zoom/2)"
         vf = ("scale=3840:2160:flags=lanczos,"

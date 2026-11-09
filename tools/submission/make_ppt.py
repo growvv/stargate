@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Build the StarGate competition deck (compact 13-slide cut)."""
+"""Build the StarGate competition deck (compact 12-slide cut)."""
 import os
 from PIL import Image
 from pptx import Presentation
@@ -218,21 +218,12 @@ text(s, 1.0, 3.50, 11.33, 0.42,
      [P(R('跨过 App 的门，一步抵达功能', 18, GRAY, False, True,
           align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
 
-flow = ['聚合能力', '证据准入', '智能分发', '一键直达']
-for i, txt in enumerate(flow):
-    x = 1.15 + i * 2.82
-    box(s, x, 4.18, 2.35, 0.72, fill=XLBLUE, line=BORDER, lw=1.0)
-    text(s, x, 4.18, 2.35, 0.72,
-         [P(R(txt, 16, NAVY, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-    if i < 3:
-        arrow(s, x + 2.37, 4.40, 0.38, 0.28, fill=MBLUE)
-
 lines = [('项目负责人：', '刘发荣'), ('成果完成单位：', '软件学院 SMAT 项目组')]
 for i, (k, v) in enumerate(lines):
-    text(s, 1.0, 5.42 + i * 0.42, 11.33, 0.36,
+    text(s, 1.0, 4.62 + i * 0.46, 11.33, 0.36,
          [P(R(k, 15.5, NAVY, True), R(v, 15.5, NAVY, False, align=PP_ALIGN.CENTER))],
          anchor=MSO_ANCHOR.MIDDLE)
-text(s, 1.0, 6.38, 11.33, 0.36,
+text(s, 1.0, 5.86, 11.33, 0.36,
      [P(R('2026 年 11 月', 15.5, NAVY, False, align=PP_ALIGN.CENTER))],
      anchor=MSO_ANCHOR.MIDDLE)
 bar(s, 0.55, 7.10, 12.23, 0.03, LBLUE)
@@ -268,7 +259,7 @@ text(s, 6.40, 5.62, 6.45, 0.42,
 box(s, 0.45, 6.16, 12.40, 0.66, fill=LBLUE)
 text(s, 0.62, 6.16, 12.05, 0.66,
      [P(R('App 是容器，功能才是服务：', 15.5, NAVY, True),
-        R('对用户少点几步，对生态让入口被看见，对平台让卡片成为分发位。', 15, DGRAY),
+        R('对用户少点几步，对生态让入口被看见，对平台让卡片成为新入口。', 15, DGRAY),
         ls=1.18)], anchor=MSO_ANCHOR.MIDDLE)
 banner(s, [R('从「找 App」到「找功能」，', 16, WHITE, True),
            R('把入口放回桌面', 16.5, YELLOW, True), R('。', 16, WHITE, True)])
@@ -282,9 +273,9 @@ text(s, 0.45, 1.10, 12.40, 0.48,
           16.5, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
 cards4 = [
     ('桌面卡片', '抬手就用', '推荐 / 最近添加 / 分类', 'card_widget.png', BLUE, '高频、固定场景'),
-    ('全部功能', '知道名字就搜', 'A–Z# 分段 + 拼音搜索', 'shot_all_card.png', TEAL, '记得功能名'),
+    ('搜索', '知道名字就搜', 'A–Z# 分段 + 拼音搜索', 'shot_all_card.png', TEAL, '记得功能名'),
     ('分类页', '按场景逛', '分类浏览，一屏一组', 'shot_category_card.png', ORANGE, '按场景浏览'),
-    ('能力探索', '看看还能做什么', '证据等级 + 打开 ›', 'shot_explorer_card.png', PURPLE, '探索与验证'),
+    ('设置', '按习惯调整', '分类排序 + 卡片偏好', 'shot_config_card.png', PURPLE, '个性化'),
 ]
 for i, (name, tag, desc, img, col, fit) in enumerate(cards4):
     x = 0.45 + i * 3.16
@@ -301,34 +292,37 @@ for i, (name, tag, desc, img, col, fit) in enumerate(cards4):
     text(s, x + 0.17, 5.40, 2.66, 0.62,
          [P(R(desc, 12.5, DGRAY), ls=1.18)], anchor=MSO_ANCHOR.TOP)
     ex = ['例：付款码 · 扫一扫 · 查快递', '例：输入「支付」直接定位',
-          '例：出行 / 购物 / 生活', '例：查看证据等级与来源'][i]
+          '例：出行 / 购物 / 生活', '例：拖动分类 / 调整卡片'][i]
     text(s, x + 0.17, 5.98, 2.66, 0.40,
          [P(R(ex, 11.5, GRAY, False, True))], anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('同一份能力库，', 16, WHITE, True), R('四种到达方式', 16.5, YELLOW, True),
+banner(s, [R('同一份能力库，', 16, WHITE, True), R('四个入口', 16.5, YELLOW, True),
            R('。', 16, WHITE, True)])
 
 # ================================================================ 4 widget
 s = prs.slides.add_slide(BLANK)
-title(s, '桌面卡片 —— 推荐 / 最近添加 / 分类')
+title(s, '桌面卡片 —— 推荐 / 最近添加 / 分类 / 搜索')
 beihang(s)
 pic(s, 'card_widget.png', 0.45, 1.14, 5.35, 5.55)
 blocks = [
     ('推荐', '按使用强度、时间衰减、时段偏好综合排序；同类目打散，避免单一类目刷屏。', BLUE),
     ('最近添加', '新装或新检测到的 App 自动上桌；每个 App 只占一格；首次基线不冒充新能力。', TEAL),
     ('分类', '按场景组织能力；长按拖动调整顺序，卡片与页面实时同步。', ORANGE),
+    ('搜索', '与推荐、最近添加、分类并列；按 A–Z 浏览，也可直接输入中文或拼音定位。', PURPLE),
 ]
 for i, (h, d, col) in enumerate(blocks):
-    card(s, 6.10, 1.16 + i * 1.61, 6.65, 1.48, h, d, col, 18, 14.5)
-box(s, 6.10, 6.02, 6.65, 0.66, fill=RGBColor(0xF8, 0xE5, 0xE5))
-text(s, 6.25, 6.02, 6.35, 0.66,
-     [P(R('点任意图标，直接打开对应功能页；入口不可用会明确提示，不静默回首页。', 13.5, RED, True),
-        ls=1.18)], anchor=MSO_ANCHOR.MIDDLE)
+    y = 1.16 + i * 1.27
+    card(s, 6.10, y, 6.65, 1.16, h, d, col, 16, 12.2,
+         fill=RGBColor(0xF2, 0xF7, 0xFC) if h == '搜索' else WHITE)
+arrow(s, 5.82, 5.40, 0.26, 0.16, fill=PURPLE)
+text(s, 6.10, 6.32, 6.65, 0.36,
+     [P(R('点任意图标直达功能页；入口不可用会明确提示，不静默回首页。', 13, RED, True))],
+     anchor=MSO_ANCHOR.MIDDLE)
 banner(s, [R('卡片不是展示，', 16, WHITE, True), R('是入口', 16.5, YELLOW, True),
            R('。', 16, WHITE, True)])
 
 # ================================================================ 5 all functions
 s = prs.slides.add_slide(BLANK)
-title(s, '全部功能 —— A–Z 分段与拼音搜索')
+title(s, '搜索 —— A–Z 分段与拼音定位')
 beihang(s)
 pic(s, 'shot_all.png', 0.40, 1.12, 3.55, 5.58)
 pic(s, 'shot_search.png', 4.15, 1.15, 4.35, 2.65)
@@ -361,30 +355,6 @@ for i, (h, d) in enumerate(feats):
 banner(s, [R('把能力装进一个', 16, WHITE, True), R('可搜索的字母表', 16.5, YELLOW, True),
            R('。', 16, WHITE, True)])
 
-# ================================================================ 6 explorer & config
-s = prs.slides.add_slide(BLANK)
-title(s, '能力探索与个性化 —— 每个入口都有出处')
-beihang(s)
-pic(s, 'shot_explorer.png', 0.40, 1.12, 3.25, 5.55)
-pic(s, 'shot_config.png', 3.82, 1.12, 3.25, 5.55)
-paras = []
-bullet(paras, '证据分级', '已验证直达 / 人工确认 / REA 线索 / UI Test 候选', BLUE, 14.5, 12.5, 2)
-bullet(paras, '来源标注', '每条能力写清 Scheme、App Linking 或人工确认', TEAL, 14.5, 12.5, 9)
-bullet(paras, '一键验证', '右侧「打开 ›」直接测试，成功失败都看得见', ORANGE, 14.5, 12.5, 9)
-bullet(paras, '失败可解释', '无可用入口时给出明确提示，不假装成功', PURPLE, 14.5, 12.5, 9)
-bullet(paras, '个性化', '分类长按拖动，顺序持久化并同步卡片', BLUE, 14.5, 12.5, 9)
-bullet(paras, '能力库可替换', '外部 JSON 更新后即可重新分发', TEAL, 14.5, 12.5, 9)
-text(s, 7.30, 1.18, 5.55, 4.35, paras)
-box(s, 7.30, 5.15, 5.55, 0.80, fill=LBLUE)
-text(s, 7.45, 5.15, 5.25, 0.80,
-     [P(R('发现 → 标注 → 验证 → 入库 → 分发', 14, NAVY, True, align=PP_ALIGN.CENTER))],
-     anchor=MSO_ANCHOR.MIDDLE)
-text(s, 7.30, 6.16, 5.55, 0.48,
-     [P(R('能力探索页是产品的「说明书」，也是工程的自检工具。', 12.5, GRAY, False, True),
-        ls=1.16)], anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('透明，是', 16, WHITE, True), R('信任', 16.5, YELLOW, True),
-           R('的前提。', 16, WHITE, True)])
-
 # ================================================================ 7 architecture / data flow
 s = prs.slides.add_slide(BLANK)
 title(s, '总体架构 —— 从能力来源到用户直达的数据流')
@@ -395,7 +365,7 @@ lane_label(s, 0.40, 1.10, 0.95, 1.34, '①', '来源', BLUE)
 sources = [
     ('App 公开声明', 'Scheme / App Linking / Shortcut\n系统可校验的公开入口'),
     ('系统意图', 'startAbilityByType\n按能力类型匹配应用'),
-    ('静态分析与人工', 'HAP 资源 / 代码 / REA / UI Test\n补充未公开的隐藏入口'),
+    ('人工整理与复核', '开发者提交 / 真机确认\n补充可验证的公开入口'),
 ]
 for i, (h, d) in enumerate(sources):
     x = 1.50 + i * 3.82
@@ -412,7 +382,7 @@ lane_label(s, 0.40, 2.73, 0.95, 1.45, '②', '生产准入', TEAL)
 pipe = [
     ('声明扫描', '读取公开声明\n与系统意图'),
     ('候选池', '统一格式\n去重、标注来源'),
-    ('证据审核', '真机可打开\n四级证据分级'),
+    ('可用性验证', '真机可打开\n才写入目录'),
     ('生产目录', '一条能力只保留\n一条最可靠路由'),
 ]
 for i, (h, d) in enumerate(pipe):
@@ -428,14 +398,14 @@ for i, (h, d) in enumerate(pipe):
         arrow(s, x + 2.64, 3.35, 0.18, 0.20, fill=MBLUE)
 
 text(s, 1.55, 4.18, 9.0, 0.30,
-     [P(R('统一能力目录：安装态过滤 · 分类 · 证据 · 路由，是分发的唯一事实源', 12.5, TEAL, True))],
+     [P(R('统一能力目录：安装态过滤 · 分类 · 来源与验证状态，是呈现的唯一事实源', 12.5, TEAL, True))],
      anchor=MSO_ANCHOR.MIDDLE)
 arrow(s, 11.33, 4.22, 0.26, 0.20, fill=MBLUE, kind=MSO_SHAPE.DOWN_ARROW)
 
-# lane 3 distribution & feedback
-lane_label(s, 0.40, 4.55, 0.95, 2.10, '③', '分发回流', ORANGE)
+# lane 3 presentation & feedback
+lane_label(s, 0.40, 4.55, 0.95, 2.10, '③', '呈现反馈', ORANGE)
 engines = [
-    ('推荐排序', '七因子 + 类目打散'),
+    ('推荐排序', '加权公式 + 类目打散'),
     ('搜索与分组', '中文 / 拼音 / 字母'),
     ('最近添加', '安装探测 + 首次基线'),
     ('分类顺序', '用户拖动 + 持久化'),
@@ -449,24 +419,24 @@ for i, (h, d) in enumerate(engines):
          [P(R(d, 10.5, GRAY))], anchor=MSO_ANCHOR.MIDDLE)
     arrow(s, x + 1.18, 5.34, 0.26, 0.12, fill=MBLUE, kind=MSO_SHAPE.DOWN_ARROW)
 
-entrances = ['桌面卡片', '全部功能', '分类页', '能力探索']
+entrances = ['桌面卡片', '搜索', '分类页']
 for i, h in enumerate(entrances):
-    x = 1.50 + i * 2.84
-    box(s, x, 5.52, 2.62, 0.62, fill=ORANGE if i == 0 else WHITE, line=ORANGE, lw=1.2)
-    text(s, x, 5.52, 2.62, 0.62,
-         [P(R(h, 13.5, WHITE if i == 0 else NAVY, True, align=PP_ALIGN.CENTER))],
+    x = 1.50 + i * 3.72
+    box(s, x, 5.52, 3.55, 0.62, fill=ORANGE if i == 0 else WHITE, line=ORANGE, lw=1.2)
+    text(s, x, 5.52, 3.55, 0.62,
+         [P(R(h, 14.5, WHITE if i == 0 else NAVY, True, align=PP_ALIGN.CENTER))],
          anchor=MSO_ANCHOR.MIDDLE)
 box(s, 1.50, 6.28, 11.06, 0.42, fill=RGBColor(0xFD, 0xF0, 0xE6))
 text(s, 1.62, 6.28, 10.82, 0.42,
      [P(R('反馈回流：', 11.5, ORANGE, True),
         R('点击结果 / 使用频次 / 失败原因 → 驱动下一次排序与最近添加', 11.5, DGRAY))],
      anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('来源可查、准入有据、分发有路、', 15.5, WHITE, True),
+banner(s, [R('来源可查、准入有据、呈现清晰、', 15.5, WHITE, True),
            R('使用有回流', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
 
 # ================================================================ 8 routes explained
 s = prs.slides.add_slide(BLANK)
-title(s, '路线探索 —— 四条路在 HarmonyOS 上怎么做')
+title(s, '路线探索 —— 四种可能的直达方式')
 beihang(s)
 routes = [
     ('A 应用内快捷方式', '应用声明 shortcuts；系统长按菜单展示；点 shortcut 拉起目标页面。',
@@ -475,8 +445,8 @@ routes = [
      '卡片、搜索结果直接打开功能页', '覆盖广、精度高；需要公开路由声明', TEAL, 'Want + startAbility'),
     ('C 系统选择器', 'startAbilityByType 发起能力请求；系统按类型匹配应用；由系统界面完成选择。',
      '系统弹出可选 App，选完继续', '无固定包名时兜底；多选一步，直达性弱', ORANGE, 'startAbilityByType'),
-    ('D 静态分析 + 测试', '解析 HAP / 资源 / 代码提取路由；REA / UI Test 验证；人工确认后进入候选目录。',
-     '不直接面向用户，是能力生产线', '能发现隐藏入口；成本高、需持续回归', PURPLE, 'REA + UI Test'),
+    ('D UI 步骤自动化', '预先录制或定制点击步骤，从桌面开始逐页点按，自动走到目标功能。',
+     '页面自动跳转，用户只需等待', '直观、不依赖公开路由；步骤长、速度慢、怕改版', PURPLE, 'UI 自动化脚本'),
 ]
 for i, (name, how, see, fit, col, api) in enumerate(routes):
     x = 0.42 + i * 3.15
@@ -501,78 +471,89 @@ for i, (name, how, see, fit, col, api) in enumerate(routes):
          [P(R('适合 / 局限', 12.5, col, True))], anchor=MSO_ANCHOR.MIDDLE)
     text(s, x + 0.16, 5.57, 2.80, 0.92,
          [P(R(fit, 13, DGRAY), ls=1.2)], anchor=MSO_ANCHOR.TOP)
-banner(s, [R('最终选择：', 15.5, WHITE, True), R('B 为主，A/C 补场景，D 做生产线', 16.5, YELLOW, True),
+banner(s, [R('最终选择：', 15.5, WHITE, True), R('B 为主，A/C 补场景，不采用 D', 16.5, YELLOW, True),
            R('。', 15.5, WHITE, True)])
 
 # ================================================================ 9 final route
 s = prs.slides.add_slide(BLANK)
-title(s, '最终路线 —— 生产、准入、分发的组合方法')
+title(s, '最终路线 —— 用 HarmonyOS 公开接口完成直达')
 beihang(s)
-stages = [
-    ('① 生产', BLUE, ['扫描 App 的公开声明：Scheme、App Linking、Shortcut。',
-                    '接入系统意图，覆盖没有固定包名的能力。',
-                    '用静态分析与真机测试补充隐藏入口',
-                    '所有来源统一成同一种候选格式。']),
-    ('② 准入', TEAL, ['只收录真机点击后能落到目标页面的入口。',
-                    '用四级证据标注来源与可信度。',
-                    '每条能力只保留一条最可靠路由。',
-                    '证据不足的线索留在候选目录，不进入分发。']),
-    ('③ 分发', ORANGE, ['卡片、全部功能、分类、探索四个入口。',
-                     '每次启动只构造一个 Want，明确 bundleName。',
-                     '失败即报告「暂无可用直达入口」，不回退首页。',
-                     '点击与失败回流，驱动下一次排序。']),
-]
-xs = [0.45, 4.55, 8.65]
-ws = [3.75, 3.75, 4.15]
-for i, (name, col, bs) in enumerate(stages):
-    x, w = xs[i], ws[i]
-    box(s, x, 1.14, w, 4.25, fill=WHITE, line=BORDER, lw=1.2)
-    bar(s, x, 1.14, w, 0.58, col)
-    text(s, x, 1.14, w, 0.58,
-         [P(R(name, 18, WHITE, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-    paras = []
-    for b in bs:
-        paras.append(P(R('▪ ', 13, col), R(b, 14, DGRAY), ls=1.2, before=12))
-    text(s, x + 0.24, 1.90, w - 0.46, 2.55, paras)
-    box(s, x + 0.24, 4.56, w - 0.48, 0.44, fill=LBLUE)
-    text(s, x + 0.24, 4.56, w - 0.48, 0.44,
-         [P(R(['产出：统一候选池', '产出：可分发能力目录', '产出：用户可达的入口'][i],
-              11.5, col, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-arrow(s, 4.24, 3.10, 0.28, 0.38, fill=MBLUE)
-arrow(s, 8.34, 3.10, 0.28, 0.38, fill=MBLUE)
-text(s, 0.50, 5.62, 12.3, 0.36,
-     [P(R('三条硬约束', 16, NAVY, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-constraints = ['单一 Want', '不回退首页', '失败即报告']
-for i, c in enumerate(constraints):
-    x = 1.55 + i * 3.55
-    box(s, x, 6.02, 3.15, 0.58, fill=LBLUE)
-    text(s, x, 6.02, 3.15, 0.58,
-         [P(R('✓  ', 14, TEAL, True), R(c, 15, NAVY, True, align=PP_ALIGN.CENTER))],
-         anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('能力生产 → 证据准入 → 智能分发 → ', 15.5, WHITE, True),
-           R('一键直达', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
+text(s, 0.45, 1.04, 12.35, 0.38,
+     [P(R('不注入、不模拟点击：App 声明入口，系统解析 Want，星门只把一次正确的请求交给系统。',
+          14.5, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
 
-# ================================================================ 10 smart distribution
+cols = [
+    ('App 声明什么', BLUE, 'manifest', [
+        ('module.json5 → abilities[].skills[]', '声明 actions 与 uris'),
+        ('uris：scheme / host / path', '可响应哪一类链接'),
+        ('shortcuts / App Linking', '快捷方式与 HTTPS 域名'),
+        ('App 告诉系统', '我能接住哪些入口'),
+    ]),
+    ('系统提供什么', TEAL, 'HarmonyOS API', [
+        ('Want', '跨应用启动的标准描述'),
+        ('bundleManager.canOpenLink(uri)', '判断链接能否被系统打开'),
+        ('UIAbilityContext.startAbility(want)', '按 bundleName / URI 找到目标 Ability'),
+        ('startAbilityByType(type, param)', '按能力类型交给系统匹配'),
+    ]),
+    ('星门调用什么', ORANGE, 'one route · one Want', [
+        ('能力库存一条最可靠路由', 'bundleName + uri'),
+        ('点击时构造一个显式 Want', '不拼第二条路由'),
+        ('context.startAbility(want)', '拉起目标功能页'),
+        ('失败即返回 NO_AVAILABLE_ENTRY', '明确提示，不回退首页'),
+    ]),
+]
+for i, (head, col, tag, rows) in enumerate(cols):
+    x = 0.45 + i * 4.17
+    box(s, x, 1.52, 3.95, 3.48, fill=WHITE, line=BORDER, lw=1.2)
+    bar(s, x, 1.52, 3.95, 0.50, col)
+    text(s, x, 1.52, 3.95, 0.50,
+         [P(R(head, 16.5, WHITE, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
+    box(s, x + 0.18, 2.14, 1.72, 0.30, fill=LBLUE)
+    text(s, x + 0.18, 2.14, 1.72, 0.30,
+         [P(R(tag, 10, NAVY, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
+    paras = []
+    for j, (k, d) in enumerate(rows):
+        paras.append(P(R(k, 12.8, col if j < 2 else NAVY, True), ls=1.12,
+                       before=10 if j else 14))
+        paras.append(P(R(d, 12, DGRAY), ls=1.10, before=1))
+    text(s, x + 0.20, 2.55, 3.55, 2.30, paras, anchor=MSO_ANCHOR.TOP)
+
+box(s, 0.45, 5.15, 12.28, 1.57, fill=NAVY)
+text(s, 0.64, 5.15, 11.95, 1.57, [
+    P(R('示例  ', 11.5, YELLOW, True), R('高德地图 · 路线规划', 14.5, WHITE, True)),
+    P(R('能力库：', 11.5, YELLOW, True),
+      R('{ bundleName: "com.amap.hmapp", uri: "systemnav://routeplan" }',
+        11.3, WHITE, font='Consolas'), before=5),
+    P(R('点击：', 11.5, YELLOW, True),
+      R('const want = { bundleName: "com.amap.hmapp", uri: "systemnav://routeplan" };  '
+        'await context.startAbility(want);', 10.4, WHITE, font='Consolas'), before=3),
+    P(R('系统把 URI 交给高德声明能响应的 Ability，直接打开路线规划页。', 12.2, LBLUE),
+      before=4),
+], anchor=MSO_ANCHOR.MIDDLE)
+banner(s, [R('一次点击，', 15.5, WHITE, True), R('一个显式 Want', 16.5, YELLOW, True),
+           R('，交给系统完成直达。', 15.5, WHITE, True)])
+
+# ================================================================ 10 recommendation
 s = prs.slides.add_slide(BLANK)
-title(s, '智能分发 —— 推荐与最近添加')
+title(s, '推荐与最近添加 —— 让卡片先给出下一步')
 beihang(s)
 # left: ranking
 text(s, 0.45, 1.12, 6.15, 0.40,
      [P(R('推荐：把此刻最可能用的放前面', 18, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-rank_steps = ['采集使用行为', '七因子打分', '类目打散', '稳定排序', '卡片推荐']
-for i, st in enumerate(rank_steps):
-    y = 1.62 + i * 0.60
-    box(s, 0.55, y, 5.95, 0.48, fill=XLBLUE, line=BORDER, lw=1.0)
-    text(s, 0.72, y, 5.60, 0.48,
-         [P(R(st, 13.5, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-    if i < 4:
-        arrow(s, 3.30, y + 0.50, 0.24, 0.08, fill=MBLUE, kind=MSO_SHAPE.DOWN_ARROW)
+box(s, 0.55, 1.62, 6.05, 1.48, fill=NAVY)
+text(s, 0.72, 1.66, 5.72, 1.40, [
+    P(R('排序公式', 10.5, YELLOW, True)),
+    P(R('score = 0.30·当日使用 + 0.20·当月使用', 12.4, WHITE, font='Consolas'), before=5),
+    P(R('      + 0.18·时间衰减 + 0.12·时段偏好', 12.4, WHITE, font='Consolas'), before=1),
+    P(R('      + 0.08·场景亲和 + 0.07·最近序列', 12.4, WHITE, font='Consolas'), before=1),
+    P(R('      + 0.05·置信度', 12.4, WHITE, font='Consolas'), before=1),
+], anchor=MSO_ANCHOR.MIDDLE)
 paras = []
-bullet(paras, '时间衰减', '昨天的使用比上个月更有价值', NAVY, 13, 12, 8)
-bullet(paras, '时段偏好', '上午偏出行 / 支付，晚间偏购物 / 娱乐', TEAL, 13, 12, 8)
-bullet(paras, '可解释', '同分按 id 稳定排序，结果可复现', ORANGE, 13, 12, 8)
-bullet(paras, '不补位', '候选不足时返回真实条数', PURPLE, 13, 12, 8)
-text(s, 0.55, 4.85, 6.05, 1.55, paras)
+bullet(paras, '归一化', '当日 / 当月按候选集最大值归一化', NAVY, 12.8, 11.8, 8)
+bullet(paras, '时间衰减', 'τ = 36 小时；昨天明显重于上个月', TEAL, 12.8, 11.8, 8)
+bullet(paras, '时段偏好', '历史小时分布；冷启动用类目先验', ORANGE, 12.8, 11.8, 8)
+bullet(paras, '排序约束', '同类目最多 2 条；同分按 id；不补位', PURPLE, 12.8, 11.8, 8)
+text(s, 0.55, 3.34, 6.05, 2.30, paras)
 # right: recent additions
 text(s, 6.85, 1.12, 5.90, 0.40,
      [P(R('最近添加：新装 App 的能力自动上桌', 18, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
@@ -622,7 +603,7 @@ for i, (h, d, col, ex) in enumerate(scenes):
 values = [
     ('对用户', '少点几步，常用功能抬手可及', BLUE),
     ('对生态', '公开入口被重新组织，低频功能被看见', TEAL),
-    ('对平台', '桌面卡片成为新的分发位', ORANGE),
+    ('对平台', '桌面卡片成为新的入口位', ORANGE),
     ('对系统', '能力目录补充系统意图与场景服务', PURPLE),
 ]
 for i, (h, d, col) in enumerate(values):
@@ -650,8 +631,8 @@ text(s, 0.45, 1.12, 5.9, 0.42,
 bar(s, 0.45, 1.56, 1.10, 0.05, TEAL)
 now = [
     '能力聚合：公开入口汇成统一能力目录',
-    '证据准入：真机可打开才进入分发',
-    '智能分发：卡片 / 全部功能 / 分类 / 探索',
+    '入口验证：真机可打开才进入目录',
+    '卡片呈现：桌面卡片 / 搜索 / 分类 / 设置',
     '一键直达：单一 Want，失败即报告',
 ]
 paras = []

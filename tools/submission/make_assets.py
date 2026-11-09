@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Generate competition assets: cropped screenshots, logo, diagrams."""
 import os, math
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -61,15 +61,42 @@ crop_shot('current2.jpeg', (215, 105, 1385, 1185), 'card_widget.png', 42)
 crop_shot('current2.jpeg', (0, 0, 1600, 2560), 'desktop_full.png', 0)
 crop_shot('all.jpeg', (0, 105, 1600, 2488), 'shot_all.png', 48)
 crop_shot('search-a.jpeg', (0, 105, 1600, 980), 'shot_search.png', 40)
-crop_shot('explorer.jpeg', (0, 800, 1600, 2560), 'shot_explorer.png', 48)
 crop_shot('config.jpeg', (0, 105, 1600, 2488), 'shot_config.png', 48)
 crop_shot('category.jpeg', (0, 105, 1600, 2488), 'shot_category.png', 48)
 crop_shot('current2.jpeg', (0, 105, 1600, 2488), 'shot_desktop.png', 48)
 # compact 4:3-ish crops for the four-entry product slide
 crop_shot('all.jpeg', (0, 105, 1600, 1560), 'shot_all_card.png', 40)
 crop_shot('category.jpeg', (0, 105, 1600, 1560), 'shot_category_card.png', 40)
-crop_shot('explorer.jpeg', (0, 800, 1600, 2133), 'shot_explorer_card.png', 40)
 crop_shot('config.jpeg', (0, 105, 1600, 1560), 'shot_config_card.png', 40)
+
+
+def scrub_explorer_ui():
+    """Final product no longer exposes the development-only explorer entry."""
+    # Settings screenshots: remove the '能力探索 / 查看入口与探测状态' row.
+    for name in ('shot_config.png', 'shot_config_card.png'):
+        path = os.path.join(ASSETS, name)
+        im = Image.open(path).convert('RGB')
+        y0, y1 = 290, 430
+        out = Image.new('RGB', (im.width, im.height - (y1 - y0)), 'white')
+        out.paste(im.crop((0, 0, im.width, y0)), (0, 0))
+        out.paste(im.crop((0, y1, im.width, im.height)), (0, y0))
+        out.save(path)
+
+    # Desktop card: the top-right pill becomes '设置' instead of '探索'.
+    path = os.path.join(ASSETS, 'card_widget.png')
+    im = Image.open(path).convert('RGB')
+    d = ImageDraw.Draw(im)
+    box = (842, 150, 978, 215)
+    d.rounded_rectangle(box, radius=30, fill=(210, 210, 210), outline=(226, 226, 226), width=1)
+    font = ImageFont.truetype(FONT_B, 27)
+    bb = d.textbbox((0, 0), '设置', font=font)
+    tx = (box[0] + box[2] - (bb[2] - bb[0])) / 2 - bb[0]
+    ty = (box[1] + box[3] - (bb[3] - bb[1])) / 2 - bb[1]
+    d.text((tx, ty), '设置', font=font, fill=(70, 70, 70))
+    im.save(path)
+
+
+scrub_explorer_ui()
 
 # --- logo ---------------------------------------------------------------
 def gradient_disc(size=1024):
@@ -134,9 +161,9 @@ def label(ax, x, y, text, size=13, bold=True, color=NAVY, ha='left', va='center'
 # architecture
 fig, ax = canvas()
 layers = [
-    ('入口层', 5.62, ['桌面卡片', '全部功能 A–Z', '分类页', '搜索', '能力探索', '设置']),
+    ('入口层', 5.62, ['桌面卡片', '搜索 A–Z', '分类页', '设置']),
     ('编排层', 4.32, ['CardBinding', 'WidgetCardData', 'RefreshOrchestrator', 'PageRouter', 'LaunchDispatcher']),
-    ('能力层', 3.02, ['RankingEngine', 'RecentAdditions', 'SearchFilter /\nPinyinUtil', 'LetterSections', 'CategoryOrder', 'CapabilityExplorer']),
+    ('能力层', 3.02, ['RankingEngine', 'RecentAdditions', 'SearchFilter /\nPinyinUtil', 'LetterSections', 'CategoryOrder']),
     ('数据层', 1.72, ['CapabilityRepository', 'EffectiveCatalog', 'InstallSnapshot', 'UsageStore', 'CategoryOrderStore', 'DiscoveryCandidate\nCatalog']),
     ('系统层', 0.42, ['FormExtensionAbility', 'UIAbility', 'Preferences', 'bundleManager.\ncanOpenLink', 'startAbility']),
 ]
@@ -166,23 +193,25 @@ plt.close(fig)
 # distribution / data flow
 fig, ax = canvas()
 srcs = [('能力库 capabilities.json\n原子能力目录', 5.55), ('应用模板与安装探测\n已安装应用', 4.10),
-        ('发现候选目录\nREA / UI Test / 人工', 2.65), ('用户行为与配置\n用量 / 分类顺序', 1.20)]
+        ('候选能力目录\n开发者提交 / 人工复核', 2.65), ('用户行为与配置\n用量 / 分类顺序', 1.20)]
 for text, y in srcs:
     box(ax, 0.32, y, 2.75, 1.05, text, fc='white', ec=BLUE, tc=NAVY, size=10.5)
     arrow(ax, 3.07, y + 0.52, 3.48, y + 0.52, color=MBLUE)
 box(ax, 3.52, 3.55, 2.55, 2.45,
-    '统一能力目录\n\nEffectiveCatalog\n安装状态过滤\n证据等级标注\n分类 / 路由 / 标识', fc='#EAF3FB', ec=BLUE, tc=NAVY, size=11.5, bold=False)
-box(ax, 6.35, 4.00, 1.75, 1.55, '智能分发\n\n排序 / 搜索\n分组 / 去重', fc=BLUE, ec=BLUE, tc='white', size=11.5, bold=True)
+    '统一能力目录\n\nEffectiveCatalog\n安装状态过滤\n来源与验证状态\n分类 / 路由 / 标识', fc='#EAF3FB', ec=BLUE, tc=NAVY, size=11.5, bold=False)
+box(ax, 6.35, 4.00, 1.75, 1.55, '推荐与组织\n\n排序 / 搜索\n分组 / 去重', fc=BLUE, ec=BLUE, tc='white', size=11.5, bold=True)
 arrow(ax, 6.07, 4.77, 6.35, 4.77, color=BLUE)
-outs = [('桌面卡片\n推荐 / 最近添加 / 分类', 5.95), ('全部功能\nA–Z / 搜索 / 取消', 4.55),
-        ('分类页\n该类目全部能力', 3.15), ('能力探索\n证据等级 / 打开 ›', 1.75)]
+outs = [('桌面卡片\n推荐 / 最近添加 / 分类', 5.75), ('搜索\nA–Z / 拼音 / 取消', 4.15),
+        ('分类页\n该类目全部能力', 2.55)]
 for text, y in outs:
     box(ax, 8.55, y, 2.72, 0.98, text, fc='white', ec=TEAL, tc=NAVY, size=10)
-    if y > 2.0:
-        arrow(ax, 8.10, y + 0.49, 8.55, y + 0.49, color=TEAL)
+rail_x = 8.30
+ax.plot([rail_x, rail_x], [3.04, 6.24], color=TEAL, lw=1.2, zorder=1)
+arrow(ax, 8.10, 4.77, rail_x, 4.77, color=TEAL, lw=1.2)
+for y in [5.75, 4.15, 2.55]:
+    arrow(ax, rail_x, y + 0.49, 8.55, y + 0.49, color=TEAL, lw=1.2)
 box(ax, 6.35, 1.55, 1.75, 0.95, 'LaunchDispatcher\n单一 Want', fc='#EAF3FB', ec=BLUE, tc=NAVY, size=9.5)
-arrow(ax, 8.10, 1.95, 8.55, 1.95, color=TEAL)
-arrow(ax, 8.55, 2.38, 8.10, 2.16, color=BLUE)
+arrow(ax, 7.22, 4.00, 7.22, 2.55, color=BLUE, lw=1.6)
 box(ax, 8.55, 0.55, 2.72, 0.95, '目标 App 功能页\nScheme / Deep Link / Shortcut', fc=NAVY, ec=NAVY, tc='white', size=9.5, bold=True)
 arrow(ax, 7.22, 1.55, 8.55, 1.03, color=NAVY)
 arrow(ax, 9.9, 0.55, 1.70, 1.20, color=ORANGE, lw=1.4, style='-|>', ms=12, rad=-0.12)
@@ -195,8 +224,8 @@ fig, ax = canvas()
 lanes = [
     ('A 应用内快捷方式', '长按 App', '系统 Shortcut', '指定功能页', BLUE),
     ('B 链接路由', '链接 / 二维码 / 卡片', 'App Linking / Scheme', '功能页', TEAL),
-    ('C 系统选择器', '能力请求', '系统选应用', '系统分发', ORANGE),
-    ('D 静态分析 + 测试', 'HAP / 资源 / 代码', 'REA / UI Test 线索', '人工确认', '#7F5FA8'),
+    ('C 系统选择器', '能力请求', '系统选应用', '目标应用', ORANGE),
+    ('D UI 步骤自动化\n仅对比，不采用', '预先录制 / 定制', '逐步点击页面', '目标功能页', '#7F5FA8'),
 ]
 for i, (name, s1, s2, s3, col) in enumerate(lanes):
     y = 5.55 - i * 1.25
@@ -210,10 +239,10 @@ for i, (name, s1, s2, s3, col) in enumerate(lanes):
     arrow(ax, 8.05, y + 0.39, 8.20, y + 0.39, color=col)
     arrow(ax, 10.30, y + 0.39, 10.55, y + 0.39, color=col)
 box(ax, 10.55, 1.55, 2.45, 4.55,
-    '证据分级\n\n已验证直达\nREA 线索\nUI Test 候选\n人工确认', fc='#F2F7FC', ec=NAVY, tc=NAVY, size=10.5)
-box(ax, 0.30, 0.45, 3.0, 0.95, '生产准入：只分发已验证入口', fc=NAVY, ec=NAVY, tc='white', size=10.5, bold=True)
+    '验证等级\n\n已验证直达\n人工确认\n待验证线索\n暂不可用', fc='#F2F7FC', ec=NAVY, tc=NAVY, size=10.5)
+box(ax, 0.30, 0.45, 3.0, 0.95, '验证与准入：只保留已确认入口', fc=NAVY, ec=NAVY, tc='white', size=10.5, bold=True)
 box(ax, 3.55, 0.45, 3.0, 0.95, '统一能力目录 + 智能排序', fc=BLUE, ec=BLUE, tc='white', size=10.5, bold=True)
-box(ax, 6.80, 0.45, 2.9, 0.95, '卡片 / 列表 / 搜索 / 探索', fc=TEAL, ec=TEAL, tc='white', size=10.5, bold=True)
+box(ax, 6.80, 0.45, 2.9, 0.95, '卡片 / 列表 / 搜索', fc=TEAL, ec=TEAL, tc='white', size=10.5, bold=True)
 box(ax, 9.95, 0.45, 3.05, 0.95, '一键直达目标功能页', fc=ORANGE, ec=ORANGE, tc='white', size=10.5, bold=True)
 for x1, x2 in [(3.30, 3.55), (6.55, 6.80), (9.70, 9.95)]:
     arrow(ax, x1, 0.92, x2, 0.92, color=NAVY, lw=2.0)

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>document.documentElement.classList.add("js");</script>
+  <title>星门 StarGate · 跨过 App 的门，一步抵达功能</title>
+  <meta name="description" content="星门 StarGate 是面向 HarmonyOS 的应用原子能力聚合与直达平台。把散落在 App 里的高频功能收进桌面卡片，点一下直接进入目标功能页。">
+  <meta name="theme-color" content="#070b14">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="星门 StarGate">
+  <meta property="og:title" content="星门 StarGate · 一步抵达功能">
+  <meta property="og:description" content="面向 HarmonyOS 的应用原子能力聚合与直达平台。桌面卡片、搜索、分类，一次点击直达目标功能页。">
+  <meta property="og:image" content="https://growvv.github.io/stargate/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://growvv.github.io/stargate/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="星门 StarGate · 一步抵达功能">
+  <meta name="twitter:description" content="面向 HarmonyOS 的应用原子能力聚合与直达平台。桌面卡片、搜索、分类，一次点击直达目标功能页。">
+  <meta name="twitter:image" content="https://growvv.github.io/stargate/assets/og.png">
+  <link rel="canonical" href="https://growvv.github.io/stargate/">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" as="image" href="assets/card.webp">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "星门 StarGate",
+    "alternateName": "StarGate",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "HarmonyOS NEXT",
+    "description": "面向 HarmonyOS 的应用原子能力聚合与直达平台。桌面卡片、搜索、分类，一次点击直达目标功能页。",
+    "url": "https://growvv.github.io/stargate/",
+    "downloadUrl": "https://growvv.github.io/stargate/assets/StarGate.hap",
+    "image": "https://growvv.github.io/stargate/assets/og.png",
+    "author": { "@type": "Organization", "name": "软件学院 SMAT 项目组" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
+  }
+  </script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 14h3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="11" cy="17" r="2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6l8-3Z"/><path d="m8.6 12 2.2 2.2 4.7-4.8"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7L12 3Z"/><path d="M19 16.5 19.8 19l2.2.8-2.2.7-.8 2.5-.7-2.5-2.3-.7 2.3-.8.7-2.5Z"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13.5 2-8 12h6L10.5 22l8-12h-6l1-8Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M6 18 18 6M9 6h9v9"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5-10-6.5Z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4.5-4.5M12 15l-4.5-4.5M4 20h16"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.6 4.6L19 6.9"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 2.8a9.4 9.4 0 0 0-3 18.3c.5.1.7-.2.7-.5v-1.8c-2.7.6-3.3-1.2-3.3-1.2-.4-1.1-1-1.4-1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 3 .8.1-.7.3-1.1.6-1.4-2.2-.3-4.5-1.1-4.5-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5.1 0c2-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.8-2.3 4.6-4.5 4.9.4.3.7.9.7 1.9v2.7c0 .3.2.6.7.5A9.4 9.4 0 0 0 12 2.8Z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  </svg>
+
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="星门 StarGate 首页">
+        <img src="assets/logo.webp" width="34" height="34" alt="">
+        <span>星门 <b>StarGate</b></span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#why">为什么</a>
+        <a href="#product">产品</a>
+        <a href="#demo">演示</a>
+        <a href="#core">核心能力</a>
+        <a href="#download">使用</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="nav-github" href="https://github.com/growvv/stargate" target="_blank" rel="noopener" aria-label="GitHub 仓库">
+          <svg class="ico"><use href="#i-github"/></svg>
+        </a>
+        <a class="btn btn-small btn-light" href="#download">下载 HAP</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="stars stars-a"></div>
+        <div class="stars stars-b"></div>
+        <div class="hero-ring ring-1"></div>
+        <div class="hero-ring ring-2"></div>
+        <div class="hero-glow"></div>
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span class="live-dot"></span> 开源鸿蒙移动应用创新成果 <span class="eyebrow-sep"></span> HARMONYOS NEXT</p>
+          <h1>跨过 App 的门<br><span class="grad">一步抵达功能</span></h1>
+          <p class="lede">星门把散落在各个 App 里的高频功能，重新组织成一张桌面卡片。不用先打开 App，点一下，就能进入目标功能页。</p>
+          <div class="hero-actions">
+            <a class="btn btn-light" href="#demo">看看怎么用 <svg class="ico"><use href="#i-play"/></svg></a>
+            <a class="btn btn-ghost" href="https://github.com/growvv/stargate" target="_blank" rel="noopener">GitHub 仓库 <svg class="ico"><use href="#i-arrow"/></svg></a>
+          </div>
+          <div class="hero-metrics" aria-label="产品特点">
+            <div><b>1</b><span>张桌面卡片</span></div>
+            <div><b>4</b><span>个使用入口</span></div>
+            <div><b>1</b><span>次点击直达</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal" aria-label="StarGate 桌面卡片与搜索页截图">
+          <div class="visual-orbit orbit-a"></div>
+          <div class="visual-orbit orbit-b"></div>
+          <div class="hero-card">
+            <img src="assets/card.webp" width="1098" height="1020" alt="StarGate 桌面卡片：推荐、最近添加、分类与搜索入口">
+          </div>
+          <div class="hero-phone">
+            <img src="assets/search.webp" width="900" height="1316" alt="StarGate 搜索页">
+          </div>
+          <span class="float-tag tag-1">推荐</span>
+          <span class="float-tag tag-2">搜索</span>
+          <span class="float-tag tag-3">最近添加</span>
+          <div class="hero-stamp"><span class="live-dot"></span> 真机截图</div>
+        </div>
+      </div>
+
+      <div class="container hero-foot reveal">
+        <span>桌面卡片</span><i></i><span>搜索</span><i></i><span>分类</span><i></i><span>设置</span>
+        <span class="hero-foot-note">所有入口，都指向同一个目标：更快到达功能。</span>
+      </div>
+    </section>
+
+    <section class="section problem" id="why">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow dark">WHY STARGATE</p>
+          <h2>想做的事很清楚，<br>入口却总在很深的地方。</h2>
+          <p class="section-lede">付款码、路线规划、会议入会、查快递——它们散落在不同 App 的三级页面里。用户要先选 App，再找入口，最后才到达功能。</p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="problem-card reveal">
+            <span class="card-icon"><svg class="ico"><use href="#i-layers"/></svg></span>
+            <h3>入口太深</h3>
+            <p>常用功能藏在菜单、标签与二级页面里，每次使用都要重新走一遍路径。</p>
+          </article>
+          <article class="problem-card reveal delay-1">
+            <span class="card-icon"><svg class="ico"><use href="#i-grid"/></svg></span>
+            <h3>图标太多</h3>
+            <p>桌面被 App 图标占满，但真正高频的，往往只是其中的少数几个功能。</p>
+          </article>
+          <article class="problem-card reveal delay-2">
+            <span class="card-icon"><svg class="ico"><use href="#i-search"/></svg></span>
+            <h3>记不住路径</h3>
+            <p>知道要做什么，却不一定记得它在哪个 App、哪个标签页、第几层菜单。</p>
+          </article>
+          <article class="problem-card reveal delay-3">
+            <span class="card-icon"><svg class="ico"><use href="#i-shield"/></svg></span>
+            <h3>长辈更难</h3>
+            <p>图标和层级本身就是记忆负担。文字化、可搜索的入口，才是真正的低门槛。</p>
+          </article>
+        </div>
+
+        <div class="journey reveal">
+          <div class="journey-step is-muted"><span>01</span><b>想做的事</b></div>
+          <svg class="journey-arrow"><use href="#i-chevron"/></svg>
+          <div class="journey-step is-muted"><span>02</span><b>找 App</b></div>
+          <svg class="journey-arrow"><use href="#i-chevron"/></svg>
+          <div class="journey-step is-muted"><span>03</span><b>找入口</b></div>
+          <svg class="journey-arrow"><use href="#i-chevron"/></svg>
+          <div class="journey-step is-active"><span>04</span><b>到达功能</b></div>
+          <p>大多数步骤，都和事情本身无关。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote-band">
+      <div class="container reveal">
+        <p>“App 是容器，功能才是服务。”</p>
+        <span>星门的产品判断</span>
+      </div>
+    </section>
+
+    <section class="section product" id="product">
+      <div class="container">
+        <div class="section-head split reveal">
+          <div>
+            <p class="eyebrow dark">THE PRODUCT</p>
+            <h2>一张卡片，<br>四个入口。</h2>
+          </div>
+          <p class="section-lede">桌面卡片负责抬手就用；搜索负责知道名字就找；分类负责按场景逛；设置负责按习惯调整。四个入口，共用同一份能力目录。</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <div class="feature-top"><span class="feature-icon blue"><svg class="ico"><use href="#i-card"/></svg></span><span class="feature-no">01</span></div>
+            <h3>桌面卡片</h3>
+            <p>推荐、最近添加、分类和搜索入口都在这一屏。高频功能抬手上桌，不用先打开任何 App。</p>
+            <ul><li>推荐 / 最近添加</li><li>分类 chips</li><li>搜索入口</li></ul>
+          </article>
+          <article class="feature-card reveal delay-1">
+            <div class="feature-top"><span class="feature-icon cyan"><svg class="ico"><use href="#i-search"/></svg></span><span class="feature-no">02</span></div>
+            <h3>搜索</h3>
+            <p>按 A–Z 浏览全部能力，也可以直接输入中文、App 名或拼音首字母，结果即时出现。</p>
+            <ul><li>A–Z# 分段</li><li>拼音首字母</li><li>输入即筛</li></ul>
+          </article>
+          <article class="feature-card reveal delay-2">
+            <div class="feature-top"><span class="feature-icon orange"><svg class="ico"><use href="#i-grid"/></svg></span><span class="feature-no">03</span></div>
+            <h3>分类</h3>
+            <p>按出行、购物、办公、生活等场景组织能力，一屏一组，点分类进入该类目的完整列表。</p>
+            <ul><li>按场景组织</li><li>一屏一组</li><li>点分类进入</li></ul>
+          </article>
+          <article class="feature-card reveal delay-3">
+            <div class="feature-top"><span class="feature-icon purple"><svg class="ico"><use href="#i-sliders"/></svg></span><span class="feature-no">04</span></div>
+            <h3>设置</h3>
+            <p>分类支持长按拖动排序，顺序会持久化并实时同步到卡片；卡片偏好也在这里调整。</p>
+            <ul><li>长按拖动</li><li>顺序持久化</li><li>卡片实时同步</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section demo" id="demo">
+      <div class="container">
+        <div class="section-head center reveal">
+          <p class="eyebrow dark">LIVE DEMO</p>
+          <h2>点一下，看看<br>它怎么工作。</h2>
+          <p class="section-lede">四个入口，四种找功能的方式。点击左侧切换，或播放完整演示。</p>
+        </div>
+
+        <div class="demo-shell reveal" id="demoShell">
+          <aside class="demo-side">
+            <div class="demo-kicker"><span class="live-dot"></span> 自动轮播中</div>
+            <div class="demo-tabs" role="tablist" aria-label="功能演示">
+              <button class="demo-tab is-active" role="tab" aria-selected="true" aria-controls="demoPanel" data-demo="card"><span>01</span>桌面卡片</button>
+              <button class="demo-tab" role="tab" aria-selected="false" aria-controls="demoPanel" data-demo="search"><span>02</span>搜索</button>
+              <button class="demo-tab" role="tab" aria-selected="false" aria-controls="demoPanel" data-demo="category"><span>03</span>分类</button>
+              <button class="demo-tab" role="tab" aria-selected="false" aria-controls="demoPanel" data-demo="settings"><span>04</span>设置</button>
+            </div>
+            <div class="demo-copy" id="demoPanel" role="tabpanel" aria-live="polite">
+              <h3 id="demoTitle">桌面卡片</h3>
+              <p id="demoDesc">推荐、最近添加、分类，以及搜索入口都在这一屏。抬手就能点。</p>
+              <span class="demo-chip" id="demoChip">抬手就用</span>
+            </div>
+            <div class="demo-progress" aria-hidden="true"><span id="demoBar"></span></div>
+            <button class="text-link video-open" type="button">播放完整演示 <svg class="ico"><use href="#i-play"/></svg></button>
+          </aside>
+
+          <div class="demo-stage" id="demoStage">
+            <div class="stage-grid" aria-hidden="true"></div>
+            <div class="stage-glow" aria-hidden="true"></div>
+
+            <div class="widget-panel is-active" id="panelCard">
+              <div class="widget-frame">
+                <img src="assets/card.webp" width="1098" height="1020" alt="StarGate 桌面卡片">
+              </div>
+            </div>
+
+            <div class="phone-panel" id="panelPhone" aria-hidden="true">
+              <div class="phone-shell">
+                <img id="demoShot" src="assets/search.webp" width="900" height="1316" alt="StarGate 搜索页">
+              </div>
+            </div>
+
+            <span class="stage-tag stage-tag-1">推荐</span>
+            <span class="stage-tag stage-tag-2">最近添加</span>
+            <span class="stage-tag stage-tag-3">搜索</span>
+
+            <div class="stage-hint">自动轮播 · 点击左侧切换</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section core" id="core">
+      <div class="container">
+        <div class="section-head light reveal">
+          <p class="eyebrow">HOW IT WORKS</p>
+          <h2>不是另一个启动器，<br>而是把功能变成可直达的入口。</h2>
+          <p class="section-lede">核心只做四件事：整理能力、验证入口、解释推荐、一次直达。复杂的部分留在系统接口后面。</p>
+        </div>
+
+        <div class="core-grid">
+          <article class="core-card reveal">
+            <span class="core-icon"><svg class="ico"><use href="#i-layers"/></svg></span>
+            <span class="core-no">01</span>
+            <h3>功能粒度</h3>
+            <p>以功能为单位组织，而不是以 App 为单位。每条能力都有目标页面、分类和一条最可靠路由。</p>
+          </article>
+          <article class="core-card reveal delay-1">
+            <span class="core-icon"><svg class="ico"><use href="#i-shield"/></svg></span>
+            <span class="core-no">02</span>
+            <h3>入口验证</h3>
+            <p>真机可打开才进入目录；打不开就明确提示，不回退首页，也不制造“成功”的假象。</p>
+          </article>
+          <article class="core-card reveal delay-2">
+            <span class="core-icon"><svg class="ico"><use href="#i-spark"/></svg></span>
+            <span class="core-no">03</span>
+            <h3>可解释推荐</h3>
+            <p>按当日使用、当月使用、时间衰减、时段偏好等信号加权；同分按 id 稳定排序，结果可复现。</p>
+          </article>
+          <article class="core-card reveal delay-3">
+            <span class="core-icon"><svg class="ico"><use href="#i-bolt"/></svg></span>
+            <span class="core-no">04</span>
+            <h3>一次直达</h3>
+            <p>一条能力只保留一条最可靠路由；一次点击构造一个显式 Want，交给系统拉起目标 Ability。</p>
+          </article>
+        </div>
+
+        <div class="example-card reveal">
+          <div class="example-head">
+            <img src="assets/app-icons/amap.webp" width="52" height="52" alt="">
+            <div>
+              <p class="eyebrow">ONE EXAMPLE</p>
+              <h3>高德地图 · 路线规划</h3>
+            </div>
+            <span class="example-badge">真机直达</span>
+          </div>
+          <div class="example-flow">
+            <div class="flow-step">
+              <span class="flow-no">01</span>
+              <h4>能力记录</h4>
+              <p>包名 + 一条公开 URI</p>
+              <code>com.amap.hmapp<br>systemnav://routeplan</code>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="flow-step">
+              <span class="flow-no">02</span>
+              <h4>一次点击</h4>
+              <p>构造一个显式 Want</p>
+              <code>bundleName + uri</code>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="flow-step">
+              <span class="flow-no">03</span>
+              <h4>系统拉起</h4>
+              <p>高德打开路线规划页</p>
+              <code>startAbility(want)</code>
+            </div>
+          </div>
+          <p class="example-note"><svg class="ico"><use href="#i-check"/></svg> 不注入 UI，不模拟点击；入口不可用就明确提示，不回退首页。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section usage" id="download">
+      <div class="container usage-grid">
+        <div class="usage-copy">
+          <p class="eyebrow dark">GET STARTED</p>
+          <h2>三步，把功能<br>放回桌面。</h2>
+          <p class="section-lede">不需要额外 SDK，不需要改造 App。安装、添加卡片，然后点一下。</p>
+
+          <ol class="steps">
+            <li class="reveal">
+              <span class="step-no">01</span>
+              <div>
+                <h3>安装签名 HAP</h3>
+                <p>连接 HarmonyOS NEXT 真机，用 hdc 安装。</p>
+                <div class="code-line"><code>hdc install -r StarGate.hap</code><button class="copy-btn" type="button" data-copy="hdc install -r StarGate.hap" aria-label="复制安装命令"><svg class="ico"><use href="#i-copy"/></svg></button></div>
+              </div>
+            </li>
+            <li class="reveal delay-1">
+              <span class="step-no">02</span>
+              <div>
+                <h3>添加桌面卡片</h3>
+                <p>长按桌面空白处，进入“编辑桌面 → 卡片”，找到 StarGate 添加到桌面。</p>
+              </div>
+            </li>
+            <li class="reveal delay-2">
+              <span class="step-no">03</span>
+              <div>
+                <h3>点一下，直达</h3>
+                <p>常用功能、搜索、分类都在手边。入口不可用时会明确提示。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <aside class="download-card reveal delay-1">
+          <div class="download-glow" aria-hidden="true"></div>
+          <img class="download-logo" src="assets/logo.webp" width="72" height="72" alt="">
+          <p class="eyebrow">SIGNED HAP</p>
+          <h3>装到你的<br>HarmonyOS NEXT 手机</h3>
+          <p>已签名应用包，适合真机安装与体验。需要开启开发者模式与 USB 调试。</p>
+          <a class="btn btn-light btn-wide" href="assets/StarGate.hap" download>下载 HAP <svg class="ico"><use href="#i-download"/></svg></a>
+          <a class="text-link" href="https://github.com/growvv/stargate/blob/main/harmony/README.md" target="_blank" rel="noopener">查看编译与安装说明 <svg class="ico"><use href="#i-arrow"/></svg></a>
+          <div class="download-meta"><span>HarmonyOS NEXT</span><span>签名包</span><span>本地数据</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section scenarios" id="scenarios">
+      <div class="container">
+        <div class="section-head split reveal">
+          <div>
+            <p class="eyebrow dark">USE CASES</p>
+            <h2>从通勤到长辈，<br>把功能放回手边。</h2>
+          </div>
+          <p class="section-lede">不是让用户记住更多 App，而是让功能按照“我要做的事”重新组织。</p>
+        </div>
+        <div class="scenario-grid">
+          <article class="scenario-card reveal">
+            <span class="scenario-kicker">01 / COMMUTE</span>
+            <h3>通勤路上</h3>
+            <p>乘车码、路线规划、航班查询，抬手上桌。</p>
+            <div class="scenario-tags"><span><img src="assets/app-icons/amap.webp" width="14" height="14" alt="">高德地图</span><span><img src="assets/app-icons/railway.webp" width="14" height="14" alt="">铁路 12306</span></div>
+          </article>
+          <article class="scenario-card reveal delay-1">
+            <span class="scenario-kicker">02 / WORK</span>
+            <h3>办公协作</h3>
+            <p>文档、消息、审批，跳过 App 首页。</p>
+            <div class="scenario-tags"><span><img src="assets/app-icons/wps.webp" width="14" height="14" alt="">WPS</span><span><img src="assets/app-icons/qq.webp" width="14" height="14" alt="">QQ</span></div>
+          </article>
+          <article class="scenario-card reveal delay-2">
+            <span class="scenario-kicker">03 / LIFE</span>
+            <h3>生活服务</h3>
+            <p>外卖、缴费、挂号，按场景分类直达。</p>
+            <div class="scenario-tags"><span><img src="assets/app-icons/meituan.webp" width="14" height="14" alt="">美团</span><span><img src="assets/app-icons/alipay.webp" width="14" height="14" alt="">支付宝</span><span><img src="assets/app-icons/wechat.webp" width="14" height="14" alt="">微信</span></div>
+          </article>
+          <article class="scenario-card reveal delay-3">
+            <span class="scenario-kicker">04 / ACCESSIBLE</span>
+            <h3>长辈使用</h3>
+            <p>不用记图标，按功能名或拼音首字母找。</p>
+            <div class="scenario-tags"><span>文字入口</span><span>拼音搜索</span></div>
+          </article>
+        </div>
+
+        <div class="value-strip reveal">
+          <div><b>少点几步</b><span>从找 App 变成找功能</span></div>
+          <div><b>不用记路径</b><span>搜索和分类兜住低频功能</span></div>
+          <div><b>新装即上桌</b><span>最近添加自动补充新能力</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="cta-bg" aria-hidden="true"><div class="cta-ring"></div><div class="stars stars-c"></div></div>
+      <div class="container reveal">
+        <p class="eyebrow"><span class="live-dot"></span> OPEN SOURCE · HARMONYOS NEXT</p>
+        <h2>让被埋没的功能，<br>重新被看见。</h2>
+        <p class="section-lede">星门已经走通从桌面卡片、搜索、分类到一键直达的完整闭环。下一步，是让更多能力被组织起来。</p>
+        <div class="cta-actions">
+          <a class="btn btn-light" href="https://github.com/growvv/stargate" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github"/></svg> 查看 GitHub 仓库</a>
+          <a class="btn btn-ghost" href="assets/StarGate.hap" download>下载签名 HAP <svg class="ico"><use href="#i-download"/></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top">
+          <img src="assets/logo.webp" width="30" height="30" alt="">
+          <span>星门 <b>StarGate</b></span>
+        </a>
+        <p>跨过 App 的门，一步抵达功能。</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <span>产品</span>
+          <a href="#why">为什么</a>
+          <a href="#product">四个入口</a>
+          <a href="#demo">在线演示</a>
+          <a href="#core">核心能力</a>
+        </div>
+        <div>
+          <span>资源</span>
+          <a href="https://github.com/growvv/stargate" target="_blank" rel="noopener">GitHub 仓库</a>
+          <a href="https://github.com/growvv/stargate/blob/main/submission/StarGate_项目文档.pdf" target="_blank" rel="noopener">项目文档</a>
+          <a href="https://github.com/growvv/stargate/blob/main/submission/StarGate_答辩PPT.pdf" target="_blank" rel="noopener">答辩 PPT</a>
+          <a href="https://github.com/growvv/stargate/blob/main/harmony/README.md" target="_blank" rel="noopener">工程说明</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 星门 StarGate · 软件学院 SMAT 项目组</span>
+      <span>项目负责人：刘发荣</span>
+      <span>第三方 App 名称、图标与商标归各自权利人所有，仅用于本地演示。</span>
+    </div>
+  </footer>
+
+  <dialog class="video-dialog" id="videoDialog">
+    <button class="dialog-close" type="button" aria-label="关闭视频">×</button>
+    <video id="demoVideo" controls playsinline preload="none" poster="assets/demo-poster.webp">
+      <source src="assets/demo.mp4" type="video/mp4">
+      你的浏览器不支持视频播放。
+    </video>
+    <div class="dialog-caption">星门 StarGate · 完整演示</div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+  <script src="app.js"></script>
+</body>
+</html>
