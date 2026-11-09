@@ -4,7 +4,9 @@
 真正可跑的 RED/GREEN 入口是本目录的 Node 26 原生 TS strip-types 加载器：它直接 import 真实的 `.ets` 生产文件，
 用 `@ohos/hypium` 的 shim 执行 hypium 风格断言；ArkUI/设备 API 以最小 shim 替代，只测纯逻辑。
 
-## 运行（工程根，单一命令）
+## 运行（`harmony/` 工程根，单一命令）
+
+在 `harmony/` 目录执行：
 
 ```
 node test/run.mjs

@@ -4,7 +4,7 @@
 
 > 跨过 App 的门，一步抵达功能。
 
-> **提交材料：** [项目文档 PDF](submission/StarGate_项目文档.pdf) · [答辩 PPT PDF](submission/StarGate_答辩PPT.pdf) · [演示视频](submission/StarGate_演示视频.mp4) · [签名 HAP](submission/HAP/StarGate_签名HAP.hap)
+> **提交材料：** [项目文档 PDF](submission/StarGate_项目文档.pdf) · [答辩 PPT PDF](submission/StarGate_答辩PPT.pdf) · [演示视频](submission/StarGate_演示视频.mp4) · [签名 HAP](submission/StarGate_签名HAP.hap)
 >
 > **项目负责人：** 刘发荣　　**完成单位：** 软件学院 SMAT 项目组
 
@@ -143,24 +143,26 @@ HarmonyOS 上把用户送到“目标 App 的具体功能页”，并不是只�
 | [`StarGate_答辩PPT.pptx`](submission/StarGate_答辩PPT.pptx) | 答辩演示文稿，覆盖产品、功能、架构、路线、场景与生态价值 |
 | [`StarGate_答辩PPT.pdf`](submission/StarGate_答辩PPT.pdf) | 答辩演示文稿 PDF 版 |
 | [`StarGate_演示视频.mp4`](submission/StarGate_演示视频.mp4) | 逐页讲解的演示视频 |
-| [`HAP/StarGate_签名HAP.hap`](submission/HAP/StarGate_签名HAP.hap) | 可安装到 HarmonyOS 真机的签名应用包 |
+| [`StarGate_签名HAP.hap`](submission/StarGate_签名HAP.hap) | 可安装到 HarmonyOS 真机的签名应用包 |
 
 ## 八、仓库结构
 
 ```
 Stargate/
-├─ AppScope/                 应用级配置
-├─ entry/                    HarmonyOS 应用源码与资源
-├─ test/                     自动化测试
-├─ tools/                    工程工具
-│  └─ submission/            文档、PPT、视频的生成脚本与素材（不属于提交材料）
-├─ submission/               最终提交材料（仅成品）
-│  ├─ 项目文档 / 答辩 PPT / 演示视频
-│  └─ HAP/                   签名安装包
+├─ harmony/                  HarmonyOS 工程
+│  ├─ AppScope/              应用级配置
+│  ├─ entry/                 应用源码与资源
+│  ├─ test/                  自动化测试
+│  ├─ tools/                 应用资源工具
+│  ├─ build-profile.json5
+│  ├─ hvigorfile.ts
+│  └─ oh-package*.json5
+├─ submission/               最终提交材料（仅成品，HAP 直接放在此处）
+├─ tools/submission/         文档、PPT、视频的生成脚本与素材（不提交）
 └─ README.md
 ```
 
-源码与提交材料分开存放：`submission/` 只保留可以直接提交的文件；文档、PPT、视频的生成脚本和素材统一放在 `tools/submission/`，便于维护和复现，但不会混入提交包。
+HarmonyOS 工程与提交材料分开存放：`harmony/` 是完整的 DevEco 工程，`submission/` 只保留可以直接提交的文件；文档、PPT、视频的生成脚本和素材统一放在 `tools/submission/`，便于维护和复现，但不会混入提交包。
 
 ## 九、说明
 

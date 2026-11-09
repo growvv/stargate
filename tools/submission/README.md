@@ -20,4 +20,4 @@
 3. `make_ppt.py` → `_export_pdf.py` → `_export_slides.py`
 4. `video/_tts.ps1` → `video/_build_video.py`
 
-生成结果统一写入仓库根目录的 `submission/`；签名 HAP 由 HarmonyOS 构建与签名流程产出，放在 `submission/HAP/`。中间文件（渲染图、音频、视频片段）由 `.gitignore` 排除。
+生成结果统一写入仓库根目录的 `submission/`；签名 HAP 由 `harmony/` 工程构建与签名流程产出，直接放在 `submission/`。中间文件（渲染图、音频、视频片段）由 `.gitignore` 排除。
