@@ -22,3 +22,6 @@ submission/video/_loudnorm*.txt
 submission/参考ppt.pptx
 _*.json
 0*-*.png
+
+# local tooling session state
+.superpowers/
