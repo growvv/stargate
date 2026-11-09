@@ -1,0 +1,1153 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-11-08",
+  "records": [
+    {
+      "id": "discovery:com.wuba.life",
+      "bundleName": "com.wuba.life",
+      "appName": "58同城",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "passport.58",
+        "wbmain",
+        "wmdacheck.28805061631152"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 3,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.droi.tong",
+      "bundleName": "com.droi.tong",
+      "appName": "Droi Tong",
+      "category": "其他",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "droitong",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "FileOpen"
+      ],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 4,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.harmonyresearch.mockweibo",
+      "bundleName": "com.harmonyresearch.mockweibo",
+      "appName": "Mock微博",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.tencent.mqq",
+      "bundleName": "com.tencent.mqq",
+      "appName": "QQ",
+      "category": "社交",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "amapuri://",
+        "baidumap://",
+        "midaspay",
+        "mqqapi",
+        "qqmap://",
+        "qqopenapi",
+        "tencent",
+        "txdt0har067fs2741j16",
+        "wtloginmqq"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "Login",
+        "Pay"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "auth",
+        "direction",
+        "plan",
+        "qlogin",
+        "routePlan",
+        "storage"
+      ],
+      "entrypointCount": 18,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.tencent.hm.qqmusic",
+      "bundleName": "com.tencent.hm.qqmusic",
+      "appName": "QQ音乐",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "qqmusic",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "FileOpen",
+        "Login"
+      ],
+      "shortcuts": [
+        "shortcut_local",
+        "shortcut_recent",
+        "shortcut_recognize",
+        "shortcut_search"
+      ],
+      "pathHints": [],
+      "entrypointCount": 9,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.uc.mobile",
+      "bundleName": "com.uc.mobile",
+      "appName": "UC浏览器",
+      "category": "工具效率",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "qqopenapi",
+        "storage",
+        "taobaooauth34695614",
+        "uclink",
+        "ut.34695614"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "clearcache",
+        "knockShare"
+      ],
+      "entrypointCount": 8,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.usb.right",
+      "bundleName": "com.usb.right",
+      "appName": "USB工具",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:cn.wps.office.hap",
+      "bundleName": "cn.wps.office.hap",
+      "appName": "WPS Office",
+      "category": "工具效率",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "ksodoccenter",
+        "ksoet",
+        "ksopdf",
+        "ksoqing",
+        "ksowpp",
+        "ksowps",
+        "ksowpscloudsvr",
+        "storage"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "FileOpen"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "clearcache"
+      ],
+      "entrypointCount": 11,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.wifiservice.portallogin",
+      "bundleName": "com.wifiservice.portallogin",
+      "appName": "Wi-Fi门户",
+      "category": "其他",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "Portal"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 1,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.bitmap.image",
+      "bundleName": "com.bitmap.image",
+      "appName": "pixelmap",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:cn.gov.tax.its.hm",
+      "bundleName": "cn.gov.tax.its.hm",
+      "appName": "个人所得税",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "etax",
+        "its",
+        "store"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [
+        "home"
+      ],
+      "entrypointCount": 4,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.chinamobile.cmcc",
+      "bundleName": "com.chinamobile.cmcc",
+      "appName": "中国移动",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "cn.10086.app",
+        "paygatewaysdk",
+        "qqopenapi",
+        "richpush"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "shortcut_1",
+        "shortcut_2",
+        "shortcut_3",
+        "shortcut_4"
+      ],
+      "pathHints": [
+        "A",
+        "activity-UAT/transit/universalLink.html",
+        "activity-gray/transit/universalLink.html",
+        "activity/transit/universalLink.html"
+      ],
+      "entrypointCount": 12,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.jd.hm.mall",
+      "bundleName": "com.jd.hm.mall",
+      "appName": "京东",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "jdanalytics",
+        "jdpay",
+        "jdpaynuccpay",
+        "openApp.jdMobile",
+        "openapp.jdmobile",
+        "openjd",
+        "qqopenapi",
+        "storage",
+        "uppaymerchant"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "Login"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "clearcache",
+        "v/"
+      ],
+      "entrypointCount": 13,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.eternaljust.msea.huawei",
+      "bundleName": "com.eternaljust.msea.huawei",
+      "appName": "华为服务",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.atomicservice.6917568146765197900",
+      "bundleName": "com.atomicservice.6917568146765197900",
+      "appName": "原子服务",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.atomicservice.6917576281833361266",
+      "bundleName": "com.atomicservice.6917576281833361266",
+      "appName": "原子服务",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:yylx.danmaku.bili",
+      "bundleName": "yylx.danmaku.bili",
+      "appName": "哔哩哔哩",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "bilibili",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [
+        "id_history",
+        "id_shortcut_search"
+      ],
+      "pathHints": [
+        "/storage-manager",
+        "conversation",
+        "ohos"
+      ],
+      "entrypointCount": 8,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.vip.hosapp",
+      "bundleName": "com.vip.hosapp",
+      "appName": "唯品会",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "viprouter",
+        "vipsdk",
+        "vipshop",
+        "vipshopuppaymerchant"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "id_order_track",
+        "id_pic_search",
+        "id_search"
+      ],
+      "pathHints": [
+        "deeplink"
+      ],
+      "entrypointCount": 8,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.ximalaya.ting.xmharmony",
+      "bundleName": "com.ximalaya.ting.xmharmony",
+      "appName": "喜马拉雅",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "iting",
+        "qqopenapi",
+        "storage"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "clearcache"
+      ],
+      "entrypointCount": 5,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.sankuai.dianping",
+      "bundleName": "com.sankuai.dianping",
+      "appName": "大众点评",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "dianping",
+        "meituanunionpay",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "Login"
+      ],
+      "shortcuts": [
+        "short_cut_one"
+      ],
+      "pathHints": [
+        "hobbit",
+        "qr/explain",
+        "qrcode/dprebate",
+        "qrcode/rebate"
+      ],
+      "entrypointCount": 9,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.tmall.tmall4hmos",
+      "bundleName": "com.tmall.tmall4hmos",
+      "appName": "天猫",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "alipayLogin34612052",
+        "push",
+        "taobaossoLogin34612052",
+        "tmall"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 4,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.quark.ohosbrowser",
+      "bundleName": "com.quark.ohosbrowser",
+      "appName": "夸克浏览器",
+      "category": "工具效率",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "qklink",
+        "qqopenapi",
+        "storage",
+        "taobaooauth34813412",
+        "uclink",
+        "ut.34813412"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "clearCache",
+        "knockShare"
+      ],
+      "entrypointCount": 9,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.xingin.xhs_hos",
+      "bundleName": "com.xingin.xhs_hos",
+      "appName": "小红书",
+      "category": "社交",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "clear_demo",
+        "qqopenapi",
+        "xhsdiscover",
+        "xhsuppaymerchant"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "Login"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "activity/sem/kratos",
+        "customer_service/store",
+        "discovery/item/",
+        "goodsForCall/",
+        "hina/livestream",
+        "mobile/login",
+        "oia",
+        "open/new_sdk/",
+        "open/sdk/",
+        "post_new_note/",
+        "qq_conn/1005071"
+      ],
+      "entrypointCount": 17,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.dewu.hos",
+      "bundleName": "com.dewu.hos",
+      "appName": "得物",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "dewuapp",
+        "dewulink",
+        "dewuunionpay",
+        "qqopenapi"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [
+        "c",
+        "h5-identify",
+        "mdu",
+        "note",
+        "page/external",
+        "s",
+        "t/E"
+      ],
+      "entrypointCount": 11,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:cn.icheny.wechat",
+      "bundleName": "cn.icheny.wechat",
+      "appName": "微信",
+      "category": "社交",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.tencent.wechat",
+      "bundleName": "com.tencent.wechat",
+      "appName": "微信",
+      "category": "社交",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "weixin",
+        "wxopensdk",
+        "wxweappsdk"
+      ],
+      "linkFeatures": [
+        "Pay"
+      ],
+      "shortcuts": [
+        "id_pay",
+        "id_qrcode",
+        "id_scan"
+      ],
+      "pathHints": [],
+      "entrypointCount": 7,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.sina.weibo.stage",
+      "bundleName": "com.sina.weibo.stage",
+      "appName": "微博",
+      "category": "社交",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "qqopenapi",
+        "sinaweibo"
+      ],
+      "linkFeatures": [
+        "AppNotificationMgmt",
+        "AppStorageMgmt",
+        "Login"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "auth"
+      ],
+      "entrypointCount": 6,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.kuaishou.hmapp",
+      "bundleName": "com.kuaishou.hmapp",
+      "appName": "快手",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "kwai",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [
+        "scan",
+        "search",
+        "shoot"
+      ],
+      "pathHints": [
+        "storagePage"
+      ],
+      "entrypointCount": 7,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.dongqiudi.hmn.news",
+      "bundleName": "com.dongqiudi.hmn.news",
+      "appName": "懂球帝",
+      "category": "其他",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "dongqiudi",
+        "qqopenapi"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 2,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.ss.hm.ugc.aweme",
+      "bundleName": "com.ss.hm.ugc.aweme",
+      "appName": "抖音",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "accountsdk1128",
+        "cjsign",
+        "douyinUPPay1128Share",
+        "douyinopensdk",
+        "dypay1128",
+        "snssdk1128",
+        "sslocal",
+        "storage",
+        "ttcjpay"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt",
+        "Pay"
+      ],
+      "shortcuts": [
+        "clear_cache_widget_v1",
+        "clear_cache_widget_v1_livestyle",
+        "clear_cache_widget_v2",
+        "clear_cache_widget_v2_livestyle",
+        "live_1*1_widget"
+      ],
+      "pathHints": [
+        "authorize",
+        "clearcache",
+        "ulink"
+      ],
+      "entrypointCount": 19,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.xunmeng.pinduoduo.hos",
+      "bundleName": "com.xunmeng.pinduoduo.hos",
+      "appName": "拼多多",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "httpssn",
+        "pddopen",
+        "pinduoduo",
+        "pinduoduoalipays",
+        "pinduoduounionpay",
+        "qngaccv79cv29i",
+        "qqopenapi",
+        "weixinn"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 8,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.alipay.mobile.client",
+      "bundleName": "com.alipay.mobile.client",
+      "appName": "支付宝",
+      "category": "支付",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "alipay",
+        "alipayauth",
+        "alipaymo",
+        "alipayqr",
+        "alipayre",
+        "alipays",
+        "alipayshare",
+        "apmqpdispatch",
+        "taobaooauth12501616"
+      ],
+      "linkFeatures": [
+        "Login",
+        "Pay",
+        "Share"
+      ],
+      "shortcuts": [
+        "bus",
+        "collect",
+        "delivery",
+        "forest",
+        "jiankangma",
+        "manor",
+        "more",
+        "pay",
+        "scan",
+        "sports",
+        "transfer",
+        "yibaoma"
+      ],
+      "pathHints": [
+        "/app",
+        "/h5",
+        "app",
+        "h5",
+        "p/s/i",
+        "p/s/ulink",
+        "share"
+      ],
+      "entrypointCount": 31,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.atomicservice.5765880207854893925",
+      "bundleName": "com.atomicservice.5765880207854893925",
+      "appName": "教育空间",
+      "category": "其他",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "atomwbmain"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 1,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.qiyi.video.hmy",
+      "bundleName": "com.qiyi.video.hmy",
+      "appName": "爱奇艺",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "iqiyi",
+        "iqiyi_clear",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "AppStorageMgmt"
+      ],
+      "shortcuts": [
+        "id_shortcut_for_puremode"
+      ],
+      "pathHints": [
+        "app/register_business",
+        "calendar",
+        "clear_app_storage",
+        "m/playShare",
+        "player",
+        "register_business",
+        "webview"
+      ],
+      "entrypointCount": 12,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.baidu.hmmap",
+      "bundleName": "com.baidu.hmmap",
+      "appName": "百度地图",
+      "category": "出行",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "baidumap"
+      ],
+      "linkFeatures": [
+        "Navigation",
+        "PlaceSearch",
+        "RoutePlan",
+        "getCuid"
+      ],
+      "shortcuts": [
+        "shortcut_go_company",
+        "shortcut_go_home",
+        "shortcut_route_plan",
+        "shortcut_taxi"
+      ],
+      "pathHints": [],
+      "entrypointCount": 9,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.baidu.netdisk.hmos",
+      "bundleName": "com.baidu.netdisk.hmos",
+      "appName": "百度网盘",
+      "category": "工具效率",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "bdnetdisk",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "FileOpen"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "embed/listenshare",
+        "fcb/s",
+        "s",
+        "wap/snsdeeplink"
+      ],
+      "entrypointCount": 7,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.zhihu.hmos",
+      "bundleName": "com.zhihu.hmos",
+      "appName": "知乎",
+      "category": "社交",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "qqopenapi",
+        "setting",
+        "zhihu"
+      ],
+      "linkFeatures": [
+        "AppNotificationMgmt",
+        "Login"
+      ],
+      "shortcuts": [
+        "company",
+        "home"
+      ],
+      "pathHints": [
+        "notification"
+      ],
+      "entrypointCount": 8,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.lfr.myapplication",
+      "bundleName": "com.lfr.myapplication",
+      "appName": "示例应用",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.samples.customdrawsample",
+      "bundleName": "com.samples.customdrawsample",
+      "appName": "示例绘图",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.sankuai.hmeituan",
+      "bundleName": "com.sankuai.hmeituan",
+      "appName": "美团",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "imeituan",
+        "meituanunionpay",
+        "qqopenapi"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "shortcuts_display_order",
+        "shortcuts_display_scan",
+        "shortcuts_display_search"
+      ],
+      "pathHints": [
+        "download/app.html"
+      ],
+      "entrypointCount": 7,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.meituan.takeaway",
+      "bundleName": "com.meituan.takeaway",
+      "appName": "美团外卖",
+      "category": "生活",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "meituanunionpay",
+        "meituanwaimai",
+        "qqopenapi"
+      ],
+      "linkFeatures": [
+        "Login"
+      ],
+      "shortcuts": [
+        "search"
+      ],
+      "pathHints": [],
+      "entrypointCount": 5,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.hupu.heroes",
+      "bundleName": "com.hupu.heroes",
+      "appName": "虎扑",
+      "category": "娱乐",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "huputiyu",
+        "qqopenapi",
+        "w1fzj1"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [
+        "s"
+      ],
+      "entrypointCount": 4,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.larus.nova.hm",
+      "bundleName": "com.larus.nova.hm",
+      "appName": "豆包",
+      "category": "工具效率",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "cjsign",
+        "doubao",
+        "doubaoUPPay482431Share"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "call_phone",
+        "open_camera"
+      ],
+      "pathHints": [
+        "flow/chat"
+      ],
+      "entrypointCount": 6,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.ericple.ohbill",
+      "bundleName": "com.ericple.ohbill",
+      "appName": "账单",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.zhuanzhuan.hmoszz",
+      "bundleName": "com.zhuanzhuan.hmoszz",
+      "appName": "转转",
+      "category": "购物",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "jdpauthjdjr132536886004",
+        "jdpauthjdjr134003140002",
+        "jdpauthjdjr134003140003",
+        "msepay",
+        "qqopenapi",
+        "zhuanzhuan",
+        "zzuppay"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "shortcuts_id_msg",
+        "shortcuts_id_publish",
+        "shortcuts_id_search"
+      ],
+      "pathHints": [
+        "zz/"
+      ],
+      "entrypointCount": 11,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.chinarailway.ticketingHM",
+      "bundleName": "com.chinarailway.ticketingHM",
+      "appName": "铁路12306",
+      "category": "出行",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "cn.12306",
+        "cn.12306.comm",
+        "cn.12306.uppayment",
+        "com.12306",
+        "jump",
+        "mpaasscheme"
+      ],
+      "linkFeatures": [],
+      "shortcuts": [
+        "shortcut_1",
+        "shortcut_2",
+        "shortcut_3",
+        "shortcut_4"
+      ],
+      "pathHints": [
+        "landing",
+        "longlink"
+      ],
+      "entrypointCount": 12,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.amap.hmapp",
+      "bundleName": "com.amap.hmapp",
+      "appName": "高德地图",
+      "category": "出行",
+      "status": "declared",
+      "sourceLayer": "L1-L2",
+      "schemes": [
+        "amapuri",
+        "qqopenapi",
+        "systemnav",
+        "taobaooauth21792629",
+        "ut.34657035"
+      ],
+      "linkFeatures": [
+        "Navigation",
+        "PlaceSearch",
+        "RoutePlan"
+      ],
+      "shortcuts": [],
+      "pathHints": [
+        "applink/"
+      ],
+      "entrypointCount": 9,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    },
+    {
+      "id": "discovery:com.speaklab.jingmo",
+      "bundleName": "com.speaklab.jingmo",
+      "appName": "鲸鸣",
+      "category": "其他",
+      "status": "unknown",
+      "sourceLayer": "unknown",
+      "schemes": [],
+      "linkFeatures": [],
+      "shortcuts": [],
+      "pathHints": [],
+      "entrypointCount": 0,
+      "productionEligible": false,
+      "evidencePath": "probe/discovery-ledger.json"
+    }
+  ]
+}

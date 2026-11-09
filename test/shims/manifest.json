@@ -1,0 +1,15 @@
+{
+  "@ohos.app.ability.Want": "@ohos.app.ability.Want.mjs",
+  "@ohos.app.ability.UIAbility": "@ohos.app.ability.UIAbility.mjs",
+  "@ohos.window": "@ohos.window.mjs",
+  "@ohos.app.form.FormExtensionAbility": "@ohos.app.form.FormExtensionAbility.mjs",
+  "@ohos.app.form.formBindingData": "@ohos.app.form.formBindingData.mjs",
+  "@ohos.app.form.formProvider": "@ohos.app.form.formProvider.mjs",
+  "@ohos.app.form.formInfo": "@ohos.app.form.formInfo.mjs",
+  "@ohos.data.preferences": "@ohos.data.preferences.mjs",
+  "@ohos.data.relationalStore": "@ohos.data.relationalStore.mjs",
+  "@ohos.app.ability.common": "@ohos.app.ability.common.mjs",
+  "@ohos.resourceManager": "@ohos.resourceManager.mjs",
+  "@ohos.file.fs": "@ohos.file.fs.mjs",
+  "@ohos.bundle.bundleManager": "@ohos.bundle.bundleManager.mjs"
+}

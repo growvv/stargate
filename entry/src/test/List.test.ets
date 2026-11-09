@@ -1,0 +1,56 @@
+import smokeTest from './Smoke.test';
+import rankingTest from './RankingEngine.test';
+import pinyinTest from './PinyinUtil.test';
+import capabilityRepositoryTest from './CapabilityRepository.test';
+import usageStoreTest from './UsageStore.test';
+import widgetCardDataTest from './WidgetCardData.test';
+import themeTokensTest from './ThemeTokens.test';
+import searchFilterTest from './SearchFilter.test';
+import pageRouterTest from './PageRouter.test';
+import launchTest from './LaunchDispatcher.test';
+import configAccessTest from './ConfigAccess.test';
+import suggestionPolicyTest from './SuggestionPolicy.test';
+import catalogEditorTest from './CatalogEditor.test';
+import cardBindingTest from './CardBinding.test';
+import d1FlatSectionsTest from './D1FlatSections.test';
+import d2CardFeedbackTest from './D2CardFeedback.test';
+import d3ThemeColorsTest from './D3ThemeColors.test';
+import cardPaletteTest from './CardPalette.test';
+import brandMarkTest from './BrandMark.test';
+import glassStyleTest from './GlassStyle.test';
+import frameGroupsTest from './FrameGroups.test';
+import cardChromeTest from './CardChrome.test';
+import innerPageLayoutTest from './InnerPageLayout.test';
+import capabilityExplorerTest from './CapabilityExplorer.test';
+import refreshOrchestratorTest from './RefreshOrchestrator.test';
+import discoveryStatsTest from './DiscoveryStats.test';
+
+// DevEco Studio / hypium 侧聚合入口。新增套件时同步 test/run.mjs 的 suites 列表。
+export default function testsuite() {
+  smokeTest();
+  rankingTest();
+  pinyinTest();
+  capabilityRepositoryTest();
+  usageStoreTest();
+  widgetCardDataTest();
+  themeTokensTest();
+  searchFilterTest();
+  pageRouterTest();
+  launchTest();
+  configAccessTest();
+  suggestionPolicyTest();
+  catalogEditorTest();
+  cardBindingTest();
+  d1FlatSectionsTest();
+  d2CardFeedbackTest();
+  d3ThemeColorsTest();
+  cardPaletteTest();
+  brandMarkTest();
+  glassStyleTest();
+  frameGroupsTest();
+  cardChromeTest();
+  innerPageLayoutTest();
+  capabilityExplorerTest();
+  refreshOrchestratorTest();
+  discoveryStatsTest();
+}

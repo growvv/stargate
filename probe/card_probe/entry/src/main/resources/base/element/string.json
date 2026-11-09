@@ -1,0 +1,10 @@
+{
+  "string": [
+    { "name": "app_name", "value": "卡片探针" },
+    { "name": "module_desc", "value": "throwaway probe module" },
+    { "name": "EntryAbility_desc", "value": "probe entry" },
+    { "name": "EntryAbility_label", "value": "卡片探针" },
+    { "name": "form_label", "value": "探针卡片" },
+    { "name": "form_desc", "value": "throwaway 4x4 probe card" }
+  ]
+}

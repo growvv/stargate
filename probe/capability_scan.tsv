@@ -1,0 +1,49 @@
+bundle	schemes	linkFeatures	shortcuts	pathHints
+cn.gov.tax.its.hm	etax,its,store			home
+cn.icheny.wechat				
+cn.wps.office.hap	ksodoccenter,ksoet,ksopdf,ksoqing,ksowpp,ksowps,ksowpscloudsvr,storage	AppStorageMgmt,FileOpen		clearcache
+com.alipay.mobile.client	alipay,alipayauth,alipaymo,alipayqr,alipayre,alipays,alipayshare,apmqpdispatch,taobaooauth12501616	Login,Pay,Share	bus,collect,delivery,forest,jiankangma,manor,more,pay,scan,sports,transfer,yibaoma	/app,/h5,app,h5,p/s/i,p/s/ulink,share
+com.amap.hmapp	amapuri,qqopenapi,systemnav,taobaooauth21792629,ut.34657035	Navigation,PlaceSearch,RoutePlan		applink/
+com.atomicservice.5765880207854893925	atomwbmain			
+com.atomicservice.6917568146765197900				
+com.atomicservice.6917576281833361266				
+com.baidu.hmmap	baidumap	Navigation,PlaceSearch,RoutePlan,getCuid	shortcut_go_company,shortcut_go_home,shortcut_route_plan,shortcut_taxi	
+com.baidu.netdisk.hmos	bdnetdisk,qqopenapi	FileOpen		embed/listenshare,fcb/s,s,wap/snsdeeplink
+com.bitmap.image				
+com.chinamobile.cmcc	cn.10086.app,paygatewaysdk,qqopenapi,richpush		shortcut_1,shortcut_2,shortcut_3,shortcut_4	A,activity-UAT/transit/universalLink.html,activity-gray/transit/universalLink.html,activity/transit/universalLink.html
+com.chinarailway.ticketingHM	cn.12306,cn.12306.comm,cn.12306.uppayment,com.12306,jump,mpaasscheme		shortcut_1,shortcut_2,shortcut_3,shortcut_4	landing,longlink
+com.dewu.hos	dewuapp,dewulink,dewuunionpay,qqopenapi			c,h5-identify,mdu,note,page/external,s,t/E
+com.dongqiudi.hmn.news	dongqiudi,qqopenapi			
+com.droi.tong	droitong,qqopenapi	AppStorageMgmt,FileOpen		
+com.ericple.ohbill				
+com.eternaljust.msea.huawei				
+com.harmonyresearch.mockweibo				
+com.hupu.heroes	huputiyu,qqopenapi,w1fzj1			s
+com.jd.hm.mall	jdanalytics,jdpay,jdpaynuccpay,openApp.jdMobile,openapp.jdmobile,openjd,qqopenapi,storage,uppaymerchant	AppStorageMgmt,Login		clearcache,v/
+com.kuaishou.hmapp	kwai,qqopenapi	AppStorageMgmt	scan,search,shoot	storagePage
+com.larus.nova.hm	cjsign,doubao,doubaoUPPay482431Share		call_phone,open_camera	flow/chat
+com.lfr.myapplication				
+com.meituan.takeaway	meituanunionpay,meituanwaimai,qqopenapi	Login	search	
+com.qiyi.video.hmy	iqiyi,iqiyi_clear,qqopenapi	AppStorageMgmt	id_shortcut_for_puremode	app/register_business,calendar,clear_app_storage,m/playShare,player,register_business,webview
+com.quark.ohosbrowser	qklink,qqopenapi,storage,taobaooauth34813412,uclink,ut.34813412	AppStorageMgmt		clearCache,knockShare
+com.samples.customdrawsample				
+com.sankuai.dianping	dianping,meituanunionpay,qqopenapi	Login	short_cut_one	hobbit,qr/explain,qrcode/dprebate,qrcode/rebate
+com.sankuai.hmeituan	imeituan,meituanunionpay,qqopenapi		shortcuts_display_order,shortcuts_display_scan,shortcuts_display_search	download/app.html
+com.sina.weibo.stage	qqopenapi,sinaweibo	AppNotificationMgmt,AppStorageMgmt,Login		auth
+com.speaklab.jingmo				
+com.ss.hm.ugc.aweme	accountsdk1128,cjsign,douyinUPPay1128Share,douyinopensdk,dypay1128,snssdk1128,sslocal,storage,ttcjpay	AppStorageMgmt,Pay	clear_cache_widget_v1,clear_cache_widget_v1_livestyle,clear_cache_widget_v2,clear_cache_widget_v2_livestyle,live_1*1_widget	authorize,clearcache,ulink
+com.tencent.hm.qqmusic	qqmusic,qqopenapi	AppStorageMgmt,FileOpen,Login	shortcut_local,shortcut_recent,shortcut_recognize,shortcut_search	
+com.tencent.mqq	amapuri://,baidumap://,midaspay,mqqapi,qqmap://,qqopenapi,tencent,txdt0har067fs2741j16,wtloginmqq	AppStorageMgmt,Login,Pay		auth,direction,plan,qlogin,routePlan,storage
+com.tencent.wechat	,weixin,wxopensdk,wxweappsdk	Pay	id_pay,id_qrcode,id_scan	
+com.tmall.tmall4hmos	alipayLogin34612052,push,taobaossoLogin34612052,tmall			
+com.uc.mobile	qqopenapi,storage,taobaooauth34695614,uclink,ut.34695614	AppStorageMgmt		clearcache,knockShare
+com.usb.right				
+com.vip.hosapp	viprouter,vipsdk,vipshop,vipshopuppaymerchant		id_order_track,id_pic_search,id_search	deeplink
+com.wifiservice.portallogin	Portal			
+com.wuba.life	passport.58,wbmain,wmdacheck.28805061631152			
+com.ximalaya.ting.xmharmony	iting,qqopenapi,storage	AppStorageMgmt		clearcache
+com.xingin.xhs_hos	clear_demo,qqopenapi,xhsdiscover,xhsuppaymerchant	AppStorageMgmt,Login		activity/sem/kratos,customer_service/store,discovery/item/,goodsForCall/,hina/livestream,mobile/login,oia,open/new_sdk/,open/sdk/,post_new_note/,qq_conn/1005071
+com.xunmeng.pinduoduo.hos	httpssn,pddopen,pinduoduo,pinduoduoalipays,pinduoduounionpay,qngaccv79cv29i,qqopenapi,weixinn			
+com.zhihu.hmos	qqopenapi,setting,zhihu	AppNotificationMgmt,Login	company,home	notification
+com.zhuanzhuan.hmoszz	jdpauthjdjr132536886004,jdpauthjdjr134003140002,jdpauthjdjr134003140003,msepay,qqopenapi,zhuanzhuan,zzuppay		shortcuts_id_msg,shortcuts_id_publish,shortcuts_id_search	zz/
+yylx.danmaku.bili	bilibili,qqopenapi	AppStorageMgmt	id_history,id_shortcut_search	/storage-manager,conversation,ohos

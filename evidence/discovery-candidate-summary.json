@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-11-08",
+  "candidateApps": 48,
+  "declaredApps": 37,
+  "unknownApps": 11,
+  "totalEntrypointHints": 325,
+  "appsWithSchemes": 37,
+  "appsWithLinkFeatures": 22,
+  "appsWithShortcuts": 17,
+  "productionEligible": 0,
+  "sha256": "cc2c1635c2f07798473a9c2a71d3c990d464b748d7c19d0b0e56cb1f70da3435",
+  "source": "probe/discovery-ledger.json"
+}

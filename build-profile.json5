@@ -1,0 +1,57 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\32147\\.ohos\\config\\default_Stargate_3R9jaox2NiYCIGfdXCBBNxL6H4ioQK0CG0zUD0ytZyw=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BEA51E504A9CD6ADDCBF043543298FBC648E187774F0FFDB794064BCFFB66927F30D842DAB167E2",
+          "profile": "C:\\Users\\32147\\.ohos\\config\\default_Stargate_3R9jaox2NiYCIGfdXCBBNxL6H4ioQK0CG0zUD0ytZyw=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\32147\\.ohos\\config\\default_Stargate_3R9jaox2NiYCIGfdXCBBNxL6H4ioQK0CG0zUD0ytZyw=.p12",
+          "storePassword": "0000001B96387D9C486F580D5CA35F8C92C7B38B9867C9EB567E29C8069635D7D6C64AE3DB2454A6397D7F"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compatibleSdkVersion": "5.0.0(12)",
+        "targetSdkVersion": "5.0.5(17)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
+

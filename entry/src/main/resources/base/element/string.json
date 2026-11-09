@@ -1,0 +1,10 @@
+{
+  "string": [
+    { "name": "app_name", "value": "StarGate" },
+    { "name": "module_desc", "value": "StarGate 能力聚合面板入口模块" },
+    { "name": "EntryAbility_desc", "value": "StarGate 分类/全量/配置页入口" },
+    { "name": "EntryAbility_label", "value": "StarGate" },
+    { "name": "form_label", "value": "StarGate" },
+    { "name": "form_desc", "value": "StarGate 4×4 功能卡片" }
+  ]
+}
