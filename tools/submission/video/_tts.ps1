@@ -1,5 +1,6 @@
 Add-Type -AssemblyName System.Speech
-$root = 'E:\CodeE\vibe51\Stargate\submission\video'
+$root = $PSScriptRoot
+New-Item -ItemType Directory -Force -Path (Join-Path $root 'tts') | Out-Null
 $data = Get-Content -Raw -Encoding UTF8 (Join-Path $root 'script.json') | ConvertFrom-Json
 $s = New-Object System.Speech.Synthesis.SpeechSynthesizer
 $s.SelectVoice('Microsoft Huihui Desktop')

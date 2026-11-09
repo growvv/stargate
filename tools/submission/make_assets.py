@@ -61,14 +61,14 @@ crop_shot('current2.jpeg', (215, 105, 1385, 1185), 'card_widget.png', 42)
 crop_shot('current2.jpeg', (0, 0, 1600, 2560), 'desktop_full.png', 0)
 crop_shot('all.jpeg', (0, 105, 1600, 2488), 'shot_all.png', 48)
 crop_shot('search-a.jpeg', (0, 105, 1600, 980), 'shot_search.png', 40)
-crop_shot('explorer.jpeg', (0, 105, 1600, 2488), 'shot_explorer.png', 48)
+crop_shot('explorer.jpeg', (0, 800, 1600, 2560), 'shot_explorer.png', 48)
 crop_shot('config.jpeg', (0, 105, 1600, 2488), 'shot_config.png', 48)
 crop_shot('category.jpeg', (0, 105, 1600, 2488), 'shot_category.png', 48)
 crop_shot('current2.jpeg', (0, 105, 1600, 2488), 'shot_desktop.png', 48)
 # compact 4:3-ish crops for the four-entry product slide
 crop_shot('all.jpeg', (0, 105, 1600, 1560), 'shot_all_card.png', 40)
 crop_shot('category.jpeg', (0, 105, 1600, 1560), 'shot_category_card.png', 40)
-crop_shot('explorer.jpeg', (0, 105, 1600, 1560), 'shot_explorer_card.png', 40)
+crop_shot('explorer.jpeg', (0, 800, 1600, 2133), 'shot_explorer_card.png', 40)
 crop_shot('config.jpeg', (0, 105, 1600, 1560), 'shot_config_card.png', 40)
 
 # --- logo ---------------------------------------------------------------
@@ -134,7 +134,7 @@ def label(ax, x, y, text, size=13, bold=True, color=NAVY, ha='left', va='center'
 # architecture
 fig, ax = canvas()
 layers = [
-    ('入口层', 5.62, ['桌面卡片 4×4', '全部功能 A–Z', '分类页', '搜索', '能力探索', '设置']),
+    ('入口层', 5.62, ['桌面卡片', '全部功能 A–Z', '分类页', '搜索', '能力探索', '设置']),
     ('编排层', 4.32, ['CardBinding', 'WidgetCardData', 'RefreshOrchestrator', 'PageRouter', 'LaunchDispatcher']),
     ('能力层', 3.02, ['RankingEngine', 'RecentAdditions', 'SearchFilter /\nPinyinUtil', 'LetterSections', 'CategoryOrder', 'CapabilityExplorer']),
     ('数据层', 1.72, ['CapabilityRepository', 'EffectiveCatalog', 'InstallSnapshot', 'UsageStore', 'CategoryOrderStore', 'DiscoveryCandidate\nCatalog']),
@@ -165,7 +165,7 @@ plt.close(fig)
 
 # distribution / data flow
 fig, ax = canvas()
-srcs = [('能力库 capabilities.json\n74 项原子能力', 5.55), ('应用模板与安装探测\n48 个 App', 4.10),
+srcs = [('能力库 capabilities.json\n原子能力目录', 5.55), ('应用模板与安装探测\n已安装应用', 4.10),
         ('发现候选目录\nREA / UI Test / 人工', 2.65), ('用户行为与配置\n用量 / 分类顺序', 1.20)]
 for text, y in srcs:
     box(ax, 0.32, y, 2.75, 1.05, text, fc='white', ec=BLUE, tc=NAVY, size=10.5)

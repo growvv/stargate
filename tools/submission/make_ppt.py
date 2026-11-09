@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Build the StarGate competition deck (compact 15-slide cut)."""
+"""Build the StarGate competition deck (compact 13-slide cut)."""
 import os
 from PIL import Image
 from pptx import Presentation
@@ -227,7 +227,7 @@ for i, txt in enumerate(flow):
     if i < 3:
         arrow(s, x + 2.37, 4.40, 0.38, 0.28, fill=MBLUE)
 
-lines = [('项目负责人：', 'StarGate 项目组'), ('成果完成单位：', '软件学院 · StarGate 项目组')]
+lines = [('项目负责人：', '刘发荣'), ('成果完成单位：', '软件学院 SMAT 项目组')]
 for i, (k, v) in enumerate(lines):
     text(s, 1.0, 5.42 + i * 0.42, 11.33, 0.36,
          [P(R(k, 15.5, NAVY, True), R(v, 15.5, NAVY, False, align=PP_ALIGN.CENTER))],
@@ -275,7 +275,7 @@ banner(s, [R('从「找 App」到「找功能」，', 16, WHITE, True),
 
 # ================================================================ 3 product + four entrances
 s = prs.slides.add_slide(BLANK)
-title(s, '产品 —— 一张 4×4 卡片，四个入口')
+title(s, '产品 —— 一张桌面卡片，四个入口')
 beihang(s)
 text(s, 0.45, 1.10, 12.40, 0.48,
      [P(R('把散落在 App 里的功能，收进桌面上的「功能桌面」；不用先打开 App，就能一步抵达。',
@@ -596,50 +596,7 @@ text(s, 0.70, 6.28, 11.90, 0.42,
 banner(s, [R('推荐不是猜你喜欢，是', 15.5, WHITE, True),
            R('把下一步变短', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
 
-# ================================================================ 11 engineering & privacy
-s = prs.slides.add_slide(BLANK)
-title(s, '工程质量与隐私 —— 可信来自可验证')
-beihang(s)
-text(s, 0.45, 1.12, 6.0, 0.38,
-     [P(R('三层验证', 17, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-checks = [
-    ('纯逻辑单测', '排序、探测、去重、搜索、路由构造与 UI 解耦，Node 直接跑同一份源码。', BLUE),
-    ('契约与静态约束', '能力库校验、Want 构造、失败语义；页面源码断言防止布局回归。', TEAL),
-    ('真机回归', 'hvigor 构建签名 → hdc 安装 → uitest 点击 / 长按 / 输入 / 拖动 → 截图留档。', ORANGE),
-]
-for i, (h, d, col) in enumerate(checks):
-    card(s, 0.45, 1.55 + i * 1.42, 5.95, 1.30, h, d, col, 15.5, 12.5)
-text(s, 6.75, 1.12, 5.95, 0.38,
-     [P(R('四条隐私边界', 17, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-priv = [
-    ('只读公开声明', '不抓取联系人、位置、相册、账号；只读 App 声明的路由。', BLUE),
-    ('数据本机保存', '能力库、用量、安装快照不上云；所有推荐在本机完成。', TEAL),
-    ('显式 bundleName', '每次启动都明确目标应用；不使用裸 URI。', ORANGE),
-    ('失败即报告', '不静默回首页，不假装成功；提示用户下一步。', PURPLE),
-]
-for i, (h, d, col) in enumerate(priv):
-    x = 6.75 + (i % 2) * 3.00
-    y = 1.55 + (i // 2) * 1.66
-    box(s, x, y, 2.85, 1.52, fill=WHITE, line=BORDER, lw=1.1)
-    bar(s, x, y, 0.08, 1.52, col)
-    text(s, x + 0.20, y + 0.16, 2.50, 0.32,
-         [P(R(h, 14.5, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, x + 0.20, y + 0.56, 2.50, 0.90,
-         [P(R(d, 12, DGRAY), ls=1.18)], anchor=MSO_ANCHOR.TOP)
-box(s, 6.75, 4.98, 5.95, 0.82, fill=XLBLUE, line=BORDER, lw=1.0)
-text(s, 6.92, 4.98, 5.62, 0.82,
-     [P(R('数据边界：', 12, RED, True),
-        R('存能力库 / 用量 / 安装快照；不存联系人 / 位置 / 相册 / 账号；只读公开路由声明。',
-          12, DGRAY), ls=1.16)], anchor=MSO_ANCHOR.MIDDLE)
-box(s, 0.45, 5.98, 12.25, 0.70, fill=LBLUE)
-text(s, 0.65, 5.98, 11.85, 0.70,
-     [P(R('先测逻辑，再上真机；每次改动都留下证据。', 15, NAVY, True),
-        R('  我们分发的是公开入口，不是用户数据。', 15, RED, True),
-        ls=1.18)], anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('逻辑与 UI 分离，', 15.5, WHITE, True),
-           R('每一步都有证据', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
-
-# ================================================================ 12 scenarios & ecosystem
+# ================================================================ 11 scenarios & ecosystem
 s = prs.slides.add_slide(BLANK)
 title(s, '应用场景与生态价值 —— 从效率工具到数字包容')
 beihang(s)
@@ -665,7 +622,7 @@ for i, (h, d, col, ex) in enumerate(scenes):
 values = [
     ('对用户', '少点几步，常用功能抬手可及', BLUE),
     ('对生态', '公开入口被重新组织，低频功能被看见', TEAL),
-    ('对平台', '4×4 卡片成为新的分发位', ORANGE),
+    ('对平台', '桌面卡片成为新的分发位', ORANGE),
     ('对系统', '能力目录补充系统意图与场景服务', PURPLE),
 ]
 for i, (h, d, col) in enumerate(values):
@@ -684,55 +641,7 @@ text(s, 0.62, 5.44, 11.95, 0.78,
 banner(s, [R('让每一个被埋没的功能，都', 15.5, WHITE, True),
            R('重新被看见', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
 
-# ================================================================ 13 git traceability
-s = prs.slides.add_slide(BLANK)
-title(s, '工程可回溯 —— 代码、文档、视频同源同版本')
-beihang(s)
-text(s, 0.45, 1.12, 6.3, 0.38,
-     [P(R('Git 工作流', 18, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-git_steps = [('git init', '初始化仓库'), ('git add', '纳入版本'), ('git commit', '保存快照'),
-             ('git tag', '标记里程碑'), ('归档', '产物同源')]
-for i, (cmd, lab) in enumerate(git_steps):
-    x = 0.50 + i * 1.24
-    box(s, x, 1.60, 1.12, 0.62, fill=WHITE, line=BLUE, lw=1.2)
-    text(s, x, 1.60, 1.12, 0.62,
-         [P(R(cmd, 11.5, NAVY, True, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, x, 2.28, 1.12, 0.30,
-         [P(R(lab, 10.5, GRAY, align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
-    if i < 4:
-        arrow(s, x + 1.14, 1.82, 0.08, 0.18, fill=MBLUE)
-box(s, 0.50, 2.78, 6.10, 1.72, fill=RGBColor(0x1E, 0x1E, 0x1E))
-text(s, 0.68, 2.86, 5.78, 1.55,
-     [P(R('$ git init', 12.5, RGBColor(0x9C, 0xDC, 0xFE), font='Consolas'), ls=1.35),
-      P(R('$ git add .', 12.5, RGBColor(0x9C, 0xDC, 0xFE), font='Consolas'), ls=1.35),
-      P(R('$ git commit -m "feat: capability catalog"', 12.5, RGBColor(0x9C, 0xDC, 0xFE),
-          font='Consolas'), ls=1.35),
-      P(R('$ git tag -a v1.0 -m "release"', 12.5, RGBColor(0x9C, 0xDC, 0xFE), font='Consolas'),
-        ls=1.35)], anchor=MSO_ANCHOR.TOP)
-text(s, 0.50, 4.68, 6.10, 1.35,
-     [P(R('提交信息说明改动，标签对应可交付版本；', 13, DGRAY), ls=1.3),
-      P(R('文档、PPT、视频与源码放在同一个版本里。', 13, DGRAY), ls=1.3)],
-     anchor=MSO_ANCHOR.TOP)
-text(s, 6.95, 1.12, 5.8, 0.38,
-     [P(R('可回溯的产物', 18, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-arts = [('源码与资源', 'commit'), ('签名 HAP', 'release tag'), ('项目文档 DOCX / PDF', 'commit'),
-        ('答辩 PPT', 'commit'), ('演示视频', 'commit / release'), ('测试报告与截图', 'commit')]
-for i, (name, tag) in enumerate(arts):
-    y = 1.60 + i * 0.72
-    box(s, 6.95, y, 5.75, 0.58, fill=WHITE if i % 2 == 0 else XLBLUE, line=BORDER, lw=0.8)
-    text(s, 7.10, y, 3.40, 0.58,
-         [P(R('✓  ', 12, TEAL, True), R(name, 13, NAVY, True))], anchor=MSO_ANCHOR.MIDDLE)
-    text(s, 10.55, y, 2.00, 0.58,
-         [P(R(tag, 10, GRAY, False, align=PP_ALIGN.RIGHT))], anchor=MSO_ANCHOR.MIDDLE)
-box(s, 0.45, 6.02, 12.25, 0.66, fill=LBLUE)
-text(s, 0.62, 6.02, 11.95, 0.66,
-     [P(R('任何人可以按提交记录复现构建、文档与视频；', 14.5, NAVY, True),
-        R('每一次改动都有版本、有证据。', 14.5, RED, True), ls=1.18)],
-     anchor=MSO_ANCHOR.MIDDLE)
-banner(s, [R('代码、文档、视频同源同版本，', 15.5, WHITE, True),
-           R('工程过程可回溯', 16.5, YELLOW, True), R('。', 15.5, WHITE, True)])
-
-# ================================================================ 14 summary & outlook
+# ================================================================ 12 summary & outlook
 s = prs.slides.add_slide(BLANK)
 title(s, '总结与展望 —— 从一张卡片到能力生态')
 beihang(s)
@@ -779,7 +688,7 @@ text(s, 0.65, 5.68, 11.85, 0.94,
           align=PP_ALIGN.CENTER))], anchor=MSO_ANCHOR.MIDDLE)
 banner(s, [R('从一个桌面卡片开始，让 App 的能力真正被用起来。', 15.5, WHITE, True)])
 
-# ================================================================ 15 thanks
+# ================================================================ 13 thanks
 s = prs.slides.add_slide(BLANK)
 pic(s, 'beihang_logo.png', 11.85, 0.18, 1.0, 1.0)
 pic(s, 'logo.png', 5.87, 0.98, 1.60, 1.60)

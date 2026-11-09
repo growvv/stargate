@@ -4,11 +4,15 @@
 
 > 跨过 App 的门，一步抵达功能。
 
+> **提交材料：** [项目文档 PDF](submission/StarGate_项目文档.pdf) · [答辩 PPT PDF](submission/StarGate_答辩PPT.pdf) · [演示视频](submission/StarGate_演示视频.mp4) · [签名 HAP](submission/HAP/StarGate_签名HAP.hap)
+>
+> **项目负责人：** 刘发荣　　**完成单位：** 软件学院 SMAT 项目组
+
 ## 一、产品是什么
 
 星门 StarGate 把散落在各个 App 里的高频功能，重新组织成一张可以直接点击的桌面能力面板。
 
-用户不需要先打开 App、再找入口、再点进二级页面。在手机桌面添加星门的 4×4 服务卡片后，常用功能、最近新增能力和分类入口会直接出现在卡片上；点一下，就进入目标 App 的具体功能页。
+用户不需要先打开 App、再找入口、再点进二级页面。在手机桌面添加星门的服务卡片后，常用功能、最近新增能力和分类入口会直接出现在卡片上；点一下，就进入目标 App 的具体功能页。
 
 我们的判断是：**App 是容器，功能才是服务。** 用户真正需要的是“付款码”“扫一扫”“查快递”“开会入会”“路线规划”，而不是某个 App 的首页。星门做的事，就是把这些能力从 App 内部“提”到系统桌面，让功能成为第一入口。
 
@@ -24,7 +28,7 @@
 
 ## 三、产品形态：一张卡片，四个主入口
 
-### 1. 桌面 4×4 服务卡片
+### 1. 桌面服务卡片
 
 卡片是产品的主界面，也是用户接触星门的第一入口。卡片内分为三个区域：
 
@@ -119,7 +123,7 @@ HarmonyOS 上把用户送到“目标 App 的具体功能页”，并不是只�
 
 星门已经在 HarmonyOS NEXT 真机上完成从桌面卡片、能力浏览、搜索、分类到一键直达的完整闭环：
 
-- 4×4 桌面服务卡片可添加、可刷新、可点击直达；
+- 桌面服务卡片可添加、可刷新、可点击直达；
 - 推荐、最近添加、分类三种卡片内容形态可用；
 - 全部功能支持 A–Z 分段、中文与拼音搜索；
 - 分类页支持分类排序与配置；
@@ -137,8 +141,9 @@ HarmonyOS 上把用户送到“目标 App 的具体功能页”，并不是只�
 | [`StarGate_项目文档.pdf`](submission/StarGate_项目文档.pdf) | 完整项目文档，含背景、产品设计、路线分析、模块说明、应用场景与工程验证 |
 | [`StarGate_项目文档.docx`](submission/StarGate_项目文档.docx) | 项目文档可编辑版本 |
 | [`StarGate_答辩PPT.pptx`](submission/StarGate_答辩PPT.pptx) | 答辩演示文稿，覆盖产品、功能、架构、路线、场景与生态价值 |
+| [`StarGate_答辩PPT.pdf`](submission/StarGate_答辩PPT.pdf) | 答辩演示文稿 PDF 版 |
 | [`StarGate_演示视频.mp4`](submission/StarGate_演示视频.mp4) | 逐页讲解的演示视频 |
-| [`StarGate_签名HAP.hap`](submission/StarGate_签名HAP.hap) | 可安装到 HarmonyOS 真机的签名应用包 |
+| [`HAP/StarGate_签名HAP.hap`](submission/HAP/StarGate_签名HAP.hap) | 可安装到 HarmonyOS 真机的签名应用包 |
 
 ## 八、仓库结构
 
@@ -150,6 +155,8 @@ Stargate/
 ├─ tools/                    工程工具
 │  └─ submission/            文档、PPT、视频的生成脚本与素材（不属于提交材料）
 ├─ submission/               最终提交材料（仅成品）
+│  ├─ 项目文档 / 答辩 PPT / 演示视频
+│  └─ HAP/                   签名安装包
 └─ README.md
 ```
 

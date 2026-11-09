@@ -80,6 +80,8 @@ def make_music(n, rng):
 
 
 def main():
+    os.makedirs(AUDIO, exist_ok=True)
+    os.makedirs(CLIPS, exist_ok=True)
     data = json.load(open(os.path.join(BASE, 'script.json'), encoding='utf-8'))
     all_audio = []
     durations = []
