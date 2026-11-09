@@ -134,7 +134,7 @@ def text(base: Image.Image) -> None:
     # duration and url
     draw.ellipse((76, 551, 106, 581), outline=(103, 232, 249, 80), width=1)
     draw.polygon([(86, 559), (86, 573), (98, 566)], fill=(160, 240, 255, 220))
-    draw.text((120, 555), "4 分 50 秒  ·  1080p 真机演示",
+    draw.text((120, 555), "4 分 50 秒  ·  真机实录",
               font=font(FONT_CN_REG, 15), fill=(123, 166, 189, 255))
     draw.text((76, 624), "growvv.github.io/stargate", font=font(FONT_LATIN, 13),
               fill=(80, 128, 156, 255))
