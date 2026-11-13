@@ -1,5 +1,6 @@
 import { describe, it, expect } from '@ohos/hypium';
 import { CardBinding } from '../main/ets/form/CardBinding';
+import type { CardSuggestionItem } from '../main/ets/form/CardBinding';
 import { CapabilityRepository } from '../main/ets/data/CapabilityRepository';
 import { makeCatalog, makeItems, fakeUsage, nowMorning } from './TestFixtures';
 
@@ -132,6 +133,78 @@ export default function cardBindingTest() {
       }
       expect(b.frames[0].key.includes('推荐')).assertTrue();
       expect(b.frames[1].key.includes('最近添加')).assertTrue();
+    });
+    it('same_label_in_one_frame_falls_back_to_app_name', 0, () => {
+      // 真机（2026-11-11）：「推荐」四个格子里出现两个「存储空间」（QQ音乐 / 微博），
+      // 用户看不出点哪个。同框重名时改用 App 名消歧。
+      const items: CardSuggestionItem[] = [
+        { id: 'a', label: '存储空间', appName: 'QQ音乐', category: '娱乐', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '存', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '存', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'b', label: '存储空间', appName: '微博', category: '社交', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '存', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '存', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'c', label: '付款', appName: '支付宝', category: '支付', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '付', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '付', markNative: false, markBrand: '', logoKey: '' }
+      ];
+      CardBinding.disambiguate(items);
+      expect(items[0].label).assertEqual('QQ音乐');
+      expect(items[1].label).assertEqual('微博');
+      // 不重名的条目保持功能名（功能名比 App 名更具体）。
+      expect(items[2].label).assertEqual('付款');
+    });
+    it('same_app_with_duplicate_labels_keeps_both_names', 0, () => {
+      // 同一 App 两条同名功能时，只写 App 名会更分不清 → 退回「App 名 · 功能名」。
+      const items: CardSuggestionItem[] = [
+        { id: 'a', label: '登录', appName: 'QQ', category: '社交', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '登', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '登', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'b', label: '登录', appName: 'QQ', category: '社交', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '登', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '登', markNative: false, markBrand: '', logoKey: '' }
+      ];
+      CardBinding.disambiguate(items);
+      expect(items[0].label).assertEqual('QQ · 登录');
+      expect(items[1].label).assertEqual('QQ · 登录');
+    });
+    it('app_name_is_enough_when_the_app_occupies_several_tiles', 0, () => {
+      // 真机 2026-11-11：「推荐」里微博占 3 格（存储空间 / 打开微博 / 付款）。
+      // 只有「存储空间」和 QQ音乐 撞名，改名后「微博」在本框内并不冲突，
+      // 不应该退化成「微博 · 存储空间」—— 10 号字换行成「存储空 / 间」很难看。
+      const items: CardSuggestionItem[] = [
+        { id: 'a', label: '存储空间', appName: '微博', category: '社交', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '存', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '存', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'b', label: '存储空间', appName: 'QQ音乐', category: '娱乐', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '存', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '存', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'c', label: '打开微博', appName: '微博', category: '社交', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '打', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '打', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'd', label: '付款', appName: '微博', category: '支付', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '付', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '付', markNative: false, markBrand: '', logoKey: '' }
+      ];
+      CardBinding.disambiguate(items);
+      expect(items[0].label).assertEqual('微博');
+      expect(items[1].label).assertEqual('QQ音乐');
+      expect(items[2].label).assertEqual('打开微博');
+      expect(items[3].label).assertEqual('付款');
+    });
+    it('unique_labels_are_left_alone', 0, () => {
+      // 没有重名时不能改名 —— 功能名才是用户想看的。
+      const items: CardSuggestionItem[] = [
+        { id: 'a', label: '存储空间', appName: 'QQ音乐', category: '娱乐', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '存', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '存', markNative: false, markBrand: '', logoKey: '' },
+        { id: 'b', label: '付款', appName: '支付宝', category: '支付', tileStart: '#111111',
+          tileEnd: '#222222', glyph: '付', markBg: '#000000', markFg: '#FFFFFF',
+          markGlyph: '付', markNative: false, markBrand: '', logoKey: '' }
+      ];
+      CardBinding.disambiguate(items);
+      expect(items[0].label).assertEqual('存储空间');
+      expect(items[1].label).assertEqual('付款');
     });
   });
 }

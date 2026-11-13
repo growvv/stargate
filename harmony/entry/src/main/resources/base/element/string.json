@@ -5,6 +5,6 @@
     { "name": "EntryAbility_desc", "value": "StarGate 分类/全量/配置页入口" },
     { "name": "EntryAbility_label", "value": "StarGate" },
     { "name": "form_label", "value": "StarGate" },
-    { "name": "form_desc", "value": "StarGate 4×4 功能卡片" }
+    { "name": "form_desc", "value": "把常用 App 功能聚在一张桌面卡片上，点一下直达" }
   ]
 }

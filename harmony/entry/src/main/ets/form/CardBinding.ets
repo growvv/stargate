@@ -11,6 +11,8 @@ import { BrandMark } from './BrandMark';
 import type { AppMark } from './BrandMark';
 import { GlassStyle, ACTIVE_VARIANT } from './GlassStyle';
 import type { GlassTokens } from './GlassStyle';
+import { CardLayout } from './CardLayout';
+import type { CardLayoutTokens, CardSize } from './CardLayout';
 import { RecentAdditions } from '../recommend/RecentAdditions';
 
 /**
@@ -109,9 +111,65 @@ export interface CardBindingData {
   framesPerScreen: number;
   frameAspect: number;
   activeVariant: number;
+  /** 尺寸自适应 token（CardLayout 按卡片实测宽高推导）。 */
+  tileLabelFont: number;
+  tileLabelLine: number;
+  tileLabelLines: number;
+  frameLabelFont: number;
+  chipFont: number;
+  chipPadX: number;
+  chipPadY: number;
+  titleFont: number;
+  cardWidthVp: number;
+  cardHeightVp: number;
 }
 
 export class CardBinding {
+  /**
+   * 同一格里的同名功能消歧（真机 2026-11-11 发现）。
+   *
+   * 能力库里「存储空间」有 10 条、「打开文件」5 条、「登录」5 条 —— 每个 App
+   * 都有自己的清理缓存入口。卡片一格只显示功能名，真机上「推荐」四个格子里
+   * 出现了两个「存储空间」（QQ音乐 / 微博），用户分不出点哪个。
+   *
+   * 规则：**只在同一个框内**出现重名时，重名的这几格改用 App 名；App 名也撞
+   * 才退回「App 名 · 功能名」。不重名的一律保持原样 —— 功能名比 App 名更具体，
+   * 不能因为别的框里有重名就把所有格子都改成 App 名。
+   *
+   * 判定「App 名也撞」看的是**改名后的标签在框内是否唯一**，不是「这个 App 在框
+   * 里出现了几次」。真机 2026-11-11：「推荐」里微博占 3 格（存储空间 / 打开微博 /
+   * 付款），按出现次数算会把其中一条改成「微博 · 存储空间」，10 号字在手机卡片
+   * 上换行成「存储空 / 间」，反而更乱；而「微博」和同框的「打开微博」「付款」并不
+   * 冲突，只用 App 名就足够区分。
+   */
+  static disambiguate(items: CardSuggestionItem[]): void {
+    if (!items || items.length < 2) return;
+    const counts: Map<string, number> = new Map<string, number>();
+    for (const it of items) {
+      const n: number | undefined = counts.get(it.label);
+      counts.set(it.label, (n === undefined ? 1 : n + 1));
+    }
+    const renamed: CardSuggestionItem[] = [];
+    for (const it of items) {
+      const n: number | undefined = counts.get(it.label);
+      if (n !== undefined && n > 1) renamed.push(it);
+    }
+    if (renamed.length === 0) return;
+    // 先假设重名条目都只用 App 名，数一遍改名后各标签在框内出现几次。
+    const proposed: Map<string, number> = new Map<string, number>();
+    const bump = (label: string): void => {
+      const n: number | undefined = proposed.get(label);
+      proposed.set(label, n === undefined ? 1 : n + 1);
+    };
+    for (const it of items) if (renamed.indexOf(it) < 0) bump(it.label);
+    for (const it of renamed) bump(it.appName);
+    // App 名仍然撞（同一 App 的多条同名功能，或撞上别的功能名）才带功能名。
+    for (const it of renamed) {
+      const n: number | undefined = proposed.get(it.appName);
+      it.label = (n !== undefined && n > 1) ? it.appName + ' · ' + it.label : it.appName;
+    }
+  }
+
   /** 把能力条目映射为卡片建议项（推荐与最近添加共用同一份视觉映射）。 */
   private static toSuggestion(f: AtomicFunction): CardSuggestionItem {
     const tile = CardPalette.tileFor(f.id);
@@ -140,11 +198,15 @@ export class CardBinding {
    * repo 必须是已接入 D5 的真实能力库（fromContextSync），不能是 fromItems([])。
    * failure 非空时卡片显示「暂无可用直达入口」提示（I2）；dark/blurAvailable 决定主题（I7）。
    * @param failureAt 失败产生时刻；缺省时若 failure 非空则取 now（新失败），否则 0。
+   * @param cardSize 卡片实测宽高（**像素**）。卡片提供方从 onAddForm 的 want 参数读到；
+   *                 缺省时用设计基准，保证 Node 测试与失败推送也能拿到合理尺寸。
+   * @param density  屏幕像素密度（px → vp）。系统给的是 px，ArkUI 用 vp，必须换算。
    */
   static compose(repo: CapabilityRepository, usage: UsageSnapshot, now: number,
     formId: string, failure: string, dark: boolean, blurAvailable: boolean,
     failureAt?: number, categoryOrder?: string[],
-    bundleFirstSeen?: Record<string, number>): CardBindingData {
+    bundleFirstSeen?: Record<string, number>,
+    cardSize?: CardSize, density?: number): CardBindingData {
     const view = WidgetCardData.buildSync(repo, usage, now, categoryOrder);
     const theme: ThemeValues = ThemeTokens.build(blurAvailable, dark);
     const at = failureAt ?? (failure ? now : 0);
@@ -169,6 +231,9 @@ export class CardBinding {
     for (const f of RecentAdditions.select(repo.itemsSnapshot(), bundleFirstSeen, 4)) {
       recentAdded.push(CardBinding.toSuggestion(f));
     }
+    // 同框重名消歧（见 disambiguate 注释）：真机上「推荐」出现过两个「存储空间」。
+    CardBinding.disambiguate(recommended);
+    CardBinding.disambiguate(recentAdded);
     const pushFrame = (label: string, items: CardSuggestionItem[], emptyHint: string): void => {
       if (items.length === 0 && emptyHint === '') return;
       // key 必须随内容变化（含 label / 各条目 id）：ForEach 按 key 复用子树，
@@ -186,6 +251,13 @@ export class CardBinding {
       pushFrame('推荐', recommended, '');
       pushFrame('最近添加', recentAdded, '暂无最近添加');
     }
+    // 尺寸自适应：按卡片实测宽高 + 实际 chips 数量推导 token。
+    const size: CardSize = cardSize ?? { widthPx: 0, heightPx: 0 };
+    const chipNames: string[] = [];
+    for (const c of categories) chipNames.push(c.name);
+    const layout: CardLayoutTokens = CardLayout.compute({
+      size: size, density: density ?? 0, categoryNames: chipNames, frameCount: frames.length
+    });
     const binding: CardBindingData = {
       suggestions: suggestions,
       frames: frames,
@@ -213,12 +285,24 @@ export class CardBinding {
       wallpaper: glass.wallpaper,
       radiusFrame: glass.radiusFrame,
       radiusTile: glass.radiusTile,
-      tileSize: glass.tileSize,
-      tileGap: glass.tileGap,
-      frameGap: glass.frameGap,
+      // 图标尺寸/行距/框间距一律取实测布局结果，不能再回退到 GlassStyle 的
+      // 固定 60 —— 那正是真机重叠的根因（720 设计宽下的常量直接用在 326vp 卡片）。
+      tileSize: layout.tileSize,
+      tileGap: layout.tileGap,
+      frameGap: layout.frameGap,
       framesPerScreen: glass.framesPerScreen,
       frameAspect: glass.frameAspect,
-      activeVariant: ACTIVE_VARIANT
+      activeVariant: ACTIVE_VARIANT,
+      tileLabelFont: layout.tileLabelFont,
+      tileLabelLine: layout.tileLabelLine,
+      tileLabelLines: layout.tileLabelLines,
+      frameLabelFont: layout.frameLabelFont,
+      chipFont: layout.chipFont,
+      chipPadX: layout.chipPadX,
+      chipPadY: layout.chipPadY,
+      titleFont: layout.titleFont,
+      cardWidthVp: layout.widthVp,
+      cardHeightVp: layout.heightVp
     };
     return binding;
   }

@@ -79,6 +79,7 @@ score = 0.30·当日使用 + 0.20·当月使用 + 0.18·时间衰减
 
 - `CapabilityRepository`：从 `resources/rawfile/capabilities.json` 或外部配置读取能力库。
 - `EffectiveCatalog`：按安装状态过滤，只保留当前设备真实可用的能力。
+- `RouteHonesty`：只写到 scheme 的链接（`qqmusic://`）只能打开 App 首页，兑现不了功能名，目录里直接剔除；同时挡住外部配置再塞回这类条目。
 - `InstalledProbe`：使用 `bundleManager.canOpenLink` 探测路由是否可被系统打开。
 - `InstallSnapshotStore`：保存安装快照与每个 App 的首次见到时间，驱动“最近添加”。
 
@@ -91,20 +92,28 @@ score = 0.30·当日使用 + 0.20·当月使用 + 0.18·时间衰减
 
 ### 一键直达
 
-`LaunchDispatcher` 只读取一条最可靠路由，按 `route.kind` 构造一次显式 `Want`：
+`LaunchDispatcher` 只读取一条最可靠路由，按 `route.kind` 走一条路径：
 
 ```ts
-const want = {
-  bundleName: fn.bundleName,
-  uri: fn.route.uri
-};
-await context.startAbility(want);
+if (route.kind === 'deeplink' || route.kind === 'applinking') {
+  await context.openLink(route.uri, { appLinkingOnly: false });
+} else if (route.kind === 'vertical') {
+  await context.startAbilityByType(verticalType, wantParam);
+} else {
+  await context.startAbility({ bundleName: fn.bundleName, uri: route.uri, action: ... });
+}
 ```
 
-- `deeplink` / `applinking`：`bundleName` + `uri`。
+- `deeplink` / `applinking`：走 `UIAbilityContext.openLink`，由系统按目标 App 声明的
+  skill（scheme + action + entities）匹配。第三方应用自己拼 `bundleName + uri` 的
+  隐式 Want 调 `startAbility` 会被生态规则拦下（真机日志
+  `[implicit_start_processor.cpp340]failed`），补 `action` 也不够。
 - `shortcut-param`：`bundleName` + `abilityName` + `moduleName` + `parameters`。
 - `want`：`bundleName` + `uri` + `action`，按需带 `abilityName` / `moduleName`。
 - `vertical`：不构造 `Want`，通过 `startAbilityByType` 交给系统按能力类型匹配应用。
+
+`openLink` 要求调用方在前台且窗口已有 UI 内容。卡片点击拉起应用后必须先
+`loadContent` 再直达，否则报 `ability_context_impl.cpp1296 null uiContent`。
 
 启动失败时返回 `NO_AVAILABLE_ENTRY`，界面明确提示“暂无可用直达入口”，不回退 App 首页，也不在运行时尝试第二条路由。
 

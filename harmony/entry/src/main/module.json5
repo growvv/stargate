@@ -8,6 +8,40 @@
     "deliveryWithInstall": true,
     "installationFree": false,
     "pages": "$profile:main_pages",
+    // ── 能力目录用到的自定义 scheme ────────────────────────────────────────
+    // bundleManager.canOpenLink 只会匹配这里声明过的 scheme；漏一个就会抛
+    // 17700056，安装态探测随之失效（入口无法按当前设备收敛）。这份清单与
+    // resources/rawfile/capabilities.json 中的 uri scheme 一一对应：
+    // 新增能力条目时必须同步在这里登记，否则该 App 会被误判为「探测不可用」。
+    // file / https / mailto / storage / systemnav / maps 属于系统通用 scheme，
+    // 不需要也不能用它们判断某个 App 是否安装，故不列入。
+    "querySchemes": [
+      "alipays",
+      "alipayshare",
+      "apmqpdispatch",
+      "atomwbmain",
+      "baidumap",
+      "cn.10086.app",
+      "dewulink",
+      "dongqiudi",
+      "himovie",
+      "huaweihealth",
+      "huputiyu",
+      "hwbrowser",
+      "hwmusic",
+      "imeituan",
+      "jdpauthjdjr132536886004",
+      "ksodoccenter",
+      "kwai",
+      "mqqapi",
+      "petalmaps",
+      "qqmusic",
+      "qqopenapi",
+      "sinaweibo",
+      "tmall",
+      "weixin",
+      "wxopensdk"
+    ],
     "abilities": [
       {
         "name": "EntryAbility",
@@ -19,6 +53,11 @@
         "startWindowBackground": "$color:start_window_background",
         "exported": true
       }
+    ],
+    // GET_BUNDLE_INFO 是 normal 级 system_grant 权限，用于按包名判断能力目录里的
+    // App 在本机是否真的安装（没装就不展示、不显示可点图标）。
+    "requestPermissions": [
+      { "name": "ohos.permission.GET_BUNDLE_INFO" }
     ],
     "extensionAbilities": [
       {

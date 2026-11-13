@@ -59,11 +59,24 @@ export default function seedCatalogTest() {
       }
     });
     it('has_a_broad_catalog_with_many_apps', 0, () => {
+      // 2026-11-12 用户政策删除 17 条「只写到 scheme」的入口后，目录为 57 条 / 28 个 App。
+      // 门槛仍要挡住「目录被误清空/只剩几个 App」的回归，按新基线定。
       const parsed = CapabilityRepository.parse(readFileSync(PATH, 'utf8'));
-      expect(parsed.length >= 60).assertTrue();
+      expect(parsed.length >= 50).assertTrue();
       const apps = new Set<string>();
       for (const f of parsed) apps.add(f.bundleName);
-      expect(apps.size >= 30).assertTrue();
+      expect(apps.size >= 25).assertTrue();
+    });
+    it('no_scheme_only_link_survives_in_the_seed', 0, () => {
+      // 2026-11-12 用户政策：URI 只写到 scheme 的入口只能打开 App 首页，一律不进目录。
+      // 钉住这条规则，防止下次再手工加回「付款 / 存储空间 / 登录」这类假入口。
+      const parsed = CapabilityRepository.parse(readFileSync(PATH, 'utf8'));
+      for (const f of parsed) {
+        if (f.route.kind !== 'deeplink' && f.route.kind !== 'applinking') continue;
+        const uri = f.route.uri ?? '';
+        const rest = uri.substring(uri.indexOf(':') + 1).replace(/^\/+/, '');
+        expect(rest.length > 0).assertTrue();
+      }
     });
     it('keeps_the_four_verified_L0_routes', 0, () => {
       const ids = seed().items.map((i) => i['id']);

@@ -1,5 +1,6 @@
 import UIAbility from '@ohos.app.ability.UIAbility';
 import window from '@ohos.window';
+import display from '@ohos.display';
 import Want from '@ohos.app.ability.Want';
 import AbilityConstant from '@ohos.app.ability.AbilityConstant';
 import formProvider from '@ohos.app.form.formProvider';
@@ -10,11 +11,13 @@ import { InstallSnapshotStore } from '../data/InstallSnapshotStore';
 import { CategoryOrderStore } from '../data/CategoryOrderStore';
 import { LaunchDispatcher } from '../launch/LaunchDispatcher';
 import { createVerticalStarter } from '../launch/VerticalStarter';
+import { createLinkOpener } from '../launch/LinkOpener';
 import { ConfigAccess } from '../data/ConfigAccess';
 import { CardBinding } from '../form/CardBinding';
 import { PageRouter } from '../pages/PageRouter';
 import type { LaunchResult } from '../launch/LaunchResult';
 import { RefreshOrchestrator } from '../form/RefreshOrchestrator';
+import type { CardSize } from '../form/CardLayout';
 
 /**
  * 非 Launcher 入口：卡片是唯一常驻入口，本 Ability 只承载被 router 拉起的
@@ -27,6 +30,8 @@ import { RefreshOrchestrator } from '../form/RefreshOrchestrator';
  * I5 修复：formConfigAbility 的 Want（无 page）经 ConfigAccess.pageForFormConfig → config 页。
  */
 const FORM_IDENTITY_KEY: string = 'ohos.extra.param.key.form_identity';
+const FORM_WIDTH_KEY: string = 'ohos.extra.param.key.form_width';
+const FORM_HEIGHT_KEY: string = 'ohos.extra.param.key.form_height';
 const USAGE_STORE_NAME: string = 'atomic_function_usage';
 
 export default class EntryAbility extends UIAbility {
@@ -36,6 +41,11 @@ export default class EntryAbility extends UIAbility {
   private category: string = '';
   private pageStorage: LocalStorage = new LocalStorage();
   private windowStage: window.WindowStage | undefined = undefined;
+  /**
+   * 卡片实测尺寸（vp）。卡片点击拉起本 Ability 时，Want 里带 form_width /
+   * form_height；失败反馈推回卡片时用它重算布局，保证和卡片提供方一致。
+   */
+  private cardSize: CardSize = { widthPx: 0, heightPx: 0 };
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.applyWant(want);
@@ -61,8 +71,25 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     this.windowStage = windowStage;
     if (this.page === 'launch') {
-      // 直达不需窗口：在后台完成一次 Want 后自行结束。
-      this.runLaunch();
+      // 直达必须先有 UI 内容再调 openLink。
+      //
+      // 真机 2026-11-11：卡片点「微博」后应用直接退出，日志里
+      //   Context: ability_context_impl.cpp1296 null uiContent
+      //   UIAbility: [JUA2542]null windowStage
+      // 旧实现在这里直接 runLaunch()、不 loadContent —— 窗口没有 UI 内容，
+      // openLink 要求调用方在前台且有 uiContent，于是每次都失败。
+      // 对照实验：同一台机器、同一个 uri，从「全部功能」页点同一入口就能弹出
+      // 系统确认框并成功打开微博。所以先加载一个最小占位页，内容就绪后再直达。
+      windowStage.loadContent('pages/Index', this.pageStorage, (err) => {
+        if (err.code) {
+          console.error('launch placeholder loadContent failed: ' + JSON.stringify(err));
+          // 页面没起来也要把失败如实推回卡片，而不是静默退出。
+          this.pushCardResult('暂无可用直达入口');
+          this.context.terminateSelf();
+          return;
+        }
+        this.runLaunch();
+      });
       return;
     }
     this.loadForPage(windowStage);
@@ -82,6 +109,13 @@ export default class EntryAbility extends UIAbility {
     this.formId = explicitFormId ?? systemFormId ?? '';
     this.category = category ?? '';
     this.pageStorage.setOrCreate('category', this.category);
+    // 卡片点击携带的实测宽高（缺省则沿用上一次 / 让 CardLayout 走基准）。
+    if (params) {
+      const w = params[FORM_WIDTH_KEY];
+      const h = params[FORM_HEIGHT_KEY];
+      if (typeof w === 'number' && w > 0) this.cardSize.widthPx = w;
+      if (typeof h === 'number' && h > 0) this.cardSize.heightPx = h;
+    }
   }
 
   private loadForPage(windowStage: window.WindowStage): void {
@@ -95,6 +129,15 @@ export default class EntryAbility extends UIAbility {
     });
   }
 
+  /** 屏幕像素密度：卡片实测宽高是 px，ArkUI 尺寸是 vp，推送时要一致换算。 */
+  private screenDensity(): number {
+    try {
+      return display.getDefaultDisplaySync().densityPixels;
+    } catch (_err) {
+      return 0;
+    }
+  }
+
   /** I3：与 FormAbility 共享同一 Preferences 文件的持久化用量。 */
   private buildUsage(): UsageStore {
     try {
@@ -106,7 +149,8 @@ export default class EntryAbility extends UIAbility {
   }
 
   /** I2：把失败/成功结果推回卡片（failure 字段 → 卡片显示明确提示 + 失效标记）。
-   *  D2：失败带 failureAt 时间戳，卡片按 TTL 显示、过期自动消失，不再常驻。 */
+   *  D2：失败带 failureAt 时间戳，卡片按 TTL 显示、过期自动消失，不再常驻。
+   *  2026-11-11：推送时也按卡片实测尺寸重算布局，避免失败态把卡片挤成旧比例。 */
   private pushCardResult(failure: string): void {
     if (!this.formId) return;
     try {
@@ -115,7 +159,8 @@ export default class EntryAbility extends UIAbility {
       const seen = InstallSnapshotStore.fromContextSync(this.context).load().bundleFirstSeen;
       const order = CategoryOrderStore.fromContextSync(this.context).load();
       const data = CardBinding.compose(repo, this.buildUsage(), now,
-        this.formId, failure, false, true, failure ? now : 0, order, seen);
+        this.formId, failure, false, true, failure ? now : 0, order, seen, this.cardSize,
+        this.screenDensity());
       formProvider.updateForm(this.formId, formBindingData.createFormBindingData(data));
       if (failure) {
         // D2：排一次确定性刷新，到点由 FormAbility.onUpdateForm 按 TTL 清除。
@@ -150,7 +195,8 @@ export default class EntryAbility extends UIAbility {
       }
     };
     const verticalStarter = createVerticalStarter(ctx);
-    const r: LaunchResult = await LaunchDispatcher.launch(fn, starter, this.buildUsage(), verticalStarter);
+    const linkOpener = createLinkOpener(ctx);
+    const r: LaunchResult = await LaunchDispatcher.launch(fn, starter, this.buildUsage(), verticalStarter, linkOpener);
     if (!r.ok) {
       console.error('NO_AVAILABLE_ENTRY: ' + LaunchDispatcher.onFailure(fn, r));
       this.pushCardResult(LaunchDispatcher.onFailure(fn, r)); // I2：用户可见

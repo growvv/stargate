@@ -63,9 +63,30 @@ export default function innerPageLayoutTest() {
       // 真机 dump：搜索胶囊 bounds [0,304][1600,455] 顶到屏幕两边，
       // 因为 width('100%') + 左右 margin 会被吞掉；参考图是内缩的胶囊。
       // 用 Row 外层 padding 实现内缩，而非满宽 + margin。
+      // 2026-11-11：内缩量改为按容器宽度推导（metrics.pagePad），不再写死 18。
       for (const f of ['AllFunctionsPage.ets', 'CategoryPage.ets']) {
         const src = read(f);
-        expect(/padding\(\{[^}]*left:\s*18[^}]*right:\s*18/.test(src)).assertTrue();
+        expect(/padding\(\{[^}]*left:\s*this\.metrics\.pagePad[^}]*right:\s*this\.metrics\.pagePad/.test(src)).assertTrue();
+      }
+    });
+
+    it('inner_pages_derive_sizes_from_container_width_not_constants', 0, () => {
+      // 用户要求（2026-11-11）：「尽量不要用绝对的……换到平板上可能就不是很兼容」。
+      // 三个内页都必须接入 PageMetricsCalc，并在 onAreaChange 里按真实宽度重算。
+      for (const f of ['AllFunctionsPage.ets', 'CategoryPage.ets', 'ConfigPage.ets']) {
+        const src = read(f);
+        expect(src.includes('PageMetricsCalc.compute(w)')).assertTrue();
+        expect(src.includes('.onAreaChange(')).assertTrue();
+      }
+      // 搜索胶囊不能再写死高度 / 字号 / 圆角。
+      for (const f of ['AllFunctionsPage.ets', 'CategoryPage.ets']) {
+        const src = read(f);
+        expect(src.includes('.height(46)')).assertFalse();
+        expect(src.includes('.fontSize(16)')).assertFalse();
+        expect(src.includes('.borderRadius(23)')).assertFalse();
+        // 搜索图标用系统符号，不再用「⌕」字符（输入态会显示成怪异的左括号）。
+        expect(src.includes("sys.symbol.magnifyingglass")).assertTrue();
+        expect(src.includes("Text('⌕')")).assertFalse();
       }
     });
   });

@@ -11,5 +11,6 @@
   "@ohos.app.ability.common": "@ohos.app.ability.common.mjs",
   "@ohos.resourceManager": "@ohos.resourceManager.mjs",
   "@ohos.file.fs": "@ohos.file.fs.mjs",
-  "@ohos.bundle.bundleManager": "@ohos.bundle.bundleManager.mjs"
+  "@ohos.bundle.bundleManager": "@ohos.bundle.bundleManager.mjs",
+  "@ohos.display": "@ohos.display.mjs"
 }

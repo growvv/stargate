@@ -40,6 +40,82 @@ export default function launchTest() {
       await LaunchDispatcher.launch(fn, starter);
       expect((captured as Record<string, Object>)['bundleName']).assertEqual(fn.bundleName);
     });
+    it('deeplink_carries_the_viewData_action_required_by_target_skills', 0, async () => {
+      // 真机 2026-11-11：卡片点「微博」直接退出。AMS 日志
+      //   [implicit_start_processor.cpp340]failed, uri:sinaweibo-<private>
+      // 根因：只带 bundleName + uri 的 Want 在应用侧走隐式匹配，而目标 App 的
+      // browsable skill 声明的是 actions=[ohos.want.action.viewData] +
+      // entities=[entity.system.browsable]；action 为空匹配不上，入口「看着能点、
+      // 点了打不开」。真机对照：aa start 补上 -A ohos.want.action.viewData 后，
+      // 微博 / QQ音乐 / 支付宝 / 百度地图全部落到目标前台。
+      const fn = makeFunction({ kind: 'deeplink', uri: 'sinaweibo://settings/cache' });
+      let captured: Record<string, Object> = {};
+      await LaunchDispatcher.launch(fn, async (w: Object) => {
+        captured = w as Record<string, Object>; return true;
+      });
+      expect(captured['action']).assertEqual('ohos.want.action.viewData');
+      // uri 与 bundleName 必须原样保留（仍然显式指向目标包，不退回裸链接）。
+      expect(captured['uri']).assertEqual('sinaweibo://settings/cache');
+      expect(captured['bundleName']).assertEqual(fn.bundleName);
+    });
+    it('explicit_route_action_is_not_overwritten', 0, async () => {
+      // route.parameters.action 是能力目录里写明的目标 action，优先于默认值。
+      const fn = makeFunction({ kind: 'deeplink', uri: 'weixin://x',
+        parameters: { action: 'ohos.want.action.sendData' } });
+      let captured: Record<string, Object> = {};
+      await LaunchDispatcher.launch(fn, async (w: Object) => {
+        captured = w as Record<string, Object>; return true;
+      });
+      expect(captured['action']).assertEqual('ohos.want.action.sendData');
+    });
+    it('shortcut_param_routes_do_not_get_a_link_action', 0, async () => {
+      // shortcut-param 是显式 ability 启动，加 viewData 反而会被 skill 匹配拒掉。
+      const fn = makeFunction({ kind: 'shortcut-param', abilityName: 'EntryAbility', moduleName: 'entry' });
+      let captured: Record<string, Object> = {};
+      await LaunchDispatcher.launch(fn, async (w: Object) => {
+        captured = w as Record<string, Object>; return true;
+      });
+      expect(captured['action']).assertUndefined();
+      expect(captured['abilityName']).assertEqual('EntryAbility');
+    });
+    it('deeplink_uses_the_link_opener_instead_of_startAbility', 0, async () => {
+      // 真机 2026-11-11 二次定位：即使补上 action，startAbility 仍然被生态规则拦
+      //   [implicit_start_processor.cpp340]failed, uri:sinaweibo-<private>
+      // 三方应用用 startAbility 发起隐式 Want 打不开别的 App；系统为此提供了
+      // 专用的 openLink（@since 12，无特殊权限，仅要求前台）。链接类路由必须
+      // 走它，而不是自己拼 Want。
+      const fn = makeFunction({ kind: 'deeplink', uri: 'sinaweibo://settings/cache' });
+      let opened = '';
+      let starterCalls = 0;
+      const r = await LaunchDispatcher.launch(fn,
+        async (_w: Object) => { starterCalls++; return true; },
+        undefined, undefined,
+        async (uri: string) => { opened = uri; return true; });
+      expect(r.ok).assertTrue();
+      expect(opened).assertEqual('sinaweibo://settings/cache');
+      expect(starterCalls).assertEqual(0); // 不再拼 Want 调 startAbility
+    });
+    it('link_opener_failure_is_reported_without_falling_back_to_startAbility', 0, async () => {
+      // 仍然遵守 Spec §7：单条路由、失败即报告、不换第二条路再试。
+      const fn = makeFunction({ kind: 'deeplink', uri: 'bad://x' });
+      let starterCalls = 0, openerCalls = 0;
+      const r = await LaunchDispatcher.launch(fn,
+        async (_w: Object) => { starterCalls++; return true; },
+        undefined, undefined,
+        async (_u: string) => { openerCalls++; return false; });
+      expect(r.ok).assertFalse();
+      expect(r.reason).assertEqual('NO_AVAILABLE_ENTRY');
+      expect(openerCalls).assertEqual(1);
+      expect(starterCalls).assertEqual(0);
+    });
+    it('deeplink_still_works_when_no_link_opener_is_injected', 0, async () => {
+      // 测试替身 / 旧调用点只注入 starter 时保持原行为，不静默失败。
+      const fn = makeFunction({ kind: 'deeplink', uri: 'alipays://platformapi/startapp' });
+      let starterCalls = 0;
+      const r = await LaunchDispatcher.launch(fn, async (_w: Object) => { starterCalls++; return true; });
+      expect(r.ok).assertTrue();
+      expect(starterCalls).assertEqual(1);
+    });
     it('no_second_route_attempt_on_failure', 0, async () => {
       // 产品 Spec §7：运行时单条最可靠路由，失败即报告，不遍历第二条、不打开首页。
       const fn = makeFunction({ kind: 'shortcut-param', abilityName: 'EntryAbility', moduleName: 'entry' });

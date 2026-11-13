@@ -5,18 +5,24 @@ import { RefreshOrchestrator } from '../form/RefreshOrchestrator';
 import { SearchFilter } from '../data/SearchFilter';
 import { LaunchDispatcher } from '../launch/LaunchDispatcher';
 import { createVerticalStarter } from '../launch/VerticalStarter';
+import { createLinkOpener } from '../launch/LinkOpener';
 import { UsageStore } from '../data/UsageStore';
 import { BrandMark } from '../form/BrandMark';
 import { BrandLogo } from '../form/BrandLogo';
 import { PagePalette } from '../form/PagePalette';
+import { PageMetricsCalc } from '../form/PageMetrics';
+import type { PageMetrics } from '../form/PageMetrics';
 import type { AtomicFunction } from '../model/AtomicFunction';
 
 /**
  * 分类功能页（点卡片分类 chip 打开）—— 精准复刻 iOS「展开文件夹」（2026-11-08）。
  *
- * 参考图：蓝→青→蓝绿浅色壁纸 + 带阴影的白色大标题 + 4 列 App 图标网格。
- * 与首页卡片风格统一：外层浅色玻璃「文件夹框」内嵌功能图标框（嵌套框结构），
- * 每个功能用独立圆角框划分，绝不用普通列表。
+ * 中性灰蓝柔光底 + 白玻璃面板 + 白色大标题 + 4 列 App 图标网格。
+ * 外层玻璃「文件夹框」内嵌功能图标框（嵌套框结构），每个功能用独立圆角框
+ * 划分，绝不用普通列表。
+ *
+ * 尺寸全部由 PageMetricsCalc 按容器实际宽度推导（图标边长 = 一行 4 个均分），
+ * 不写死 —— 平板 / 分屏 / 折叠屏共用一份代码。
  *
  * 应用原生标识：BrandMark 品牌色 + 品牌字形；未命中回退文字/颜色。
  * 搜索在分类内过滤，query 参与 key（D1 无陈旧框残留）。
@@ -28,6 +34,8 @@ struct CategoryPage {
   @State query: string = '';
   @State items: AtomicFunction[] = [];
   @State message: string = '';
+  /** 按容器宽度推导出的内页尺寸；首帧用手机基准，onAreaChange 后更新。 */
+  @State metrics: PageMetrics = PageMetricsCalc.baseline();
 
   aboutToAppear(): void {
     const ls = LocalStorage.getShared();
@@ -61,7 +69,8 @@ struct CategoryPage {
       }
     };
     const verticalStarter = createVerticalStarter(ctx);
-    const r = await LaunchDispatcher.launch(fn, starter, this.buildUsage(), verticalStarter);
+    const linkOpener = createLinkOpener(ctx);
+    const r = await LaunchDispatcher.launch(fn, starter, this.buildUsage(), verticalStarter, linkOpener);
     this.message = r.ok ? '' : LaunchDispatcher.onFailure(fn, r);
   }
 
@@ -75,37 +84,43 @@ struct CategoryPage {
           Image(BrandLogo.image(BrandMark.forApp(fn.appName, fn.label).key))
             .width('100%').height('100%')
             .objectFit(ImageFit.Cover)
-            .borderRadius(PagePalette.TILE_RADIUS)
+            .borderRadius(this.metrics.tileRadius)
         } else {
           Column()
             .width('100%').height('100%')
-            .borderRadius(PagePalette.TILE_RADIUS)
+            .borderRadius(this.metrics.tileRadius)
             .backgroundColor(BrandMark.forApp(fn.appName, fn.label).bg)
           Column()
             .width('100%').height('42%')
-            .borderRadius({ topLeft: PagePalette.TILE_RADIUS, topRight: PagePalette.TILE_RADIUS })
+            .borderRadius({ topLeft: this.metrics.tileRadius, topRight: this.metrics.tileRadius })
             .linearGradient({ angle: 90, colors: [['#33FFFFFF', 0], ['#00FFFFFF', 1]] })
           Text(BrandMark.forApp(fn.appName, fn.label).glyph)
-            .fontSize(32).fontWeight(FontWeight.Bold)
+            .fontSize(this.metrics.tileSize * 0.42).fontWeight(FontWeight.Bold)
             .fontColor(BrandMark.forApp(fn.appName, fn.label).fg)
             .textShadow({ radius: 3, color: '#40000000', offsetX: 0, offsetY: 1 })
         }
       }
-      .width(PagePalette.TILE_SIZE)
-      .height(PagePalette.TILE_SIZE)
-      .borderRadius(PagePalette.TILE_RADIUS)
+      .width(this.metrics.tileSize)
+      .height(this.metrics.tileSize)
+      .borderRadius(this.metrics.tileRadius)
       .border({ width: 0.6, color: PagePalette.TILE_BORDER })
       .shadow({ radius: 8, color: '#30000000', offsetX: 0, offsetY: 3 })
       .clip(true)
-      Text(fn.label).fontSize(12).fontColor(PagePalette.TEXT).maxLines(1)
+      // 标签宽度按格子均分（含一格间距），不写死 —— 换设备不会挤成一条线。
+      // 标签占满整格（宽度由外层 25% 决定），不写死 —— 换设备不会挤到邻格。
+      Text(fn.label).fontSize(this.metrics.rowSubFont + 1).fontColor(PagePalette.TEXT).maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
         .textAlign(TextAlign.Center)
         .textShadow({ radius: 3, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
         .margin({ top: 6 })
-        .width(PagePalette.TILE_SIZE + 16)
+        .width('100%')
       Text(fn.hint ? fn.appName + ' · ' + fn.hint : fn.appName)
-        .fontSize(10).fontColor(PagePalette.TEXT_SUB).maxLines(1)
-        .textAlign(TextAlign.Center).width(PagePalette.TILE_SIZE + 16)
+        .fontSize(this.metrics.rowSubFont - 1).fontColor(PagePalette.TEXT_SUB).maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis })
+        .textAlign(TextAlign.Center).width('100%')
     }
+    // 每格固定 1/4 行宽：一行恒为 4 个，图标再大也不会把第 4 格挤出屏幕。
+    .width('25%')
     .alignItems(HorizontalAlign.Center)
     .onClick(() => { this.onPick(fn); })
   }
@@ -118,7 +133,7 @@ struct CategoryPage {
         this.functionTile(fn)
       }, (fn: AtomicFunction) => fn.id)
     }
-    .justifyContent(FlexAlign.SpaceEvenly)
+    .justifyContent(FlexAlign.Center)
     .width('100%')
     .margin({ top: top })
   }
@@ -127,44 +142,56 @@ struct CategoryPage {
     Column() {
       // ── 顶栏 ──────────────────────────────────────────────────────
       Row() {
-        Text('‹ 返回').fontSize(15).fontColor(PagePalette.TEXT)
+        Text('‹ 返回').fontSize(this.metrics.rowFont).fontColor(PagePalette.TEXT)
           .textShadow({ radius: 4, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
           .onClick(() => { router.back(); })
         Blank()
-      }.width('100%').padding({ left: 20, right: 20, top: 18, bottom: 4 })
+      }.width('100%').padding({
+        left: this.metrics.pagePad, right: this.metrics.pagePad, top: 18, bottom: 4
+      })
 
       // ── 展开文件夹式大标题（参考图） ──────────────────────────────
       Text(this.category)
-        .fontSize(34).fontWeight(FontWeight.Bold).fontColor(PagePalette.TEXT)
+        .fontSize(this.metrics.titleFont).fontWeight(FontWeight.Bold).fontColor(PagePalette.TEXT)
         .textShadow({ radius: 8, color: PagePalette.SHADOW, offsetX: 0, offsetY: 2 })
-        .margin({ left: 24, bottom: 12 })
+        .textAlign(TextAlign.Start)
+        .width('100%')
+        .padding({ left: this.metrics.pagePad })
+        .margin({ bottom: 12 })
 
-      // ── 浅色磨砂胶囊搜索栏（外层 padding 内缩，不用满宽 + margin） ──
+      // ── 浅色磨砂胶囊搜索栏（与搜索页同一套推导尺寸） ──────────────
       Row() {
         Row() {
-          Text('⌕').fontSize(18).fontColor(PagePalette.TEXT_SUB).margin({ right: 8 })
+          SymbolGlyph($r('sys.symbol.magnifyingglass'))
+            .fontSize(this.metrics.searchIconSize)
+            .fontColor([PagePalette.TEXT_SUB])
+            .margin({ right: this.metrics.searchPadX * 0.5 })
           TextInput({ placeholder: '搜索功能 / App' })
             .onChange((v: string) => { this.query = v; this.reload(); })
-            .fontSize(14)
+            .fontSize(this.metrics.searchFont)
             .fontColor(PagePalette.TEXT)
             .placeholderColor(PagePalette.TEXT_DIM)
+            .placeholderFont({ size: this.metrics.searchFont })
             .backgroundColor(Color.Transparent)
             .layoutWeight(1)
+            .padding(0)
+            .borderRadius(0)
         }
         .width('100%')
-        .padding({ left: 16, right: 16, top: 11, bottom: 11 })
+        .height(this.metrics.searchHeight)
+        .padding({ left: this.metrics.searchPadX, right: this.metrics.searchPadX })
         .backgroundColor(PagePalette.FRAME_BG)
         .border({ width: 1, color: PagePalette.FRAME_BORDER })
-        .borderRadius(22)
+        .borderRadius(this.metrics.searchRadius)
       }
       .width('100%')
-      .padding({ left: 18, right: 18, bottom: 14 })
+      .padding({ left: this.metrics.pagePad, right: this.metrics.pagePad, bottom: 14 })
 
       if (this.items.length === 0) {
         // 诚实空态
         Column() {
-          Text('▦').fontSize(40).fontColor(PagePalette.TEXT_SUB)
-          Text('该分类暂无可用功能').fontSize(15).fontColor(PagePalette.TEXT_SUB).margin({ top: 10 })
+          Text('▦').fontSize(this.metrics.titleFont * 1.2).fontColor(PagePalette.TEXT_SUB)
+          Text('该分类暂无可用功能').fontSize(this.metrics.rowFont).fontColor(PagePalette.TEXT_SUB).margin({ top: 10 })
         }.width('100%').layoutWeight(1).justifyContent(FlexAlign.Center)
       } else {
         Scroll() {
@@ -176,16 +203,19 @@ struct CategoryPage {
               .linearGradient({ angle: 90, colors: [['#3DFFFFFF', 0], ['#00FFFFFF', 1]] })
             this.tileRow(this.items.slice(0, 4), 0)
             if (this.items.length > 4) {
-              this.tileRow(this.items.slice(4, 8), PagePalette.TILE_GAP)
+              this.tileRow(this.items.slice(4, 8), this.metrics.tileGap)
             }
             if (this.items.length > 8) {
-              this.tileRow(this.items.slice(8, 12), PagePalette.TILE_GAP)
+              this.tileRow(this.items.slice(8, 12), this.metrics.tileGap)
             }
           }
           // 不用 width('100%') + 左右 margin：总宽会超出父容器、右侧被裁切
           // （真机分类页截图缺陷）。左右留白交给外层 padding，框体自身满宽。
           .width('100%')
-          .padding({ left: 14, right: 14, top: 6, bottom: 22 })
+          .padding({
+            left: this.metrics.framePad, right: this.metrics.framePad,
+            top: 6, bottom: 22
+          })
           .backgroundColor(PagePalette.FRAME_BG)
           .border({ width: 1, color: PagePalette.FRAME_BORDER })
           .borderRadius(PagePalette.FRAME_RADIUS)
@@ -193,7 +223,7 @@ struct CategoryPage {
           .margin({ top: 6, bottom: 20 })
         }
         .width('100%')
-        .padding({ left: 18, right: 18 })
+        .padding({ left: this.metrics.pagePad, right: this.metrics.pagePad })
         .layoutWeight(1)
         .align(Alignment.Top)
       }
@@ -201,13 +231,13 @@ struct CategoryPage {
       if (this.message) {
         Row() {
           Text('●').fontSize(9).fontColor(PagePalette.RED).margin({ right: 6 })
-          Text(this.message).fontSize(12).fontColor(PagePalette.TEXT)
+          Text(this.message).fontSize(this.metrics.rowSubFont).fontColor(PagePalette.TEXT)
         }
         .padding(12)
         .backgroundColor(PagePalette.FRAME_BG)
         .border({ width: 1, color: PagePalette.FRAME_BORDER })
         .borderRadius(14)
-        .margin({ left: 18, right: 18, bottom: 14 })
+        .margin({ left: this.metrics.pagePad, right: this.metrics.pagePad, bottom: 14 })
       }
     }
     .width('100%')
@@ -215,6 +245,13 @@ struct CategoryPage {
     .linearGradient({
       angle: 150,
       colors: [[PagePalette.BG[0], 0], [PagePalette.BG[1], 0.45], [PagePalette.BG[2], 1]]
+    })
+    // 不写死任何尺寸：拿到容器真实宽度后重算整套 token（平板 / 分屏 / 折叠屏）。
+    .onAreaChange((_old: Area, now: Area) => {
+      const w: number = Number(now.width);
+      if (w > 0 && Math.abs(w - this.metrics.widthVp) >= 2) {
+        this.metrics = PageMetricsCalc.compute(w);
+      }
     })
   }
 }

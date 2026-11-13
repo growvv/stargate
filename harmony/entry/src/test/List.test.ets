@@ -24,6 +24,7 @@ import innerPageLayoutTest from './InnerPageLayout.test';
 import capabilityExplorerTest from './CapabilityExplorer.test';
 import refreshOrchestratorTest from './RefreshOrchestrator.test';
 import discoveryStatsTest from './DiscoveryStats.test';
+import routeHonestyTest from './RouteHonesty.test';
 
 // DevEco Studio / hypium 侧聚合入口。新增套件时同步 test/run.mjs 的 suites 列表。
 export default function testsuite() {
@@ -53,4 +54,5 @@ export default function testsuite() {
   capabilityExplorerTest();
   refreshOrchestratorTest();
   discoveryStatsTest();
+  routeHonestyTest();
 }

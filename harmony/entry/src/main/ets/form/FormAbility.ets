@@ -3,6 +3,7 @@ import formBindingData from '@ohos.app.form.formBindingData';
 import formProvider from '@ohos.app.form.formProvider';
 import Want from '@ohos.app.ability.Want';
 import preferences from '@ohos.data.preferences';
+import display from '@ohos.display';
 import { CapabilityRepository } from '../data/CapabilityRepository';
 import { UsageStore } from '../data/UsageStore';
 import { InstallSnapshotStore } from '../data/InstallSnapshotStore';
@@ -10,6 +11,7 @@ import { CategoryOrderStore } from '../data/CategoryOrderStore';
 import { CardBinding } from './CardBinding';
 import type { CardBindingData } from './CardBinding';
 import { CardFeedback } from './CardFeedback';
+import type { CardSize } from './CardLayout';
 import { RefreshOrchestrator } from './RefreshOrchestrator';
 
 /**
@@ -30,6 +32,9 @@ import { RefreshOrchestrator } from './RefreshOrchestrator';
  * A2：onUpdateForm 定时刷新 + onFormEvent 诊断/重排，均重算并 formProvider.updateForm。
  */
 const FORM_IDENTITY_KEY: string = 'ohos.extra.param.key.form_identity';
+/** 卡片实测宽高（vp）。4×4 在不同手机 / 平板上并不相同，必须按实测量。 */
+const FORM_WIDTH_KEY: string = 'ohos.extra.param.key.form_width';
+const FORM_HEIGHT_KEY: string = 'ohos.extra.param.key.form_height';
 const USAGE_STORE_NAME: string = 'atomic_function_usage';
 /** 失败态确定性清除刷新：平台最小粒度 1 分钟（够短，且不是常驻）。 */
 const FAILURE_CLEAR_MINUTES: number = 1;
@@ -61,19 +66,75 @@ export class FormAbility extends FormExtensionAbility {
   }
 
   /**
+   * 从卡片 Want 读实测宽高（vp）。
+   *
+   * 真机 2026-11-11：4×4 卡片在 Mate 60 上只有 326×342vp，而代码按 720 设计宽
+   * 写死了图标尺寸与字号，内容高度超出可用高度，图标压住分类 chips。尺寸必须
+   * 来自系统而不是猜：onAddForm 的 Want 带 form_width / form_height，换设备、
+   * 换卡片尺寸都会给出不同值，CardLayout 据此推导整组 token。
+   */
+  private readCardSize(want: Want): CardSize {
+    const size: CardSize = { widthPx: 0, heightPx: 0 };
+    try {
+      const p = want?.parameters;
+      if (!p) return size;
+      const w = p[FORM_WIDTH_KEY];
+      const h = p[FORM_HEIGHT_KEY];
+      if (typeof w === 'number' && w > 0) size.widthPx = w;
+      if (typeof h === 'number' && h > 0) size.heightPx = h;
+    } catch (_err) {
+      // 读不到就回退设计基准，CardLayout 会给出保守布局。
+    }
+    return size;
+  }
+
+  /**
+   * 屏幕像素密度。Want 里的宽高是 px，ArkUI 的尺寸与字号是 vp，必须换算。
+   * 取不到时返回 0，由 CardLayout 用基准密度兜底。
+   */
+  private screenDensity(): number {
+    try {
+      return display.getDefaultDisplaySync().densityPixels;
+    } catch (_err) {
+      return 0;
+    }
+  }
+
+  /**
    * D2：按 TTL 判定当前是否仍应显示失败提示。
    * 失败产生时刻从「当前绑定的 failureAt」读取；这里用 CardFeedback 的纯逻辑，
    * 避免把一次失败当成永久状态写进 formBindingData。
    */
-  private binding(formId: string, failure: string, failureAt: number): CardBindingData {
+  private binding(formId: string, failure: string, failureAt: number,
+    size?: CardSize): CardBindingData {
     const now = Date.now();
     const visible = CardFeedback.visibleAt(failure, failureAt, now);
     // effectiveRepository 已把本次「最近添加」探测结果写回快照；必须先刷新再读回。
     const repo = this.buildRepository();
     const seen = InstallSnapshotStore.fromContextSync(this.context).load().bundleFirstSeen;
     const order = CategoryOrderStore.fromContextSync(this.context).load();
-    return CardBinding.compose(repo, this.buildUsage(), now,
-      formId, visible ? failure : '', this.isDark(), true, visible ? failureAt : 0, order, seen);
+    const data = CardBinding.compose(repo, this.buildUsage(), now,
+      formId, visible ? failure : '', this.isDark(), true, visible ? failureAt : 0, order, seen,
+      size ?? this.lastSize, this.screenDensity());
+    return data;
+  }
+
+  /** 最近一次从 Want 读到的卡片尺寸（onUpdateForm 只有 wantParams 时沿用）。 */
+  private lastSize: CardSize = { widthPx: 0, heightPx: 0 };
+
+  /** onUpdateForm 的 wantParams 里若再带宽高，用它更新实测尺寸。 */
+  private sizeFromParams(params?: Record<string, Object>): CardSize {
+    const size: CardSize = { widthPx: 0, heightPx: 0 };
+    if (!params) return size;
+    try {
+      const w = params[FORM_WIDTH_KEY];
+      const h = params[FORM_HEIGHT_KEY];
+      if (typeof w === 'number' && w > 0) size.widthPx = w;
+      if (typeof h === 'number' && h > 0) size.heightPx = h;
+    } catch (_err) {
+      // 保持 0：调用方据此判断「没有新尺寸」，沿用上一次实测值。
+    }
+    return size;
   }
 
   /** D2：把结果推回卡片；若仍是活跃失败态，排一次确定性清除刷新。 */
@@ -97,20 +158,26 @@ export class FormAbility extends FormExtensionAbility {
     } catch (_err) {
       formId = '';
     }
-    return formBindingData.createFormBindingData(this.binding(formId, '', 0));
+    // 尺寸自适应：首次添加时系统一定给出 form_width / form_height。
+    this.lastSize = this.readCardSize(want);
+    return formBindingData.createFormBindingData(this.binding(formId, '', 0, this.lastSize));
   }
 
   onFormEvent(formId: string, message: string): void {
     // 'message' 链：卡片「×」主动清除失败提示 / A2 点击即重排。
     // D2：无论 message 内容为何，重算时都不再把过期失败态带回卡片。
     console.info('FormAbility.onFormEvent: ' + formId + ' / ' + message);
-    this.push(formId, this.binding(formId, '', 0));
+    this.push(formId, this.binding(formId, '', 0, this.lastSize));
   }
 
-  onUpdateForm(formId: string): void {
+  onUpdateForm(formId: string, wantParams?: Record<string, Object>): void {
     // A2 定时刷新兜底 + D2 失败态确定性清除：重算时按 TTL 判定，过期即清空。
     // 失败态本身不持久化，这里传空 failure，卡片只依赖当前绑定的 failureAt 判定。
-    this.push(formId, this.binding(formId, '', 0));
+    // 部分系统版本在 update 时会再带一次宽高（如桌面网格 / 折叠屏展开变化），
+    // 读到就更新，读不到沿用首次添加时的实测值。
+    const next: CardSize = this.sizeFromParams(wantParams);
+    if (next.widthPx > 0 && next.heightPx > 0) this.lastSize = next;
+    this.push(formId, this.binding(formId, '', 0, this.lastSize));
   }
 
   onRemoveForm(formId: string): void {

@@ -4,6 +4,7 @@ import preferences from '@ohos.data.preferences';
 import { RefreshOrchestrator } from '../form/RefreshOrchestrator';
 import { LaunchDispatcher } from '../launch/LaunchDispatcher';
 import { createVerticalStarter } from '../launch/VerticalStarter';
+import { createLinkOpener } from '../launch/LinkOpener';
 import { UsageStore } from '../data/UsageStore';
 import { CapabilityExplorer } from '../data/CapabilityExplorer';
 import type { ExplorerSummary } from '../data/CapabilityExplorer';
@@ -86,7 +87,8 @@ struct CapabilityExplorerPage {
       }
     };
     const verticalStarter = createVerticalStarter(ctx);
-    const r = await LaunchDispatcher.launch(item, starter, this.buildUsage(), verticalStarter);
+    const linkOpener = createLinkOpener(ctx);
+    const r = await LaunchDispatcher.launch(item, starter, this.buildUsage(), verticalStarter, linkOpener);
     this.launchNotice = r.ok ? '' : LaunchDispatcher.onFailure(item, r);
   }
 
@@ -211,14 +213,12 @@ struct CapabilityExplorerPage {
     Column() {
       Row() {
         Text('‹ 返回').fontSize(15).fontColor(PagePalette.TEXT)
-          .textShadow({ radius: 4, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
           .onClick(() => { router.back(); })
         Blank()
         Text('刷新').fontSize(13).fontColor(PagePalette.TEXT_SUB).onClick(() => { this.reload(); })
       }.width('100%').padding({ left: 20, right: 20, top: 18, bottom: 4 })
 
       Text('能力探索').fontSize(32).fontWeight(FontWeight.Bold).fontColor(PagePalette.TEXT)
-        .textShadow({ radius: 8, color: PagePalette.SHADOW, offsetX: 0, offsetY: 2 })
         .margin({ left: 24, bottom: 4 })
       Text('先看已开放入口，再追踪未开放 App 的线索')
         .fontSize(13).fontColor(PagePalette.TEXT_SUB).margin({ left: 24, bottom: 14 })

@@ -1,5 +1,5 @@
 import type { AtomicFunction, Route } from '../model/AtomicFunction';
-import type { LaunchResult, StartAbilityFn, UsageRecorder, VerticalStarterFn } from './LaunchResult';
+import type { LaunchResult, StartAbilityFn, UsageRecorder, VerticalStarterFn, LinkOpenerFn } from './LaunchResult';
 
 /**
  * 直达分发器（产品 Spec §7 三条硬约束）：
@@ -16,7 +16,7 @@ import type { LaunchResult, StartAbilityFn, UsageRecorder, VerticalStarterFn } f
  */
 export class LaunchDispatcher {
   static async launch(fn: AtomicFunction, starter?: StartAbilityFn, usage?: UsageRecorder,
-    verticalStarter?: VerticalStarterFn): Promise<LaunchResult> {
+    verticalStarter?: VerticalStarterFn, linkOpener?: LinkOpenerFn): Promise<LaunchResult> {
     let ok = false;
     if (fn.route.kind === 'vertical') {
       const p = fn.route.parameters ?? {};
@@ -27,6 +27,11 @@ export class LaunchDispatcher {
         for (const k of Object.keys(p)) if (k !== 'verticalType') wantParam[k] = p[k] as Object;
         ok = await verticalStarter(vtype, wantParam);
       }
+    } else if ((fn.route.kind === 'deeplink' || fn.route.kind === 'applinking')
+      && linkOpener !== undefined && (fn.route.uri ?? '').length > 0) {
+      // 链接类路由走系统的 openLink：由它按目标 App 声明的 skill 匹配。
+      // 自己拼隐式 Want 调 startAbility 会被生态规则拦下（见 LinkOpenerFn 注释）。
+      ok = await linkOpener(fn.route.uri ?? '');
     } else {
       const want = LaunchDispatcher.buildWant(fn.route, fn.bundleName);
       // 无 starter（未注入真实启动能力）→ 明确失败，不静默、不回退。
@@ -42,6 +47,20 @@ export class LaunchDispatcher {
   }
 
   /**
+   * 跨 App 打开链接时必须携带的 action。
+   *
+   * 真机 2026-11-11：卡片点「微博」直接退出，AMS 日志
+   *   [implicit_start_processor.cpp340]failed, uri:sinaweibo-<private>
+   * 只带 bundleName + uri 的 Want 在应用侧走**隐式**匹配，而目标 App 的
+   * browsable skill 声明的是 actions=[ohos.want.action.viewData]；action 为空
+   * 就匹配不上 —— 入口看着能点，点了打不开。
+   *
+   * 真机对照（同一 uri、同一台机器）：补上该 action 后微博 / QQ音乐 / 支付宝 /
+   * 百度地图全部落到目标前台；不补则只有部分 App 能开。
+   */
+  private static readonly LINK_ACTION: string = 'ohos.want.action.viewData';
+
+  /**
    * 由单条 Route 构造一次 Want；四种 kind 各一条路径，绝不拼第二条。
    * I1：每条路径都带 `bundleName` 使 Want **显式**——裸 uri 会被任意 App 认领并
    * 落到首页/系统弹窗，却被 `aa start` 报「成功」，违反「失败即报告」硬约束。
@@ -52,6 +71,11 @@ export class LaunchDispatcher {
     want['bundleName'] = bundleName; // 所有 kind 都显式指向目标包
     if (route.kind === 'deeplink' || route.kind === 'applinking') {
       want['uri'] = route.uri ?? '';
+      // 目录里写明的 action 优先；没有就用跨 App 打开链接的标准 action。
+      // 缺了它，目标 App 的 browsable skill 匹配不上，隐式启动直接失败。
+      const explicit: Object | undefined = route.parameters?.['action'];
+      want['action'] = (typeof explicit === 'string' && explicit.length > 0)
+        ? explicit : LaunchDispatcher.LINK_ACTION;
       if (route.parameters) want['parameters'] = route.parameters;
     } else if (route.kind === 'shortcut-param') {
       want['abilityName'] = route.abilityName ?? '';

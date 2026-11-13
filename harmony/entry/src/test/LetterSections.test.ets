@@ -46,5 +46,21 @@ export default function letterSectionsTest() {
       expect(LetterSections.indexOfLetter(sections, 'Z')).assertEqual(-1);
       expect(LetterSections.fromItems([]).length).assertEqual(0);
     });
+
+    it('section_key_changes_when_the_items_change', 0, () => {
+      // 真机缺陷（2026-11-11）：ListItemGroup 只按字母做 key 会复用旧子项，
+      // 搜索「wps」后旧的 D 段条目仍留在列表里。key 必须含内容签名。
+      const a = makeItems(2);
+      const b = makeItems(2);
+      b[0] = { ...b[0], id: 'other-id' } as typeof b[0];
+      const keyA = LetterSections.sectionKey(LetterSections.fromItems(a)[0]);
+      const keyB = LetterSections.sectionKey(LetterSections.fromItems(b)[0]);
+      expect(keyA === keyB).assertFalse();
+      // 同一批内容重复构造必须得到同一个 key（否则每次渲染都整段重建）。
+      const again = LetterSections.sectionKey(LetterSections.fromItems(a)[0]);
+      expect(again).assertEqual(keyA);
+      // key 里带字母与数量，便于排查。
+      expect(keyA.startsWith(LetterSections.fromItems(a)[0].letter + ':')).assertTrue();
+    });
   });
 }

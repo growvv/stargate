@@ -48,5 +48,27 @@ export default function effectiveCatalogTest() {
       const out = EffectiveCatalog.build([l1('z', '甲'), l1('a', '乙')], [], new Set<string>());
       expect(out[0].id).assertEqual('a');
     });
+
+    it('drops_entries_of_apps_missing_from_this_device', 0, () => {
+      // 2026-11-11 换设备：没装的 App 不许留在目录里（否则图标能点但点不开）。
+      const wps = l1('fn-wps', 'WPS Office');
+      wps.bundleName = 'cn.wps.office.hap';
+      wps.route = { kind: 'deeplink', uri: 'ksodoccenter://' };
+      const ali = l1('fn-ali', '支付宝');
+      ali.bundleName = 'com.alipay.mobile.client';
+      ali.route = { kind: 'deeplink', uri: 'alipays://x' };
+      const out = EffectiveCatalog.build([wps, ali], [], new Set<string>(),
+        { canOpenRoute: (r) => (r.uri ?? '').indexOf('alipays') === 0 },
+        { installed: (b: string) => b === 'com.alipay.mobile.client' });
+      expect(out.length).assertEqual(1);
+      expect(out[0].id).assertEqual('fn-ali');
+    });
+
+    it('keeps_everything_when_the_probe_is_unusable', 0, () => {
+      // 探针失效必须 fail-open：宁可退回旧行为，也不能把目录清空。
+      const out = EffectiveCatalog.build([l1('a', '甲'), l1('b', '乙')], [], new Set<string>(),
+        { canOpenRoute: (_r) => { throw new Error('17700056'); } });
+      expect(out.length).assertEqual(2);
+    });
   });
 }

@@ -46,6 +46,19 @@ export class LetterSections {
     }
     return -1;
   }
+
+  /**
+   * 分段 key：字母 + 条目数量 + 条目 id 列表。
+   *
+   * 真机缺陷（2026-11-11）：搜索页的 ListItemGroup 只按字母做 key，输入新查询
+   * 后 ArkUI 按同一 key 复用旧子项 —— 结果只剩 1 条，旧的 D 段条目却还挂着。
+   * key 必须包含内容签名，查询一变就整段重建（与 D1 FlatSections 同一条规则）。
+   */
+  static sectionKey(section: LetterSection): string {
+    let ids: string = '';
+    for (const fn of section.items) ids += fn.id + '|';
+    return section.letter + ':' + section.items.length + ':' + ids;
+  }
 }
 
 export default LetterSections;

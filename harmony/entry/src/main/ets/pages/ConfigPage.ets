@@ -4,6 +4,8 @@ import { CATEGORIES } from '../model/AtomicFunction';
 import { CategoryOrder } from '../data/CategoryOrder';
 import { CategoryOrderStore } from '../data/CategoryOrderStore';
 import { PagePalette } from '../form/PagePalette';
+import { PageMetricsCalc } from '../form/PageMetrics';
+import type { PageMetrics } from '../form/PageMetrics';
 
 /**
  * 配置页 —— 与首页卡片 / 搜索页 / 分类页风格统一对齐（2026-11-08）。
@@ -16,6 +18,8 @@ struct ConfigPage {
   @State systemEditEntry: boolean = false;
   @State categories: string[] = CATEGORIES.slice();
   @State notice: string = '';
+  /** 按容器宽度推导出的内页尺寸；首帧用手机基准，onAreaChange 后更新。 */
+  @State metrics: PageMetrics = PageMetricsCalc.baseline();
 
   private store: CategoryOrderStore = CategoryOrderStore.fromMemory();
 
@@ -32,11 +36,10 @@ struct ConfigPage {
   @Builder
   categoryTile(name: string) {
     Row() {
-      Text(name).fontSize(14).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
-        .textShadow({ radius: 3, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
+      Text(name).fontSize(this.metrics.rowFont).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
       Blank()
       // 拖拽把手：List 开启 editMode 后，长按整行即可拖动排序。
-      Text('≡').fontSize(18).fontColor(PagePalette.TEXT_SUB)
+      Text('≡').fontSize(this.metrics.rowFont * 1.15).fontColor(PagePalette.TEXT_SUB)
     }
     .width('100%')
     .padding({ left: 16, right: 16, top: 13, bottom: 13 })
@@ -49,11 +52,12 @@ struct ConfigPage {
   @Builder
   dragOverlay(name: string) {
     Row() {
-      Text(name).fontSize(14).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
+      Text(name).fontSize(this.metrics.rowFont).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
       Blank()
-      Text('≡').fontSize(18).fontColor(PagePalette.TEXT_SUB)
+      Text('≡').fontSize(this.metrics.rowFont * 1.15).fontColor(PagePalette.TEXT_SUB)
     }
-    .width(240)
+    // 拖拽预览宽度按页面宽度的一半左右取，不写死 240 —— 平板上也能跟手。
+    .width(this.metrics.widthVp * 0.62)
     .padding({ left: 16, right: 16, top: 12, bottom: 12 })
     .backgroundColor(PagePalette.FRAME_BG)
     .border({ width: 1, color: PagePalette.FRAME_BORDER })
@@ -64,25 +68,29 @@ struct ConfigPage {
   build() {
     Column() {
       Row() {
-        Text('‹ 返回').fontSize(15).fontColor(PagePalette.TEXT)
+        Text('‹ 返回').fontSize(this.metrics.rowFont).fontColor(PagePalette.TEXT)
           .textShadow({ radius: 4, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
           .onClick(() => { router.back(); })
         Blank()
-      }.width('100%').padding({ left: 20, right: 20, top: 18, bottom: 4 })
+      }.width('100%').padding({
+        left: this.metrics.pagePad, right: this.metrics.pagePad, top: 18, bottom: 4
+      })
 
       Text('设置')
-        .fontSize(32).fontWeight(FontWeight.Bold).fontColor(PagePalette.TEXT)
+        .fontSize(this.metrics.titleFont).fontWeight(FontWeight.Bold).fontColor(PagePalette.TEXT)
         .textShadow({ radius: 8, color: PagePalette.SHADOW, offsetX: 0, offsetY: 2 })
-        .margin({ left: 24, bottom: 6 })
+        .textAlign(TextAlign.Start)
+        .width('100%')
+        .padding({ left: this.metrics.pagePad })
+        .margin({ bottom: 6 })
 
-      Text(this.notice).fontSize(12).fontColor(PagePalette.TEXT)
-        .textShadow({ radius: 3, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
-        .margin({ left: 24, bottom: 16 })
+      Text(this.notice).fontSize(this.metrics.rowSubFont).fontColor(PagePalette.TEXT_SUB)
+        .margin({ left: this.metrics.pagePad, bottom: 16 })
 
       Row() {
-        Text('能力探索').fontSize(14).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
+        Text('能力探索').fontSize(this.metrics.rowFont).fontWeight(FontWeight.Medium).fontColor(PagePalette.TEXT)
         Blank()
-        Text('查看入口与探测状态 ›').fontSize(12).fontColor(PagePalette.TEXT_SUB)
+        Text('查看入口与探测状态 ›').fontSize(this.metrics.rowSubFont).fontColor(PagePalette.TEXT_SUB)
       }
       .width('100%').padding({ left: 16, right: 16, top: 13, bottom: 13 })
       .backgroundColor(PagePalette.TILE_BG)
@@ -94,8 +102,7 @@ struct ConfigPage {
       })
 
       Text('分类（长按拖动排序，顺序会同步到卡片）')
-        .fontSize(12).fontColor(PagePalette.TEXT)
-        .textShadow({ radius: 3, color: PagePalette.SHADOW, offsetX: 0, offsetY: 1 })
+        .fontSize(this.metrics.rowSubFont).fontColor(PagePalette.TEXT_SUB)
         .margin({ left: 24, bottom: 8 })
 
       // ── 外层玻璃文件夹框，内嵌可拖拽排序的分类列表 ──
@@ -129,9 +136,9 @@ struct ConfigPage {
 
       // D5 能力库替换入口（外层玻璃框）
       Column() {
-        Text('能力库').fontSize(12).fontColor(PagePalette.TEXT).margin({ bottom: 6 })
+        Text('能力库').fontSize(this.metrics.rowSubFont).fontColor(PagePalette.TEXT).margin({ bottom: 6 })
         Text('/data/storage/el2/base/haps/entry/files/capabilities.json')
-          .fontSize(11).fontColor(PagePalette.TEXT)
+          .fontSize(this.metrics.rowSubFont - 1).fontColor(PagePalette.TEXT)
       }
       .width('100%')
       .alignItems(HorizontalAlign.Start)
@@ -147,6 +154,13 @@ struct ConfigPage {
     .linearGradient({
       angle: 150,
       colors: [[PagePalette.BG[0], 0], [PagePalette.BG[1], 0.45], [PagePalette.BG[2], 1]]
+    })
+    // 不写死任何尺寸：拿到容器真实宽度后重算整套 token（平板 / 分屏 / 折叠屏）。
+    .onAreaChange((_old: Area, now: Area) => {
+      const w: number = Number(now.width);
+      if (w > 0 && Math.abs(w - this.metrics.widthVp) >= 2) {
+        this.metrics = PageMetricsCalc.compute(w);
+      }
     })
   }
 }

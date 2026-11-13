@@ -29,6 +29,9 @@ const suites = [
   './AppTemplateCatalog.test.ets',
   './InstalledProbe.test.ets',
   './EffectiveCatalog.test.ets',
+  './CatalogAvailability.test.ets',
+  './CardLayout.test.ets',
+  './PageMetrics.test.ets',
   './CatalogDiff.test.ets',
   './InstallSnapshotStore.test.ets',
   './RefreshOrchestrator.test.ets',
@@ -40,6 +43,7 @@ const suites = [
   './LetterSections.test.ets',
   './RecentAdditions.test.ets',
   './CategoryOrderStore.test.ets',
+  './RouteHonesty.test.ets',
 ];
 
 for (const s of suites) {

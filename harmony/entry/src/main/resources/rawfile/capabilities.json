@@ -1,23 +1,8 @@
 {
-  "_comment": "形态 A 能力库。2026-11-09 用户政策：真机点击后只要有反应就保留 —— 目标 App 首页/登录/注册/隐私同意页、系统同意弹窗、应用选择器都算；仅剔除「暂无可用打开方式/启动失败」。hint 字段如实标注需登录/需同意/选择打开。共 74 条：真机有反应入口 96 个去重为 64 条，手工带参路线 1 条，系统垂类 9 条。",
+  "_comment": "形态 A 能力库。2026-11-09 用户政策：真机点击后只要有反应就保留 —— 目标 App 首页/登录/注册/隐私同意页、系统同意弹窗、应用选择器都算；仅剔除「暂无可用打开方式/启动失败」。2026-11-12 用户政策：URI 只写到 scheme（`xxx://`，后面没有 host/path）的入口只能打开 App 首页，无法兑现「付款 / 存储空间 / 登录」这类功能名，这类条目一律删除。hint 字段如实标注需登录/需同意/选择打开。共 57 条：真机有反应入口去重后为 64 条，手工带参路线 1 条，系统垂类 9 条；再按 2026-11-12 政策删除只写到 scheme 的 17 条。",
   "generatedAt": "2026-11-09",
   "policy": "response-based-keep-all",
   "items": [
-    {
-      "id": "a4-office-hap-2e1eba48",
-      "label": "打开WPS Office",
-      "appName": "WPS Office",
-      "bundleName": "cn.wps.office.hap",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "ksodoccenter://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
     {
       "id": "a4-mobile-client-83769fcb",
       "label": "打开支付宝",
@@ -30,22 +15,6 @@
       },
       "source": "scheme",
       "confidence": 0.85,
-      "responseKind": "login",
-      "verifiedAt": "2026-11-09",
-      "hint": "需登录"
-    },
-    {
-      "id": "a4-mobile-client-fbd27e9e",
-      "label": "登录",
-      "appName": "支付宝",
-      "bundleName": "com.alipay.mobile.client",
-      "category": "支付",
-      "route": {
-        "kind": "deeplink",
-        "uri": "apmqpdispatch://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
       "responseKind": "login",
       "verifiedAt": "2026-11-09",
       "hint": "需登录"
@@ -143,21 +112,6 @@
       "verifiedAt": "2026-11-09"
     },
     {
-      "id": "a4-atomicservice-5765-390c18bb",
-      "label": "打开教育空间",
-      "appName": "教育空间",
-      "bundleName": "com.atomicservice.5765880207854893925",
-      "category": "其他",
-      "route": {
-        "kind": "deeplink",
-        "uri": "atomwbmain://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
       "id": "a4-baidu-hmmap-a9962873",
       "label": "导航",
       "appName": "百度地图",
@@ -219,37 +173,6 @@
       "hint": "需同意"
     },
     {
-      "id": "a4-netdisk-hmos-29fb1eef",
-      "label": "打开文件",
-      "appName": "百度网盘",
-      "bundleName": "com.baidu.netdisk.hmos",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
-      "id": "a4-chinamobile-cmcc-bf5222e7",
-      "label": "打开中国移动",
-      "appName": "中国移动",
-      "bundleName": "com.chinamobile.cmcc",
-      "category": "生活",
-      "route": {
-        "kind": "deeplink",
-        "uri": "cn.10086.app://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
       "id": "a4-chinarailway-ticke-e0f80088",
       "label": "打开铁路12306",
       "appName": "铁路12306",
@@ -295,21 +218,6 @@
       "verifiedAt": "2026-11-09"
     },
     {
-      "id": "a4-hmn-news-ce860e74",
-      "label": "打开懂球帝",
-      "appName": "懂球帝",
-      "bundleName": "com.dongqiudi.hmn.news",
-      "category": "其他",
-      "route": {
-        "kind": "deeplink",
-        "uri": "dongqiudi://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
       "id": "a4-hmos-browser-43f66f43",
       "label": "打开华为浏览器",
       "appName": "华为浏览器",
@@ -325,22 +233,6 @@
       "verifiedAt": "2026-11-09"
     },
     {
-      "id": "a4-hmos-calendar-b9ccd869",
-      "label": "打开文件",
-      "appName": "日历",
-      "bundleName": "com.huawei.hmos.calendar",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
       "id": "a4-hmos-dataclone-7d2fa702",
       "label": "存储空间",
       "appName": "手机克隆",
@@ -349,38 +241,6 @@
       "route": {
         "kind": "applinking",
         "uri": "https://dataclone.huawei.com/storageManagement"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
-      "id": "a4-hmos-email-d6867eb4",
-      "label": "打开文件",
-      "appName": "电子邮件",
-      "bundleName": "com.huawei.hmos.email",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
-      "id": "a4-hmos-email-71d1e410",
-      "label": "写邮件",
-      "appName": "电子邮件",
-      "bundleName": "com.huawei.hmos.email",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "mailto://"
       },
       "source": "linkFeature",
       "confidence": 0.95,
@@ -413,22 +273,6 @@
       "route": {
         "kind": "applinking",
         "uri": "https://www.petalmaps.com/clear_cache"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
-      "id": "a4-maps-app-edc9ab23",
-      "label": "打开文件",
-      "appName": "华为地图",
-      "bundleName": "com.huawei.hmos.maps.app",
-      "category": "出行",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
       },
       "source": "linkFeature",
       "confidence": 0.95,
@@ -485,37 +329,6 @@
       "hint": "需同意"
     },
     {
-      "id": "a4-hmos-vassistant-db703370",
-      "label": "打开文件",
-      "appName": "小艺",
-      "bundleName": "com.huawei.hmos.vassistant",
-      "category": "工具效率",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
-      "id": "a4-hmsapp-books-0187bf34",
-      "label": "分享",
-      "appName": "华为阅读",
-      "bundleName": "com.huawei.hmsapp.books",
-      "category": "娱乐",
-      "route": {
-        "kind": "deeplink",
-        "uri": "file://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "consent",
-      "verifiedAt": "2026-11-09",
-      "hint": "需同意"
-    },
-    {
       "id": "a4-hmsapp-himovie-d2666325",
       "label": "存储空间",
       "appName": "华为视频",
@@ -546,21 +359,6 @@
       "responseKind": "consent",
       "verifiedAt": "2026-11-09",
       "hint": "需同意"
-    },
-    {
-      "id": "a4-hupu-heroes-fd1213ec",
-      "label": "打开虎扑",
-      "appName": "虎扑",
-      "bundleName": "com.hupu.heroes",
-      "category": "娱乐",
-      "route": {
-        "kind": "deeplink",
-        "uri": "huputiyu://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
     },
     {
       "id": "real-jd-storage",
@@ -683,21 +481,6 @@
       "verifiedAt": "2026-11-09"
     },
     {
-      "id": "a4-weibo-stage-758f402b",
-      "label": "打开微博",
-      "appName": "微博",
-      "bundleName": "com.sina.weibo.stage",
-      "category": "社交",
-      "route": {
-        "kind": "deeplink",
-        "uri": "sinaweibo://"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
       "id": "a4-weibo-stage-85fcfa97",
       "label": "登录",
       "appName": "微博",
@@ -721,36 +504,6 @@
       "route": {
         "kind": "deeplink",
         "uri": "sinaweibo://notice/settings"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
-      "id": "a4-ugc-aweme-a586f4cd",
-      "label": "付款",
-      "appName": "抖音",
-      "bundleName": "com.ss.hm.ugc.aweme",
-      "category": "娱乐",
-      "route": {
-        "kind": "deeplink",
-        "uri": "dypay1128://"
-      },
-      "source": "linkFeature",
-      "confidence": 0.95,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
-      "id": "a4-hm-qqmusic-50728da4",
-      "label": "存储空间",
-      "appName": "QQ音乐",
-      "bundleName": "com.tencent.hm.qqmusic",
-      "category": "娱乐",
-      "route": {
-        "kind": "deeplink",
-        "uri": "qqmusic://"
       },
       "source": "linkFeature",
       "confidence": 0.95,
@@ -965,21 +718,6 @@
       "route": {
         "kind": "applinking",
         "uri": "https://zhuanlan.zhihu.com/"
-      },
-      "source": "scheme",
-      "confidence": 0.85,
-      "responseKind": "opened",
-      "verifiedAt": "2026-11-09"
-    },
-    {
-      "id": "a4-zhuanzhuan-hmoszz-6c6820c1",
-      "label": "登录",
-      "appName": "转转",
-      "bundleName": "com.zhuanzhuan.hmoszz",
-      "category": "购物",
-      "route": {
-        "kind": "deeplink",
-        "uri": "jdpauthjdjr132536886004://"
       },
       "source": "scheme",
       "confidence": 0.85,

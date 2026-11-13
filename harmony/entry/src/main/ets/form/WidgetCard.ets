@@ -96,6 +96,16 @@ storage.setOrCreate('tileGap', 12);
 storage.setOrCreate('frameGap', 18);
 storage.setOrCreate('frameAspect', 1.0);
 storage.setOrCreate('activeVariant', 2);
+// 尺寸自适应（2026-11-11）：FormAbility 按卡片实测宽高算出这一组 token。
+// 默认值取 360×360 的保守结果，保证拿不到实测尺寸时也不会重叠。
+storage.setOrCreate('tileLabelFont', 10);
+storage.setOrCreate('tileLabelLine', 12);
+storage.setOrCreate('tileLabelLines', 2);
+storage.setOrCreate('frameLabelFont', 13);
+storage.setOrCreate('chipFont', 12.5);
+storage.setOrCreate('chipPadX', 10);
+storage.setOrCreate('chipPadY', 4);
+storage.setOrCreate('titleFont', 22);
 
 @Entry(storage)
 @Component
@@ -130,6 +140,15 @@ struct WidgetCard {
   @LocalStorageProp('frameGap') frameGap: number = 18;
   @LocalStorageProp('frameAspect') frameAspect: number = 1.0;
   @LocalStorageProp('activeVariant') activeVariant: number = 2;
+  // 尺寸自适应 token（由 CardLayout 按卡片实测宽高推导，见 CardLayout.ets）。
+  @LocalStorageProp('tileLabelFont') tileLabelFont: number = 10;
+  @LocalStorageProp('tileLabelLine') tileLabelLine: number = 12;
+  @LocalStorageProp('tileLabelLines') tileLabelLines: number = 2;
+  @LocalStorageProp('frameLabelFont') frameLabelFont: number = 13;
+  @LocalStorageProp('chipFont') chipFont: number = 12.5;
+  @LocalStorageProp('chipPadX') chipPadX: number = 10;
+  @LocalStorageProp('chipPadY') chipPadY: number = 4;
+  @LocalStorageProp('titleFont') titleFont: number = 22;
 
   /** D2：失败提示只在 TTL 内显示（复用纯逻辑，与 FormAbility 一致）。 */
   private failureVisible(): boolean {
@@ -188,14 +207,19 @@ struct WidgetCard {
       .clip(true)
 
       // 功能名（不是 App 名）：每个图标都有可见文字说明。
+      // 行数 / 行高由 CardLayout 按卡片实测高度给出，保证不压到框下标签。
+      // 真机 2026-11-11：消歧后的长标签（「微博 · 存储空间」）会换行，把这一格
+      // 撑高，两个框的框下标签就错开了。固定成「行数 × 行高」的等高盒子，
+      // 无论文字长短都占同一块高度，两个框永远对齐。
       Text(item.label)
-        .fontSize(10.5)
-        .lineHeight(12.5)
+        .fontSize(this.tileLabelFont)
+        .lineHeight(this.tileLabelLine)
         .fontColor(this.textPrimary)
         .textAlign(TextAlign.Center)
-        .maxLines(2)
+        .maxLines(this.tileLabelLines)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
         .width('100%')
+        .height(this.tileLabelLine * this.tileLabelLines)
         .margin({ top: 3 })
         .textShadow({ radius: 3, color: '#80000000', offsetX: 0, offsetY: 1 })
     }
@@ -224,10 +248,11 @@ struct WidgetCard {
   /**
    * 外层玻璃「文件夹框」：15% 白 + 亮白细边 + 2×2（图标 + 功能名）+ 框下标签。
    *
-   * 2026-11-09 布局修复：去掉 `.aspectRatio(frameAspect)`。该比例把外框高度
-   * 锁成固定值，而框内实际内容（两行图标 + 新增的文字标签）更高，布局权重
-   * 分到的高度装不下，内容溢出画到下面的分类 chips 上（真机截图的重叠）。
-   * 现在高度由内容自然撑开，外框、框下标签、chips 依次排布，不再重叠。
+   * 2026-11-11 真机（Mate 60，4×4 = 326×342vp）二次修复：去掉 aspectRatio 只
+   * 解决了「内容自然撑开」，但内容本身仍按 720 设计宽写死（tileSize=60 + 两行
+   * 文字 + 15 号框标签），总高超过卡片高度，layoutWeight 分配不够时溢出到
+   * chips 上。现在所有尺寸来自 CardLayout 的实测推导，框内高度由 token 决定，
+   * 内容高度 ≤ 卡片可用高度，不再依赖「恰好装得下」。
    */
   @Builder
   folderFrame(frame: FolderFrame) {
@@ -237,15 +262,16 @@ struct WidgetCard {
         if (frame.items.length === 0) {
           // 最近添加为空：诚实空态，不拿推荐条目冒充（B2′）。
           Column() {
-            Text('◷').fontSize(30).fontColor(this.textSecondary)
+            Text('◷').fontSize(this.tileSize * 0.4).fontColor(this.textSecondary)
             Text(frame.emptyHint)
-              .fontSize(13)
+              .fontSize(12)
               .fontColor(this.textSecondary)
               .textAlign(TextAlign.Center)
-              .margin({ top: 8 })
+              .maxLines(2)
+              .margin({ top: 6 })
           }
           .width('100%')
-          .height(this.tileSize * 2 + 56)
+          .height(this.tileSize * 2 + this.tileGap)
           .justifyContent(FlexAlign.Center)
         } else {
           // 内层 2×2：每格 = 图标 + 功能名（第一行）
@@ -263,14 +289,15 @@ struct WidgetCard {
       .border({ width: 1, color: this.frameBorder })
       .shadow({ radius: 14, color: '#30000000', offsetX: 0, offsetY: 6 })
 
-      // 框下方的标签（推荐 / 最近添加）—— 用户要求字号稍大
+      // 框下方的标签（推荐 / 最近添加）—— 字号随尺寸档位变化
       Text(frame.label)
-        .fontSize(15)
+        .fontSize(this.frameLabelFont)
         .fontWeight(FontWeight.Medium)
         .fontColor(this.textPrimary)
         .textAlign(TextAlign.Center)
+        .maxLines(1)
         .textShadow({ radius: 4, color: '#80000000', offsetX: 0, offsetY: 1 })
-        .margin({ top: 6 })
+        .margin({ top: 4 })
         .width('100%')
     }
     .width('46%')
@@ -285,29 +312,15 @@ struct WidgetCard {
         Row() {
           Column() {
             Text('StarGate')
-              .fontSize(22)
+              .fontSize(this.titleFont)
               .fontWeight(FontWeight.Bold)
               .fontColor(this.textPrimary)
               .textShadow({ radius: 6, color: '#80000000', offsetX: 0, offsetY: 1 })
-            Text('常用功能 · 点图标直达')
-              .fontSize(11)
-              .fontColor(this.textSecondary)
-              .maxLines(1)
-              .margin({ top: 3 })
           }.alignItems(HorizontalAlign.Start)
           Blank()
-          Text('探索')
-            .fontSize(13)
-            .fontColor(this.textPrimary)
-            .padding({ left: 11, right: 11, top: 7, bottom: 7 })
-            .backgroundColor(this.frameBg)
-            .border({ width: 0.6, color: this.frameBorder })
-            .borderRadius(15)
-            .margin({ right: 7 })
-            .onClick(() => {
-              postCardAction(this, PageRouter.routerAction(PageRouter.explorerParams()));
-            })
-          Text('更多 ›')
+          // 「探索」是能力探测诊断页，属于工程侧工具，不放在面向用户的主入口上
+          // （上架版本卡片只保留「搜索」）；它仍可从 设置 → 能力探索 进入。
+          Text('搜索')
             .fontSize(13)
             .fontColor(this.textPrimary)
             .padding({ left: 13, right: 13, top: 7, bottom: 7 })
@@ -356,26 +369,26 @@ struct WidgetCard {
         }
 
         // ── 玻璃胶囊分类 chips（可换行，全部可见） ─────────────────────
-        // 精准复刻参考图 1：文件夹框下直接是分类标签，再往下是分类入口，
-        // 不再放「按分类浏览」小节标题（真机 V0 证实它与框下标签重叠）。
+        // 字号与内边距随卡片尺寸变化：固定 13.5 号在手机上会让 9 个类目排成
+        // 三行，把下面的文件夹框挤扁（真机重叠的直接诱因之一）。
         Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Start }) {
           ForEach(this.categories, (chip: CategoryChipItem) => {
             Text(chip.name)
-              .fontSize(13.5)
+              .fontSize(this.chipFont)
               .fontWeight(FontWeight.Medium)
               .fontColor(this.textPrimary)
               .backgroundColor(this.frameBg)
               .border({ width: 0.6, color: this.frameBorder })
               .borderRadius(this.radiusChip)
-              .padding({ left: 12, right: 12, top: 5, bottom: 5 })
-              .margin({ right: 8, bottom: 8 })
+              .padding({ left: this.chipPadX, right: this.chipPadX, top: this.chipPadY, bottom: this.chipPadY })
+              .margin({ right: 6, bottom: 6 })
               .onClick(() => {
                 postCardAction(this, PageRouter.routerAction(PageRouter.categoryParams(chip.name)));
               })
           }, (chip: CategoryChipItem) => chip.name)
         }
         .width('100%')
-        .padding({ left: 20, right: 12 })
+        .padding({ left: 16, right: 10 })
 
         Divider().color(this.dividerColor).strokeWidth(0.5)
           .margin({ left: 18, right: 18, top: 3, bottom: 3 })
